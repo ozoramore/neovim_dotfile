@@ -1,2 +1,5 @@
 require('options')
+require('packages')
+require('filetypes')
+require('plugins')
 require('styles')
