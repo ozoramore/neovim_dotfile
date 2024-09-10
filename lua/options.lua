@@ -9,6 +9,7 @@ local options = {
 	fileformats = "unix,dos,mac",
 	langmenu = "C.utf-8",
 	helplang = 'ja,en',
+	completeopt = 'menu,menuone,noselect,popup',
 }
 
 for k, v in pairs(options) do

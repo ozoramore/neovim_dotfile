@@ -17,7 +17,18 @@ for k, v in pairs(options) do
 	vim.opt[k] = v
 end
 
-local function lualine_setup()
+local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+
+add({ source = 'nvim-lualine/lualine.nvim' })
+add({ source = 'folke/styler.nvim' })
+
+now(function()
+  -- nvim_web_deviconsの代わり
+  require('mini.icons').setup()
+  MiniIcons.mock_nvim_web_devicons()
+end)
+
+now(function()
 	require('lualine').setup{
 		options = {
 			icons_enabled = false,
@@ -33,9 +44,7 @@ local function lualine_setup()
 			lualine_z = {'location'},
 		}
 	}
-end
-
-lualine_setup()
+end)
 
 vim.api.nvim_create_autocmd(
 	{ 'WinEnter', 'BufEnter' },
