@@ -266,7 +266,7 @@ else
   hi('PmenuThumb',   { bg = 'White',                              ctermbg = 'White' })
   hi('Question',     { fg = 'Green', bold = true,                 ctermfg = 'LightGreen' })
   hi('Search',       { fg = 'Black', bg = 'Yellow',               ctermfg = 'Black', ctermbg = 'Yellow' })
-  hi('SignColumn',   { fg = 'Cyan', bg = 'Grey',                  ctermfg = 'Cyan', ctermbg = 'DarkGrey' })
+  hi('SignColumn',   { fg = 'Cyan', bold = true,                  ctermfg = 'Cyan', cterm = { bold = true } })
   hi('SpecialKey',   { fg = 'Cyan',                               ctermfg = 'LightBlue' })
   hi('SpellBad',     { sp = 'Red', undercurl = true,              ctermbg = 'Red' })
   hi('SpellCap',     { sp = 'Blue', undercurl = true,             ctermbg = 'Blue' })
