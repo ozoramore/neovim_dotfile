@@ -9,7 +9,9 @@ add({ source = 'neovim/nvim-lspconfig', })
 now(function()
 	local lspconfig = require('lspconfig')
 	lspconfig.clangd.setup{ cmd = { "/bin/clangd", "--header-insertion=never", "--clang-tidy", "--enable-config", }, }
-	lspconfig.lua_ls.setup{ }
+	lspconfig.lua_ls.setup{
+		settings = { Lua = { runtime = { version = "LuaJIT", pathStrict = true, path = { "?.lua", "?/init.lua", }, }, }, }
+	}
 	require('mini.completion').setup()
 	local imap_expr = function(lhs, rhs)
 		vim.keymap.set('i', lhs, rhs, { expr = true })

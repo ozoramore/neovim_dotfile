@@ -2,20 +2,39 @@
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
 if not vim.loop.fs_stat(mini_path) then
-  vim.cmd('echo "Installing `mini.nvim`" | redraw')
-  local clone_cmd = {
-    'git', 'clone', '--filter=blob:none',
-    'https://github.com/echasnovski/mini.nvim', mini_path
-  }
-  vim.fn.system(clone_cmd)
-  vim.cmd('packadd mini.nvim | helptags ALL')
-  vim.cmd('echo "Installed `mini.nvim`" | redraw')
+	vim.cmd('echo "Installing `mini.nvim`" | redraw')
+	local clone_cmd = {
+		'git', 'clone', '--filter=blob:none',
+		'https://github.com/echasnovski/mini.nvim', mini_path
+	}
+	vim.fn.system(clone_cmd)
+	vim.cmd('packadd mini.nvim | helptags ALL')
+	vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 
 -- Set up 'mini.deps' (customize to your liking)
 require('mini.deps').setup({ path = { package = path_package } })
 
+-- Set up Global options.
 require('options')
-require('filetypes')
+
+vim.filetype.add({
+	extension = {
+		h = "cpp",
+		def = "cpp",
+		tbl = "cpp",
+		inc = "cpp",
+	}
+})
+
+-- Set up each filetype options.
+vim.api.nvim_create_autocmd( 'FileType', {
+	pattern = '*',
+	callback = function(args) require('filetypes')[args.match]() end,
+})
+
+-- Set up external plugin.
 require('plugins')
+
+-- Set up Styles.
 require('styles')
