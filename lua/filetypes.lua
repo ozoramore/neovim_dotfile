@@ -11,6 +11,10 @@ M.yaml = function()
 	set_indent(2,true)
 end
 
+M.ruby = function()
+	set_indent(2,true)
+end
+
 return setmetatable(M, {
 	__index = function()
 		return function()

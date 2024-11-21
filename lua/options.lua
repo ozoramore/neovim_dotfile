@@ -18,5 +18,5 @@ end
 
 vim.cmd('language C.utf-8')
 
-vim.g.mapleader = " "
+vim.g.mapleader = ","
 

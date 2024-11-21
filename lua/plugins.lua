@@ -1,17 +1,23 @@
 local add, now = MiniDeps.add, MiniDeps.now
 
-add({ source = 'gmartsenkov/root.nvim', })
-add({ source = 'h-hg/fcitx.nvim' })
-
 add({ name = 'mini.nvim', checkout = 'HEAD' })
-add({ source = 'neovim/nvim-lspconfig', })
+add({ source = 'h-hg/fcitx.nvim' })
+require('mini.pairs').setup()
 
+add({ source = 'cameron-wags/rainbow_csv.nvim'})
+require('rainbow_csv').setup()
+
+add({ source = 'gmartsenkov/root.nvim', })
+require("root").setup {
+	patterns = {".git" }
+}
+
+add({ source = 'neovim/nvim-lspconfig', })
 now(function()
 	local lspconfig = require('lspconfig')
 	lspconfig.clangd.setup{ cmd = { "/bin/clangd", "--header-insertion=never", "--clang-tidy", "--enable-config", }, }
-	lspconfig.lua_ls.setup{
-		settings = { Lua = { runtime = { version = "LuaJIT", pathStrict = true, path = { "?.lua", "?/init.lua", }, }, }, }
-	}
+	lspconfig.lua_ls.setup{ settings = { Lua = { runtime = { version = "LuaJIT", pathStrict = true, path = { "?.lua", "?/init.lua", }, }, }, } }
+	lspconfig.rubocop.setup{ }
 	require('mini.completion').setup()
 	local imap_expr = function(lhs, rhs)
 		vim.keymap.set('i', lhs, rhs, { expr = true })
@@ -20,17 +26,10 @@ now(function()
 	imap_expr('<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
 end
 )
-require('mini.files').setup({ mappings = { go_in_plus = '<CR>', }, })
-vim.api.nvim_create_user_command('Fo',function() MiniFiles.open() end,{})
-require('mini.pairs').setup()
-
-require("root").setup {
-	patterns = {".git" }
-}
 
 add({ source = 'nvim-treesitter/nvim-treesitter' })
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { 'bash', 'c', 'cpp', 'css', 'html', 'lua', 'markdown', 'markdown_inline', 'python', 'regex', 'toml', 'yaml', 'vim', 'vimdoc', },
+	ensure_installed = { 'bash', 'c', 'cpp', 'css', 'html', 'lua', 'markdown', 'markdown_inline', 'python', 'regex', 'toml', 'yaml', 'vim', 'vimdoc', 'ruby' },
 	highlight = { enable = true },
 	incremental_selection = { enable = true },
 	indent = { enable = true },
