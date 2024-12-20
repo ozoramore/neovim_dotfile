@@ -8,14 +8,14 @@ local options = {
 	listchars = { tab = '>-', trail = '_' ,extends = '>', precedes = '<', nbsp = '%', },
 }
 
-vim.cmd.colorscheme('vim++')
 for k, v in pairs(options) do
 	vim.opt[k] = v
 end
 
+vim.cmd.colorscheme('vim++')
+
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
-add({ source = 'nvim-lualine/lualine.nvim' })
 add({ source = 'folke/styler.nvim' })
 
 now(function()
@@ -23,6 +23,7 @@ now(function()
 	MiniIcons.mock_nvim_web_devicons()
 end)
 
+add({ source = 'nvim-lualine/lualine.nvim' })
 now(function()
 	require('lualine').setup{
 		options = { icons_enabled = true, globalstatus = true, theme = require('theme.lualine.hm'), },
@@ -35,6 +36,22 @@ now(function()
 			lualine_z = { 'location', },
 		}
 	}
+end)
+
+add({ source = 'luukvbaal/statuscol.nvim'})
+now(function()
+	local builtin = require("statuscol.builtin")
+	require("statuscol").setup({
+		bt_ignore = { "terminal", "nofile" },
+		relculright = true,
+		segments = {
+			{ text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+			{ sign = { name = { "Diagnostic" }, maxwidth = 2, colwidth = 1, auto = true }, click = "v:lua.ScSa" },
+			{ sign = { name = { ".*" }, namespace = { ".*" }, maxwidth = 2, colwidth = 1, wrap = true, auto = true }, click = "v:lua.ScSa" },
+			{ text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
+			{ text = { "│" }, condition = { builtin.not_empty } },
+		},
+	})
 end)
 
 vim.api.nvim_create_autocmd( { 'WinEnter', 'BufEnter' }, {

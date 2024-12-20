@@ -7,18 +7,46 @@ require('mini.pairs').setup()
 add({ source = 'cameron-wags/rainbow_csv.nvim'})
 require('rainbow_csv').setup()
 
-add({ source = 'gmartsenkov/root.nvim', })
-require("root").setup {
-	patterns = {".git" }
-}
+local function get_parent_path(name)
+	local pwd = vim.api.nvim_buf_get_name(0)
+	return (vim.fn.finddir(name, ";" .. pwd):match("(.+/)") or pwd:match("(.+/)"))
+end
 
-add({ source = 'neovim/nvim-lspconfig', })
+add({ source = "ckipp01/stylua-nvim" })
 now(function()
-	local lspconfig = require('lspconfig')
-	lspconfig.clangd.setup{ cmd = { "/bin/clangd", "--header-insertion=never", "--clang-tidy", "--enable-config", }, }
-	lspconfig.lua_ls.setup{ settings = { Lua = { runtime = { version = "LuaJIT", pathStrict = true, path = { "?.lua", "?/init.lua", }, }, }, } }
-	lspconfig.rubocop.setup{ }
-	require('mini.completion').setup()
+	require("stylua-nvim").setup()
+end)
+
+add({ source = "rhysd/vim-clang-format" })
+add({ source = "neovim/nvim-lspconfig" })
+now(function()
+	local lspconfig = require("lspconfig")
+	lspconfig.clangd.setup({
+		cmd = {
+			"clangd",
+			"--header-insertion=never",
+			"--clang-tidy",
+			"--enable-config",
+			"--compile-commands-dir=" .. get_parent_path(".git"),
+		},
+		commands = { Format = {
+			function()
+				vim.cmd("ClangFormat")
+			end,
+		} },
+	})
+	lspconfig.lua_ls.setup({
+		settings = {
+			Lua = { runtime = { version = "LuaJIT", pathStrict = true, path = { "?.lua", "?/init.lua" } } },
+		},
+		commands = { Format = {
+			function()
+				require("stylua-nvim").format_file()
+			end,
+		} },
+	})
+	lspconfig.solargraph.setup({})
+	require("mini.completion").setup()
 	local imap_expr = function(lhs, rhs)
 		vim.keymap.set('i', lhs, rhs, { expr = true })
 	end
@@ -45,8 +73,11 @@ now( function()
 		command = 'gdb',
 		args = { '--quiet', '--interpreter=dap' },
 	}
-	require('dap.ext.vscode').load_launchjs()
-	require('dapui').setup({
+	require("dap.ext.vscode").load_launchjs(
+		(get_parent_path(".git") .. ".vscode/launch.json"),
+		{ gdb = { "c", "cpp" } }
+	)
+	require("dapui").setup({
 		icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
 		mappings = {
 			-- Use a table to apply multiple mappings
@@ -78,8 +109,7 @@ now( function()
 end
 )
 
-require('mini.git').setup()
-add({source = 'akinsho/toggleterm.nvim' })
+add({ source = "akinsho/toggleterm.nvim" })
 now(function()
 	require("toggleterm").setup({
 		hide_numbers = true,
@@ -87,8 +117,4 @@ now(function()
 		start_in_insert = true,
 		insert_mappings = true,
 	})
-	local Terminal = require('toggleterm.terminal').Terminal
 end)
-
-add({source = 'mori-oh/tig.nvim'})
-require('tig').setup()
