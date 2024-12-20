@@ -13,14 +13,14 @@ vim.cmd.highlight('clear')
 vim.g.colors_name = 'vim++'
 
 local hi = function(name, val)
-  -- Force links
-  val.force = true
+	-- Force links
+	val.force = true
 
-  -- Make sure that `cterm` attribute is not populated from `gui`
-  val.cterm = val.cterm or {}
+	-- Make sure that `cterm` attribute is not populated from `gui`
+	val.cterm = val.cterm or {}
 
-  -- Define global highlight
-  vim.api.nvim_set_hl(0, name, val)
+	-- Define global highlight
+	vim.api.nvim_set_hl(0, name, val)
 end
 
 --stylua: ignore start
