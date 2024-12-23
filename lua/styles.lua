@@ -14,7 +14,7 @@ end
 
 vim.cmd.colorscheme('vim++')
 
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+local add, now = MiniDeps.add, MiniDeps.now
 
 add({ source = 'folke/styler.nvim' })
 
@@ -46,10 +46,9 @@ now(function()
 		relculright = true,
 		segments = {
 			{ text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
-			{ sign = { name = { 'Diagnostic' }, maxwidth = 2, colwidth = 1, auto = true }, click = 'v:lua.ScSa' },
-			{ sign = { name = { '.*' }, namespace = { '.*' }, maxwidth = 2, colwidth = 1, wrap = true, auto = true }, click = 'v:lua.ScSa' },
+			{ sign = { namespace = { 'diagnostic' }, maxwidth = 1, colwidth = 1, auto = false }, click = 'v:lua.ScSa' },
 			{ text = { builtin.lnumfunc }, click = 'v:lua.ScLa' },
-			{ text = { '│' }, condition = { builtin.not_empty } },
+			{ sign = { namespace = { 'git.*' }, colwidth = 1, wrap = true, fillchar = '│', fillcharhl = 'NonText' }, click = 'v:lua.ScSa' },
 		},
 	})
 end)
