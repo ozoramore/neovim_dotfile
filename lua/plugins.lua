@@ -1,8 +1,27 @@
-local add, now = MiniDeps.add, MiniDeps.now add({ name = 'mini.nvim', checkout = 'HEAD' })
-require('mini.pairs').setup()
+-- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
+local path_package = vim.fn.stdpath('data') .. '/site/'
+local mini_path = path_package .. 'pack/deps/start/mini.nvim'
+if not vim.loop.fs_stat(mini_path) then
+	vim.cmd('echo "Installing `mini.nvim`" | redraw')
+	local clone_cmd = {
+		'git',
+		'clone',
+		'--filter=blob:none',
+		'https://github.com/echasnovski/mini.nvim',
+		mini_path,
+	}
+	vim.fn.system(clone_cmd)
+	vim.cmd('packadd mini.nvim | helptags ALL')
+	vim.cmd('echo "Installed `mini.nvim`" | redraw')
+end
 
-add({ source = 'cameron-wags/rainbow_csv.nvim' })
-require('rainbow_csv').setup()
+-- Set up 'mini.deps' (customize to your liking)
+require('mini.deps').setup({ path = { package = path_package } })
+
+local add, now = require('mini.deps').add, require('mini.deps').now
+add({ name = 'mini.nvim', checkout = 'HEAD' })
+
+require('mini.pairs').setup()
 
 add({ source = 'akinsho/toggleterm.nvim' })
 now(function()
@@ -14,28 +33,8 @@ now(function()
 	})
 end)
 
-add({ source = 'lewis6991/gitsigns.nvim' })
-now(function()
-	require('gitsigns').setup({
-		signs = {
-			add = { text = '┃' },
-			change = { text = '┃' },
-			delete = { text = '↳' },
-			topdelete = { text = '↱' },
-			changedelete = { text = '╪' },
-			untracked = { text = '┆' },
-		},
-		signs_staged = {
-			add = { text = '┃' },
-			change = { text = '┃' },
-			delete = { text = '↳' },
-			topdelete = { text = '↱' },
-			changedelete = { text = '╪' },
-			untracked = { text = '┆' },
-		},
-	})
-end)
-
-if vim.fn.has("unix") == 1 then
-	require( "for_linux" )
+if vim.fn.has('unix') == 1 then
+	require('plugin/for_linux')
 end
+
+require('plugin/styles')

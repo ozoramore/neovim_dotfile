@@ -23,6 +23,9 @@ now(function()
 	MiniIcons.mock_nvim_web_devicons()
 end)
 
+add({ source = 'cameron-wags/rainbow_csv.nvim' })
+require('rainbow_csv').setup()
+
 add({ source = 'nvim-lualine/lualine.nvim' })
 now(function()
 	require('lualine').setup({
@@ -34,6 +37,28 @@ now(function()
 			lualine_x = { 'progress' },
 			lualine_y = { { 'encoding', show_bomb = true }, 'fileformat', 'filetype' },
 			lualine_z = { 'location' },
+		},
+	})
+end)
+
+add({ source = 'lewis6991/gitsigns.nvim' })
+now(function()
+	require('gitsigns').setup({
+		signs = {
+			add = { text = '┃' },
+			change = { text = '┃' },
+			delete = { text = '↳' },
+			topdelete = { text = '↱' },
+			changedelete = { text = '╪' },
+			untracked = { text = '┆' },
+		},
+		signs_staged = {
+			add = { text = '┃' },
+			change = { text = '┃' },
+			delete = { text = '↳' },
+			topdelete = { text = '↱' },
+			changedelete = { text = '╪' },
+			untracked = { text = '┆' },
 		},
 	})
 end)
