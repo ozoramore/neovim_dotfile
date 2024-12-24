@@ -16,6 +16,6 @@ for k, v in pairs(options) do
 	vim.opt[k] = v
 end
 
-vim.cmd('language C.utf-8')
+vim.cmd.language('C')
 
 vim.g.mapleader = ','
