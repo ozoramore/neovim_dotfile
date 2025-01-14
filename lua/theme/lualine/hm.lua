@@ -9,9 +9,11 @@ return {
 		b = { fg = nil, bg = 'gray', gui = 'bold' },
 		c = { fg = nil, bg = nil, gui = 'bold' },
 	},
+	command = { a = { fg = nil, bg = 'red', gui = 'bold' } },
 	insert = { a = { fg = nil, bg = 'green', gui = 'bold' } },
 	visual = { a = { fg = nil, bg = 'purple', gui = 'bold' } },
-	replace = { a = { fg = nil, bg = 'red', gui = 'bold' } },
+	replace = { a = { fg = nil, bg = 'orange', gui = 'bold' } },
+
 	inactive = {
 		a = { fg = 'silver', bg = 'gray', gui = 'bold' },
 		b = { fg = 'gray', bg = nil, gui = 'bold' },
