@@ -29,7 +29,7 @@ require('rainbow_csv').setup()
 add({ source = 'nvim-lualine/lualine.nvim' })
 now(function()
 	require('lualine').setup({
-		options = { icons_enabled = true, globalstatus = true, theme = require('theme.lualine.hm') },
+		options = { icons_enabled = false, globalstatus = true, theme = require('theme.lualine.hm') },
 		sections = {
 			lualine_a = { 'mode' },
 			lualine_b = { 'filename' },
