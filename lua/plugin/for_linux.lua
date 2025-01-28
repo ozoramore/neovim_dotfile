@@ -79,13 +79,21 @@ require('nvim-treesitter.configs').setup({
 
 add({ source = 'rcarriga/nvim-dap-ui', depends = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } })
 now(function()
-	require('dap').adapters.gdb = {
+	local dap = require('dap')
+	dap.adapters.gdb = {
 		id = 'gdb',
 		type = 'executable',
+		name = 'C/C++ debugger',
 		command = 'gdb',
-		args = { '--quiet', '--interpreter=dap' },
+		args = { '--interpreter=dap', '--quiet' },
 	}
-	require('dap.ext.vscode').load_launchjs((get_parent_path('.git') .. '.vscode/launch.json'), { gdb = { 'c', 'cpp' } })
+	local launch_json = get_parent_path('.git')..'.vscode/launch.json'
+	local f = io.open(launch_json, 'r')
+	if f then
+		local dap_vscode = require('dap.ext.vscode')
+		local filetype = vim.filetype.match({ buf = 0 })
+		dap.configurations[filetype] = dap.configurations[filetype] or dap_vscode.getconfigs(launch_json)
+	end
 	require('dapui').setup({
 		icons = { expanded = '▾', collapsed = '▸', current_frame = '▸' },
 		mappings = {
