@@ -38,3 +38,29 @@ if vim.fn.has('unix') == 1 then
 end
 
 require('plugin/styles')
+
+add({ source = 'mori-oh/nvimpc.lua' })
+now(function()
+	local mpc = require('nvimpc')
+	mpc.setup({
+		host = os.getenv('MPD_HOST') or 'localhost',
+		port = tonumber(os.getenv('MPD_PORT') or 6600),
+	})
+	local mpc_exec = function(arg)
+		mpc.command(arg)
+	end
+
+	vim.api.nvim_create_user_command('MpcPlay', function()
+		mpc_exec('pause 0')
+	end, {})
+	vim.api.nvim_create_user_command('MpcPause', function()
+		mpc_exec('pause 1')
+	end, {})
+	vim.api.nvim_create_user_command('MpcToggle', function()
+		mpc_exec('pause')
+	end, {})
+	vim.api.nvim_create_user_command('MpcNowPlaying', function()
+		mpc_exec('currentsong')
+		print(table.concat(mpc.result,'\n'))
+	end, {})
+end)
