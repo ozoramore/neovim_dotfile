@@ -7,7 +7,7 @@ add({ source = 'h-hg/fcitx.nvim' })
 
 local function get_parent_path(name)
 	local pwd = vim.api.nvim_buf_get_name(0)
-	return ((vim.fn.finddir(name, ';', pwd) or pwd):match('(.+/)') or '../')
+	return ((vim.fn.finddir(name, ';', pwd) or pwd):match('(.+/)') or './')
 end
 
 add({ source = 'ckipp01/stylua-nvim' })
