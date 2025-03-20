@@ -66,6 +66,7 @@ now(function()
 		segments = {
 			{ text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
 			{ sign = { namespace = { 'diagnostic' }, maxwidth = 1, colwidth = 1, auto = false }, click = 'v:lua.ScSa' },
+			{ sign = { name = { 'Dap*' }, maxwidth = 1, colwidth = 1, auto = false }, click = 'v:lua.ScSa' },
 			{ text = { builtin.lnumfunc }, click = 'v:lua.ScLa' },
 			{ sign = { namespace = { 'git.*' }, colwidth = 1, wrap = true, fillchar = '│', fillcharhl = 'NonText' }, click = 'v:lua.ScSa' },
 		},
