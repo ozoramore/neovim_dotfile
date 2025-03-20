@@ -71,7 +71,7 @@ require('nvim-treesitter.configs').setup({
 	textobjects = { enable = true },
 })
 
-add({ source = 'rcarriga/nvim-dap-ui', depends = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } })
+add({ source = 'mfussenegger/nvim-dap' })
 now(function()
 	local dap = require('dap')
 	dap.adapters.gdb = {
@@ -79,44 +79,37 @@ now(function()
 		type = 'executable',
 		name = 'C/C++ debugger',
 		command = 'gdb',
-		args = { '--interpreter=dap', '--quiet' },
+		args = { '-i=dap', '-q' },
 	}
-	local launch_json = get_parent_path('.git')..'.vscode/launch.json'
-	local f = io.open(launch_json, 'r')
-	if f then
-		local dap_vscode = require('dap.ext.vscode')
-		local filetype = vim.filetype.match({ buf = 0 })
-		dap.configurations[filetype] = dap.configurations[filetype] or dap_vscode.getconfigs(launch_json)
+
+	local launch_json = get_parent_path('.git') .. '.vscode/launch.json'
+	local filetype = vim.filetype.match({ buf = 0 })
+	if io.open(launch_json, 'r') then
+		dap.configurations[filetype] = dap.configurations[filetype]
 	end
-	require('dapui').setup({
-		icons = { expanded = '▾', collapsed = '▸', current_frame = '▸' },
-		mappings = {
-			-- Use a table to apply multiple mappings
-			expand = { '<CR>', '<2-LeftMouse>' },
-			open = 'o',
-			remove = 'd',
-			edit = 'e',
-			repl = 'r',
-			toggle = 't',
-		},
-	})
-	local function map(mode, lhs, rhs, opts)
-		local options = { noremap = true }
-		if opts then
-			options = vim.tbl_extend('force', options, opts)
-		end
-		vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+
+	local widgets = require('dap.ui.widgets')
+	local setlogs = function()
+		dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
 	end
-	map('n', '<F5>', ":lua require'dap'.continue()<CR>", { silent = true })
-	map('n', '<F10>', ":lua require'dap'.step_over()<CR>", { silent = true })
-	map('n', '<F11>', ":lua require'dap'.step_into()<CR>", { silent = true })
-	map('n', '<F12>', ":lua require'dap'.step_out()<CR>", { silent = true })
-	map('n', '<leader>b', ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true })
-	map('n', '<leader>bc', ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", { silent = true })
-	map('n', '<leader>l', ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", { silent = true })
-	-- dap-ui key map
-	map('n', '<leader>d', ":lua require'dapui'.toggle()<CR>", { silent = true })
-	map('n', '<leader><leader>df', ":lua require'dapui'.eval()<CR>", { silent = true })
-	-- dap-go key map
-	map('n', '<leader>td', ":lua require'dap-go'.debug_test()<CR>", { silent = true })
+	local frames = function()
+		widgets.centered_float(widgets.frames)
+	end
+	local scopes = function()
+		widgets.centered_float(widgets.scopes)
+	end
+
+	vim.keymap.set('n', '<F5>', dap.continue)
+	vim.keymap.set('n', '<F10>', dap.step_over)
+	vim.keymap.set('n', '<F11>', dap.step_into)
+	vim.keymap.set('n', '<F12>', dap.step_out)
+	vim.keymap.set('n', '<Leader>b', dap.toggle_breakpoint)
+	vim.keymap.set('n', '<Leader>B', dap.set_breakpoint)
+	vim.keymap.set('n', '<Leader>lp', setlogs)
+	vim.keymap.set('n', '<Leader>dr', dap.repl.open)
+	vim.keymap.set('n', '<Leader>dl', dap.run_last)
+	vim.keymap.set({ 'n', 'v' }, '<Leader>dh', widgets.hover)
+	vim.keymap.set({ 'n', 'v' }, '<Leader>dp', widgets.preview)
+	vim.keymap.set('n', '<Leader>df', frames)
+	vim.keymap.set('n', '<Leader>ds', scopes)
 end)
