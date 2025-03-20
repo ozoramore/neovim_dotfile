@@ -11,9 +11,7 @@ local function get_parent_path(name)
 end
 
 add({ source = 'ckipp01/stylua-nvim' })
-now(function()
-	require('stylua-nvim').setup()
-end)
+now(require('stylua-nvim').setup)
 
 add({ source = 'rhysd/vim-clang-format' })
 add({ source = 'neovim/nvim-lspconfig' })
@@ -37,11 +35,7 @@ now(function()
 		settings = {
 			Lua = { runtime = { version = 'LuaJIT', pathStrict = true, path = { '?.lua', '?/init.lua' } } },
 		},
-		commands = { Format = {
-			function()
-				require('stylua-nvim').format_file()
-			end,
-		} },
+		commands = { Format = { require('stylua-nvim').format_file } },
 	})
 	lspconfig.solargraph.setup({})
 	require('mini.completion').setup()
