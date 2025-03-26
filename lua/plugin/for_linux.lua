@@ -10,10 +10,6 @@ local function get_parent_path(name)
 	return ((vim.fn.finddir(name, ';', pwd) or pwd):match('(.+/)') or './')
 end
 
-add({ source = 'ckipp01/stylua-nvim' })
-now(require('stylua-nvim').setup)
-
-add({ source = 'rhysd/vim-clang-format' })
 add({ source = 'neovim/nvim-lspconfig' })
 now(function()
 	local lspconfig = require('lspconfig')
@@ -25,19 +21,15 @@ now(function()
 			'--enable-config',
 			'--compile-commands-dir=' .. get_parent_path('.git'),
 		},
-		commands = { Format = {
-			function()
-				vim.cmd('ClangFormat')
-			end,
-		} },
 	})
 	lspconfig.lua_ls.setup({
 		settings = {
 			Lua = { runtime = { version = 'LuaJIT', pathStrict = true, path = { '?.lua', '?/init.lua' } } },
 		},
-		commands = { Format = { require('stylua-nvim').format_file } },
 	})
 	lspconfig.solargraph.setup({})
+
+	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
 end)
 
 add({ source = 'nvim-treesitter/nvim-treesitter' })
