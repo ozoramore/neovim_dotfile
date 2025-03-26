@@ -64,12 +64,6 @@ now(function()
 		args = { '-i=dap', '-q' },
 	}
 
-	local launch_json = rootdir .. '.vscode/launch.json'
-	local filetype = vim.filetype.match({ buf = 0 })
-	if io.open(launch_json, 'r') then
-		dap.configurations[filetype] = dap.configurations[filetype]
-	end
-
 	local widgets = require('dap.ui.widgets')
 	local setlogs = function()
 		dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
