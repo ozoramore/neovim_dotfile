@@ -43,24 +43,18 @@ end)
 
 add({ source = 'lewis6991/gitsigns.nvim' })
 now(function()
-	require('gitsigns').setup({
-		signs = {
-			add = { text = '┃' },
-			change = { text = '┃' },
-			delete = { text = '⎣' },
-			topdelete = { text = '⎡' },
-			changedelete = { text = '╪' },
-			untracked = { text = '┆' },
-		},
-		signs_staged = {
-			add = { text = '┃' },
-			change = { text = '┃' },
-			delete = { text = '⎣' },
-			topdelete = { text = '⎡' },
-			changedelete = { text = '╪' },
-			untracked = { text = '┆' },
-		},
-	})
+	local t = function(arg)
+		return { text = arg }
+	end
+	local git_signs = {
+		add = t('┃'),
+		change = t('┃'),
+		delete = t('⎣'),
+		topdelete = t('⎡'),
+		changedelete = t('╪'),
+		untracked = t('┆'),
+	}
+	require('gitsigns').setup({ signs = git_signs, signs_staged = git_signs })
 end)
 
 add({ source = 'luukvbaal/statuscol.nvim' })
