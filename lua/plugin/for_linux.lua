@@ -10,23 +10,19 @@ local function get_parent_path(name)
 	return ((vim.fn.finddir(name, ';', pwd) or pwd):match('(.+/)') or './')
 end
 
+local rootdir = get_parent_path('.git')
+
 add({ source = 'neovim/nvim-lspconfig' })
 now(function()
 	local lspconfig = require('lspconfig')
 	lspconfig.clangd.setup({
-		cmd = {
-			'clangd',
-			'--header-insertion=never',
-			'--clang-tidy',
-			'--enable-config',
-			'--compile-commands-dir=' .. get_parent_path('.git'),
-		},
+		cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config', '--compile-commands-dir=' .. rootdir, }
 	})
+
 	lspconfig.lua_ls.setup({
-		settings = {
-			Lua = { runtime = { version = 'LuaJIT', pathStrict = true, path = { '?.lua', '?/init.lua' } } },
-		},
+		settings = { Lua = { runtime = { version = 'LuaJIT', pathStrict = true, path = { '?.lua', '?/init.lua' } } } }
 	})
+
 	lspconfig.solargraph.setup({})
 
 	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
@@ -68,7 +64,7 @@ now(function()
 		args = { '-i=dap', '-q' },
 	}
 
-	local launch_json = get_parent_path('.git') .. '.vscode/launch.json'
+	local launch_json = rootdir .. '.vscode/launch.json'
 	local filetype = vim.filetype.match({ buf = 0 })
 	if io.open(launch_json, 'r') then
 		dap.configurations[filetype] = dap.configurations[filetype]
