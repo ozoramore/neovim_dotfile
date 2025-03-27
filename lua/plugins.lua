@@ -19,22 +19,15 @@ end
 require('mini.deps').setup({ path = { package = path_package } })
 
 local add, now = require('mini.deps').add, require('mini.deps').now
-add({ name = 'mini.nvim', checkout = 'HEAD' })
 
-require('mini.pairs').setup()
-
-require('mini.completion').setup()
-vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
-vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
-
-add({ source = 'akinsho/toggleterm.nvim' })
 now(function()
-	require('toggleterm').setup({
-		hide_numbers = true,
-		direction = 'float',
-		start_in_insert = true,
-		insert_mappings = true,
-	})
+	add({ name = 'mini.nvim', checkout = 'HEAD' })
+
+	require('mini.pairs').setup()
+
+	require('mini.completion').setup()
+	vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
+	vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
 end)
 
 if vim.fn.has('unix') == 1 then
@@ -43,8 +36,8 @@ end
 
 require('plugin/styles')
 
-add({ source = 'mori-oh/nvimpc.lua' })
 now(function()
+	add({ source = 'mori-oh/nvimpc.lua' })
 	local mpc = require('nvimpc')
 	mpc.setup({
 		host = os.getenv('MPD_HOST') or 'localhost',

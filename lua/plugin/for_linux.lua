@@ -2,9 +2,6 @@
 
 local add, now = MiniDeps.add, MiniDeps.now
 
--- for ImputModule ( I use ATOK on Windows. )
-add({ source = 'h-hg/fcitx.nvim' })
-
 local function get_parent_path(name)
 	local pwd = vim.api.nvim_buf_get_name(0)
 	return ((vim.fn.finddir(name, ';', pwd) or pwd):match('(.+/)') or './')
@@ -12,8 +9,13 @@ end
 
 local rootdir = get_parent_path('.git')
 
-add({ source = 'neovim/nvim-lspconfig' })
 now(function()
+	-- for ImputModule ( I use ATOK on Windows. )
+	add({ source = 'h-hg/fcitx.nvim' })
+end)
+
+now(function()
+	add({ source = 'neovim/nvim-lspconfig' })
 	local lspconfig = require('lspconfig')
 	lspconfig.clangd.setup({
 		cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config', '--compile-commands-dir=' .. rootdir, }
@@ -28,33 +30,35 @@ now(function()
 	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
 end)
 
-add({ source = 'nvim-treesitter/nvim-treesitter' })
-require('nvim-treesitter.configs').setup({
-	ensure_installed = {
-		'bash',
-		'c',
-		'cpp',
-		'css',
-		'html',
-		'lua',
-		'markdown',
-		'markdown_inline',
-		'python',
-		'regex',
-		'toml',
-		'yaml',
-		'vim',
-		'vimdoc',
-		'ruby',
-	},
-	highlight = { enable = true },
-	incremental_selection = { enable = true },
-	indent = { enable = true },
-	textobjects = { enable = true },
-})
-
-add({ source = 'mfussenegger/nvim-dap' })
 now(function()
+	add({ source = 'nvim-treesitter/nvim-treesitter' })
+	require('nvim-treesitter.configs').setup({
+		ensure_installed = {
+			'bash',
+			'c',
+			'cpp',
+			'css',
+			'html',
+			'lua',
+			'markdown',
+			'markdown_inline',
+			'python',
+			'regex',
+			'toml',
+			'yaml',
+			'vim',
+			'vimdoc',
+			'ruby',
+		},
+		highlight = { enable = true },
+		incremental_selection = { enable = true },
+		indent = { enable = true },
+		textobjects = { enable = true },
+	})
+end)
+
+now(function()
+	add({ source = 'mfussenegger/nvim-dap' })
 	local dap = require('dap')
 	dap.adapters.gdb = {
 		id = 'gdb',
