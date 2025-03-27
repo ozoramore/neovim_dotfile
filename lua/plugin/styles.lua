@@ -15,23 +15,20 @@ end
 local add, now = require('mini.deps').add, require('mini.deps').now
 
 now(function() -- colorscheme
-	vim.cmd.colorscheme('vim++')
 	add({ source = 'folke/styler.nvim' })
-	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
-		callback = function()
-			local set_theme = require('styler').set_theme
-			local win = vim.api.nvim_get_current_win()
-			for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
-				if vim.api.nvim_win_get_config(w).relative ~= '' then
-					set_theme(w, { colorscheme = 'vim++' }) -- popup window
-				elseif w == win then
-					set_theme(w, { colorscheme = 'vim++' }) -- active window
-				else
-					set_theme(w, { colorscheme = 'quiet++' }) -- inactive window
-				end
-			end
-		end,
-	})
+	local theme = { active = 'vim++', popup = 'vim++', bg = 'quiet++' }
+
+	local function select_theme()
+		local function set_theme(w, t) require('styler').set_theme(w, { colorscheme = t }) end
+		for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+			local t = theme.bg
+			if w == vim.api.nvim_get_current_win() then t = theme.active end
+			if vim.api.nvim_win_get_config(w).relative ~= '' then t = theme.popup end
+			set_theme(w, t)
+		end
+	end
+	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, { callback = select_theme })
+	vim.cmd.colorscheme(theme.active)
 end)
 
 now(function()
@@ -56,9 +53,7 @@ end)
 
 now(function() -- status column
 	add({ source = 'lewis6991/gitsigns.nvim' })
-	local t = function(arg)
-		return { text = arg }
-	end
+	local function t(arg) return { text = arg } end
 	local git_signs = {
 		add = t('┃'),
 		change = t('┃'),
