@@ -1,6 +1,6 @@
 -- Linux Config.
 
-local add, now = MiniDeps.add, MiniDeps.now
+local add, now = require('mini.deps').add, require('mini.deps').now
 
 local function get_parent_path(name)
 	local pwd = vim.api.nvim_buf_get_name(0)

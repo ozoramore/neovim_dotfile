@@ -12,8 +12,7 @@ for k, v in pairs(options) do
 	vim.opt[k] = v
 end
 
-
-local add, now = MiniDeps.add, MiniDeps.now
+local add, now = require('mini.deps').add, require('mini.deps').now
 
 now(function() -- colorscheme
 	vim.cmd.colorscheme('vim++')
