@@ -19,12 +19,11 @@ now(function() -- colorscheme
 	local theme = { active = 'vim++', popup = 'vim++', bg = 'quiet++' }
 
 	local function select_theme()
-		local function set_theme(w, t) require('styler').set_theme(w, { colorscheme = t }) end
 		for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
 			local t = theme.bg
 			if w == vim.api.nvim_get_current_win() then t = theme.active end
 			if vim.api.nvim_win_get_config(w).relative ~= '' then t = theme.popup end
-			set_theme(w, t)
+			require('styler').set_theme(w, { colorscheme = t })
 		end
 	end
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, { callback = select_theme })
@@ -64,14 +63,13 @@ end)
 
 now(function() -- status column
 	add({ source = 'lewis6991/gitsigns.nvim' })
-	local function t(arg) return { text = arg } end
 	local git_signs = {
-		add = t('┃'),
-		change = t('┃'),
-		delete = t('⎣'),
-		topdelete = t('⎡'),
-		changedelete = t('╪'),
-		untracked = t('┆'),
+		add = { text = '┃' },
+		change = { text = '┃' },
+		delete = { text = '⎣' },
+		topdelete = { text = '⎡' },
+		changedelete = { text = '╪' },
+		untracked = { text = '┆' },
 	}
 	require('gitsigns').setup({ signs = git_signs, signs_staged = git_signs })
 	add({ source = 'luukvbaal/statuscol.nvim' })
