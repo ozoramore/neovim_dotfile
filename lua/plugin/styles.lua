@@ -38,8 +38,19 @@ end)
 
 now(function() -- status line
 	add({ source = 'nvim-lualine/lualine.nvim' })
+	local function style(fgcolor, bgcolor) return { fg = fgcolor, bg = bgcolor, gui = 'bold' } end
 	require('lualine').setup({
-		options = { icons_enabled = false, globalstatus = true, theme = require('theme.lualine.hm') },
+		options = {
+			globalstatus = true,
+			theme = {
+				normal = { a = style(nil, 'blue'), b = style(nil, 'gray'), c = style(nil, nil) },
+				command = { a = style(nil, 'red') },
+				insert = { a = style(nil, 'green') },
+				visual = { a = style(nil, 'purple') },
+				replace = { a = style(nil, 'orange') },
+				inactive = { a = style('silver', 'gray'), b = style('gray', nil), c = style('silver', nil) },
+			}
+		},
 		sections = {
 			lualine_a = { 'mode' },
 			lualine_b = { 'filename' },
