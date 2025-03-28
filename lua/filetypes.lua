@@ -1,28 +1,20 @@
-local M = {}
-
 local function set_indent(tab_length, is_expand)
-	vim.bo.expandtab = is_expand
-	vim.bo.tabstop = tab_length
-	vim.bo.shiftwidth = 0
-	vim.bo.softtabstop = -1
+	return function()
+		vim.bo.expandtab = is_expand
+		vim.bo.tabstop = tab_length
+		vim.bo.shiftwidth = 0
+		vim.bo.softtabstop = -1
+	end
 end
 
-M.yaml = function()
-	set_indent(2, true)
+local function default()
+	return set_indent(4, false)
 end
 
-M.ruby = function()
-	set_indent(2, true)
-end
+local M = {
+	yaml = set_indent(2, true),
+	ruby = set_indent(2, true),
+	markdown = set_indent(4, true)
+}
 
-M.markdown = function()
-	set_indent(4, true)
-end
-
-return setmetatable(M, {
-	__index = function()
-		return function()
-			set_indent(4, false)
-		end
-	end,
-})
+return setmetatable(M, { __index = default })
