@@ -12,9 +12,7 @@ local options = {
 	completeopt = 'menu,menuone,noselect,popup',
 }
 
-for k, v in pairs(options) do
-	vim.opt[k] = v
-end
+for k, v in pairs(options) do vim.opt[k] = v end
 
 vim.cmd.language('en_US.UTF-8')
 

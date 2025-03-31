@@ -8,9 +8,7 @@ local options = {
 	listchars = { tab = '>-', trail = '_', extends = '>', precedes = '<', nbsp = '%' },
 }
 
-for k, v in pairs(options) do
-	vim.opt[k] = v
-end
+for k, v in pairs(options) do vim.opt[k] = v end
 
 local add, now = require('mini.deps').add, require('mini.deps').now
 
