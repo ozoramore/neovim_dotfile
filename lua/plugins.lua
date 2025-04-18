@@ -36,15 +36,3 @@ end
 
 require('plugin/styles')
 
-now(function()
-	add({ source = 'mori-oh/nvimpc.lua' })
-	local mpc = require('nvimpc')
-	mpc.setup({
-		host = os.getenv('MPD_HOST') or 'localhost',
-		port = tonumber(os.getenv('MPD_PORT') or 6600),
-	})
-	vim.api.nvim_create_user_command('Mpc', function(opts)
-		mpc.command(opts.args)
-		print(table.concat(mpc.result, '\n'))
-	end, { nargs = '?' })
-end)
