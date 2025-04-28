@@ -10,11 +10,6 @@ end
 local rootdir = get_parent_path('.git')
 
 now(function()
-	-- for ImputModule ( I use ATOK on Windows. )
-	add({ source = 'h-hg/fcitx.nvim' })
-end)
-
-now(function()
 	add({ source = 'neovim/nvim-lspconfig' })
 	local lspconfig = require('lspconfig')
 	lspconfig.clangd.setup({
