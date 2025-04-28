@@ -14,6 +14,7 @@ end
 local M = {
 	yaml = set_indent(2, true),
 	ruby = set_indent(2, true),
+	rust = set_indent(4, true),
 	markdown = set_indent(4, true)
 }
 

@@ -29,6 +29,8 @@ now(function()
 
 	lspconfig.bashls.setup({})
 
+	lspconfig.rust_analyzer.setup({})
+
 	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
 end)
 
@@ -45,6 +47,7 @@ now(function()
 			'markdown',
 			'markdown_inline',
 			'python',
+			'rust',
 			'regex',
 			'toml',
 			'yaml',
