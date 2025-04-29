@@ -22,7 +22,7 @@ now(function()
 
 	lspconfig.solargraph.setup({})
 	lspconfig.bashls.setup({})
-	lspconfig.rust_analyzer.setup({})
+	lspconfig.rust_analyzer.setup({ cmd = { "rustup", "run", "stable", "rust-analyzer" } })
 	lspconfig.lemminx.setup({})
 
 	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
