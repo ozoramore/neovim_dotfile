@@ -58,6 +58,7 @@ now(function() -- status line
 		},
 	})
 end)
+require('mini.tabline').setup()
 
 now(function() -- status column
 	local git_signs = { add = '┃', change = '│', delete = '┊', }
