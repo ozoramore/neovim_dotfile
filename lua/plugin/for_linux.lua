@@ -21,10 +21,9 @@ now(function()
 	})
 
 	lspconfig.solargraph.setup({})
-
 	lspconfig.bashls.setup({})
-
 	lspconfig.rust_analyzer.setup({})
+	lspconfig.lemminx.setup({})
 
 	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
 end)
@@ -38,6 +37,7 @@ now(function()
 			'cpp',
 			'css',
 			'html',
+			'xml',
 			'lua',
 			'markdown',
 			'markdown_inline',
