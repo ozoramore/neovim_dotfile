@@ -24,7 +24,6 @@ now(function()
 	add({ name = 'mini.nvim' })
 
 	require('mini.pairs').setup()
-	require('mini.snippets').setup({ snippets = { require('mini.snippets').gen_loader.from_lang(), } })
 	require('mini.completion').setup()
 	vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
 	vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
