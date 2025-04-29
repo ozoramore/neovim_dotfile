@@ -29,13 +29,12 @@ now(function()
 	vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
 end)
 
-if vim.fn.has("wsl") == 1 then
-	require('plugin/wsl')
-else
-	now(function() add({ source = 'h-hg/fcitx.nvim' }) end)
-end
-
 if vim.fn.has('unix') == 1 then
+	if vim.fn.has("wsl") == 1 then
+		require('plugin/wsl')
+	else
+		now(function() add({ source = 'h-hg/fcitx.nvim' }) end)
+	end
 	require('plugin/for_linux')
 end
 
