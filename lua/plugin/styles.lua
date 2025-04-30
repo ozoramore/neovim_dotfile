@@ -3,6 +3,7 @@ local options = {
 	number = true,
 	showmatch = true,
 	termguicolors = false,
+	laststatus = 3,
 	bg = 'dark',
 	list = true,
 	listchars = { tab = '>-', trail = '_', extends = '>', precedes = '<', nbsp = '%' },
@@ -33,31 +34,32 @@ now(function()
 	require('rainbow_csv').setup()
 end)
 
-now(function() -- status line
-	add({ source = 'nvim-lualine/lualine.nvim' })
-	local function style(fgcolor, bgcolor) return { fg = fgcolor, bg = bgcolor, gui = 'bold' } end
-	require('lualine').setup({
-		options = {
-			globalstatus = true,
-			theme = {
-				normal = { a = style(nil, 'blue'), b = style(nil, 'gray'), c = style(nil, nil) },
-				command = { a = style(nil, 'red') },
-				insert = { a = style(nil, 'green') },
-				visual = { a = style(nil, 'purple') },
-				replace = { a = style(nil, 'orange') },
-				inactive = { a = style('silver', 'gray'), b = style('gray', nil), c = style('silver', nil) },
-			}
-		},
-		sections = {
-			lualine_a = { 'mode' },
-			lualine_b = { 'filename' },
-			lualine_c = { 'searchcount' },
-			lualine_x = { 'progress' },
-			lualine_y = { { 'encoding', show_bomb = true }, 'fileformat', 'filetype' },
-			lualine_z = { 'location' },
-		},
+local function statusline()
+	local function style(hl_name, fgcolor, bgcolor)
+		vim.api.nvim_set_hl(0, hl_name, { fg = fgcolor, bg = bgcolor, ctermbg = bgcolor, bold = true, force = true })
+	end
+
+	style('MiniStatuslineModeNormal', nil, "DarkBlue")
+	style('MiniStatuslineModeInsert', nil, "DarkGreen")
+	style('MiniStatuslineModeCommand', nil, "DarkRed")
+	style('MiniStatuslineModeVisual', nil, "DarkMagenta")
+	style('MiniStatuslineModeReplace', nil, "DarkYellow")
+	style('MiniStatuslineModeOther', nil, "DarkGray")
+
+	local msl           = require('mini.statusline')
+	local mode, mode_hl = msl.section_mode({})
+	local filename      = msl.section_filename({})
+	local separator     = "%="
+	local fileinfo      = msl.section_fileinfo({})
+	local location      = "%l:%c"
+
+	return msl.combine_groups({
+		{ hl = mode_hl,      strings = { mode:upper() } },
+		{ hl = 'StatusLine', strings = { filename, separator, fileinfo, location } },
 	})
-end)
+end
+
+require('mini.statusline').setup({ content = { active = statusline, inactive = statusline } })
 require('mini.tabline').setup()
 
 now(function() -- status column
