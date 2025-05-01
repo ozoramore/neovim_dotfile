@@ -10,6 +10,7 @@ local options = {
 	langmenu = 'C.utf-8',
 	helplang = 'ja,en',
 	completeopt = 'menu,menuone,noselect,popup',
+	undodir = '$XDG_DATA_HOME/nvim/undo'
 }
 
 for k, v in pairs(options) do vim.opt[k] = v end

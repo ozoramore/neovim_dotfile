@@ -51,7 +51,7 @@ local function statusline()
 	local filename      = msl.section_filename({})
 	local separator     = "%="
 	local fileinfo      = msl.section_fileinfo({})
-	local location      = "%l:%c"
+	local location      = "%4l:%3c"
 
 	return msl.combine_groups({
 		{ hl = mode_hl,      strings = { mode:upper() } },
