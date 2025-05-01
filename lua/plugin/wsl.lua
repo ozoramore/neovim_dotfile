@@ -1,20 +1,21 @@
-if vim.fn.executable("wl-copy") == 0 then
+if vim.fn.executable('wl-copy') == 0 then
 	print("wl-clipboard not found, clipboard integration won't work")
 else
 	vim.g.clipboard = {
-		name = "wl-clipboard (wsl)",
+		name = 'win32yank',
 		copy = {
-			["+"] = 'wl-copy --foreground --type text/plain',
-			["*"] = 'wl-copy --foreground --primary --type text/plain',
+			['+'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-i' },
+			['*'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-i' },
 		},
 		paste = {
-			["+"] = (function()
-				return vim.fn.systemlist('wl-paste --no-newline|sed -e "s/\r$//"', { '' }, 1) -- '1' keeps empty lines
-			end),
-			["*"] = (function()
-				return vim.fn.systemlist('wl-paste --primary --no-newline|sed -e "s/\r$//"', { '' }, 1)
-			end),
+			['+'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-o' },
+			['*'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-o' },
 		},
 		cache_enabled = true
 	}
 end
+
+vim.api.nvim_create_autocmd('InsertLeave', {
+	group = vim.api.nvim_create_augroup('conf_ime', {}),
+	callback = function() vim.system({ '/opt/zenhan/zenhan.exe', '0' }) end
+})
