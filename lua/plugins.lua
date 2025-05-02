@@ -1,16 +1,10 @@
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
+local mini_repo = 'https://github.com/echasnovski/mini.nvim'
 if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installing `mini.nvim`" | redraw')
-	local clone_cmd = {
-		'git',
-		'clone',
-		'--filter=blob:none',
-		'https://github.com/echasnovski/mini.nvim',
-		mini_path,
-	}
-	vim.fn.system(clone_cmd)
+	vim.system({ 'git', 'clone', '--filter=blob:none', mini_repo, mini_path, })
 	vim.cmd('packadd mini.nvim | helptags ALL')
 	vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
@@ -22,10 +16,13 @@ local add, now = require('mini.deps').add, require('mini.deps').now
 
 now(function()
 	add({ name = 'mini.nvim' })
-
 	require('mini.completion').setup()
-	vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
-	vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
+
+	local function as_key_i(l, r)
+		vim.keymap.set('i', l, function() return vim.keycode(vim.fn.pumvisible() ~= 0 and r or l) end, { expr = true })
+	end
+	as_key_i('<Tab>', '<C-n>')
+	as_key_i('<S-Tab>', '<C-p>')
 end)
 
 if vim.fn.has('unix') == 1 then

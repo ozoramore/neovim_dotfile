@@ -2,24 +2,11 @@
 
 local add, now = require('mini.deps').add, require('mini.deps').now
 
-local function get_parent_path(name)
-	local pwd = vim.api.nvim_buf_get_name(0)
-	return ((vim.fn.finddir(name, ';', pwd) or pwd):match('(.+/)') or './')
-end
-
-local rootdir = get_parent_path('.git')
-
 now(function()
 	add({ source = 'neovim/nvim-lspconfig' })
 	local lspconfig = require('lspconfig')
-	lspconfig.clangd.setup({
-		cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config', '--compile-commands-dir=' .. rootdir, }
-	})
-
-	lspconfig.lua_ls.setup({
-		settings = { Lua = { runtime = { version = 'LuaJIT', pathStrict = true, path = { '?.lua', '?/init.lua' } } } }
-	})
-
+	lspconfig.clangd.setup({ cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } })
+	lspconfig.lua_ls.setup({})
 	lspconfig.solargraph.setup({})
 	lspconfig.bashls.setup({})
 	lspconfig.rust_analyzer.setup({ cmd = { "rustup", "run", "stable", "rust-analyzer" } })
@@ -32,23 +19,10 @@ now(function()
 	add({ source = 'nvim-treesitter/nvim-treesitter' })
 	require('nvim-treesitter.configs').setup({
 		ensure_installed = {
-			'bash',
-			'c',
-			'cpp',
-			'css',
-			'html',
-			'xml',
-			'lua',
-			'markdown',
-			'markdown_inline',
-			'python',
-			'rust',
-			'regex',
-			'toml',
-			'yaml',
-			'vim',
-			'vimdoc',
-			'ruby',
+			'c', 'cpp', 'rust',
+			'bash', 'lua', 'python', 'ruby',
+			'html', 'markdown', 'vimdoc',
+			'css', 'xml', 'toml', 'yaml',
 		},
 		highlight = { enable = true },
 		incremental_selection = { enable = true },
@@ -69,15 +43,9 @@ now(function()
 	}
 
 	local widgets = require('dap.ui.widgets')
-	local setlogs = function()
-		dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-	end
-	local frames = function()
-		widgets.centered_float(widgets.frames)
-	end
-	local scopes = function()
-		widgets.centered_float(widgets.scopes)
-	end
+	local function setlogs() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end
+	local function frames() widgets.centered_float(widgets.frames) end
+	local function scopes() widgets.centered_float(widgets.scopes) end
 
 	vim.keymap.set('n', '<F5>', dap.continue)
 	vim.keymap.set('n', '<F10>', dap.step_over)

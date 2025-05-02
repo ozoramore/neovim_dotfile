@@ -19,10 +19,10 @@ now(function() -- colorscheme
 
 	local function select_theme()
 		for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
-			local t = theme.bg
-			if w == vim.api.nvim_get_current_win() then t = theme.active end
-			if vim.api.nvim_win_get_config(w).relative ~= '' then t = theme.popup end
-			require('styler').set_theme(w, { colorscheme = t })
+			local theme_set = theme.bg
+			if w == vim.api.nvim_get_current_win() then theme_set = theme.active end
+			if vim.api.nvim_win_get_config(w).relative ~= '' then theme_set = theme.popup end
+			require('styler').set_theme(w, { colorscheme = theme_set })
 		end
 	end
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, { callback = select_theme })
@@ -36,7 +36,8 @@ end)
 
 local function statusline()
 	local function style(hl_name, fgcolor, bgcolor)
-		vim.api.nvim_set_hl(0, hl_name, { fg = fgcolor, bg = bgcolor, ctermbg = bgcolor, bold = true, force = true })
+		local hl_color = { fg = fgcolor, bg = bgcolor, ctermbg = bgcolor, bold = true, force = true }
+		vim.api.nvim_set_hl(0, hl_name, hl_color)
 	end
 
 	style('MiniStatuslineModeNormal', nil, "DarkBlue")
@@ -65,8 +66,10 @@ require('mini.tabline').setup()
 now(function() -- status column
 	local git_signs = { add = '┃', change = '│', delete = '┊', }
 	require('mini.diff').setup({ view = { style = 'sign', signs = git_signs } })
+
 	add({ source = 'luukvbaal/statuscol.nvim' })
 	local builtin = require('statuscol.builtin')
+
 	require('statuscol').setup({
 		bt_ignore = { 'terminal', 'nofile' },
 		relculright = true,
