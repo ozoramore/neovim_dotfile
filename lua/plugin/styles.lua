@@ -64,9 +64,16 @@ require('mini.statusline').setup({ content = { active = statusline, inactive = s
 require('mini.tabline').setup()
 
 now(function() -- status column
-	local git_signs = { add = '┃', change = '│', delete = '┊', }
-	require('mini.diff').setup({ view = { style = 'sign', signs = git_signs } })
-
+	add({ source = 'lewis6991/gitsigns.nvim' })
+	local git_signs = {
+		add = { text = '┃' },
+		change = { text = '┃' },
+		delete = { text = '⎣' },
+		topdelete = { text = '⎡' },
+		changedelete = { text = '╪' },
+		untracked = { text = '┆' },
+	}
+	require('gitsigns').setup({ signs = git_signs, signs_staged = git_signs })
 	add({ source = 'luukvbaal/statuscol.nvim' })
 	local builtin = require('statuscol.builtin')
 
@@ -78,7 +85,7 @@ now(function() -- status column
 			{ sign = { namespace = { 'diagnostic' }, maxwidth = 1, colwidth = 1, auto = false }, click = 'v:lua.ScSa' },
 			{ sign = { name = { 'Dap*' }, maxwidth = 1, colwidth = 1, auto = false }, click = 'v:lua.ScSa' },
 			{ text = { builtin.lnumfunc }, click = 'v:lua.ScLa' },
-			{ sign = { namespace = { 'MiniDiff*' }, colwidth = 1, wrap = true, fillchar = '│', fillcharhl = 'NonText' }, click = 'v:lua.ScSa' },
+			{ sign = { namespace = { 'git.*' }, colwidth = 1, wrap = true, fillchar = '│', fillcharhl = 'NonText' }, click = 'v:lua.ScSa' },
 		},
 	})
 end)
