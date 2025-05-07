@@ -17,6 +17,14 @@ local add, now = require('mini.deps').add, require('mini.deps').now
 now(function()
 	add({ name = 'mini.nvim' })
 	require('mini.completion').setup()
+	require('mini.snippets').setup()
+
+	local function make_stop()
+		local mini_snippets = require('mini.snippets')
+		local function all_stop() while mini_snippets.session.get() do mini_snippets.session.stop() end end
+		vim.api.nvim_create_autocmd('ModeChanged', { pattern = '*:n', once = true, callback = all_stop })
+	end
+	vim.api.nvim_create_autocmd('User', { pattern = 'MiniSnippetsSessionStart', callback = make_stop })
 
 	local function as_key_i(l, r)
 		vim.keymap.set('i', l, function() return vim.keycode(vim.fn.pumvisible() ~= 0 and r or l) end, { expr = true })
