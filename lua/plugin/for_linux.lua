@@ -11,6 +11,10 @@ now(function()
 	lspconfig.bashls.setup({})
 	lspconfig.rust_analyzer.setup({ cmd = { "rustup", "run", "stable", "rust-analyzer" } })
 	lspconfig.lemminx.setup({})
+	lspconfig.ts_ls.setup {
+	--	init_options = { plugins = { { name = '@vue/typescript-plugin', languages = { 'vue' } } } },
+		filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+	}
 
 	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
 end)
@@ -21,6 +25,7 @@ now(function()
 		ensure_installed = {
 			'c', 'cpp', 'rust',
 			'bash', 'lua', 'python', 'ruby',
+			'vue', 'typescript', 'javascript',
 			'html', 'markdown', 'vimdoc',
 			'css', 'xml', 'toml', 'yaml',
 		},
