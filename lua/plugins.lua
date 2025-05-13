@@ -33,6 +33,23 @@ now(function()
 	as_key_i('<S-Tab>', '<C-p>')
 end)
 
+now(function()
+	add({ source = 'nvim-treesitter/nvim-treesitter' })
+	require('nvim-treesitter.configs').setup({
+		ensure_installed = {
+			'c', 'cpp', 'rust',
+			'bash', 'lua', 'python', 'ruby',
+			'vue', 'typescript', 'javascript',
+			'html', 'markdown', 'vimdoc',
+			'css', 'xml', 'toml', 'yaml',
+		},
+		highlight = { enable = true },
+		incremental_selection = { enable = true },
+		indent = { enable = true },
+		textobjects = { enable = true },
+	})
+end)
+
 if vim.fn.has('unix') == 1 then
 	if vim.fn.has("wsl") == 1 then
 		require('plugin.wsl')

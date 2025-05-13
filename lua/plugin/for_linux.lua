@@ -4,35 +4,21 @@ local add, now = require('mini.deps').add, require('mini.deps').now
 
 now(function()
 	add({ source = 'neovim/nvim-lspconfig' })
-	local lspconfig = require('lspconfig')
-	lspconfig.clangd.setup({ cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } })
-	lspconfig.lua_ls.setup({})
-	lspconfig.solargraph.setup({})
-	lspconfig.bashls.setup({})
-	lspconfig.rust_analyzer.setup({ cmd = { "rustup", "run", "stable", "rust-analyzer" } })
-	lspconfig.lemminx.setup({})
-	lspconfig.ts_ls.setup {
-	--	init_options = { plugins = { { name = '@vue/typescript-plugin', languages = { 'vue' } } } },
-		filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-	}
-
-	vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
-end)
-
-now(function()
-	add({ source = 'nvim-treesitter/nvim-treesitter' })
-	require('nvim-treesitter.configs').setup({
-		ensure_installed = {
-			'c', 'cpp', 'rust',
-			'bash', 'lua', 'python', 'ruby',
-			'vue', 'typescript', 'javascript',
-			'html', 'markdown', 'vimdoc',
-			'css', 'xml', 'toml', 'yaml',
-		},
-		highlight = { enable = true },
-		incremental_selection = { enable = true },
-		indent = { enable = true },
-		textobjects = { enable = true },
+	local ensure_installed = { 'clangd', 'rust_analyzer', 'lua_ls', 'bashls', 'solargraph', 'lemminx', 'ts_ls' }
+	vim.lsp.config('clangd', { cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } })
+	vim.lsp.config('rust_analyzer', { cmd = { "rustup", "run", "stable", "rust-analyzer" } })
+	vim.lsp.enable(ensure_installed)
+	vim.api.nvim_create_autocmd("LspAttach", {
+		group = vim.api.nvim_create_augroup("my.lsp", {}),
+		callback = function(args)
+			local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+			if client:supports_method('textDocument/completion') then
+				vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+			end
+			if not client:supports_method('textDocument/willSaveWaitUntil') and client:supports_method('textDocument/formatting') then
+				vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
+			end
+		end,
 	})
 end)
 
