@@ -50,6 +50,20 @@ now(function()
 	})
 end)
 
+local function lsp_formatter() vim.lsp.buf.format({ async = true }) end
+local function native_formatter()
+	local pos = vim.fn.getpos('.')
+	vim.cmd.normal('gg=G')
+	vim.fn.setpos('.', pos)
+end
+local function select_formatter()
+	local lsp_client = vim.lsp.get_clients({ bufnr = 0 })[1]
+	local selector = lsp_client and lsp_client:supports_method('textDocument/formatting')
+	if selector then lsp_formatter() else native_formatter() end
+end
+vim.api.nvim_create_user_command('Format', select_formatter, {})
+
+
 if vim.fn.has('unix') == 1 then
 	if vim.fn.has("wsl") == 1 then
 		require('plugin.wsl')

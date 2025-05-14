@@ -4,19 +4,21 @@ local add, now = require('mini.deps').add, require('mini.deps').now
 
 now(function()
 	add({ source = 'neovim/nvim-lspconfig' })
-	local ensure_installed = { 'clangd', 'rust_analyzer', 'lua_ls', 'bashls', 'solargraph', 'lemminx', 'ts_ls' }
-	vim.lsp.config('clangd', { cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } })
-	vim.lsp.config('rust_analyzer', { cmd = { "rustup", "run", "stable", "rust-analyzer" } })
-	vim.lsp.enable(ensure_installed)
-	vim.api.nvim_create_autocmd("LspAttach", {
-		group = vim.api.nvim_create_augroup("my.lsp", {}),
+	local lspconfig = require('lspconfig')
+	lspconfig.lua_ls.setup({})
+	lspconfig.solargraph.setup({})
+	lspconfig.bashls.setup({})
+	lspconfig.lemminx.setup({})
+	lspconfig.clangd.setup({ cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } })
+	lspconfig.rust_analyzer.setup({ cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' } })
+	lspconfig.ts_ls.setup({ filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' } })
+
+	vim.api.nvim_create_autocmd('LspAttach', {
+		group = vim.api.nvim_create_augroup('my.lsp', {}),
 		callback = function(args)
 			local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 			if client:supports_method('textDocument/completion') then
 				vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-			end
-			if not client:supports_method('textDocument/willSaveWaitUntil') and client:supports_method('textDocument/formatting') then
-				vim.api.nvim_create_user_command('Format', function() vim.lsp.buf.format({ async = true }) end, {})
 			end
 		end,
 	})
