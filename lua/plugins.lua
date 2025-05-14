@@ -56,8 +56,7 @@ local function native_formatter()
 end
 local function select_formatter()
 	local lsp_client = vim.lsp.get_clients({ bufnr = 0 })[1]
-	local selector = lsp_client and lsp_client:supports_method('textDocument/formatting')
-	if selector then lsp_formatter() else native_formatter() end
+	if (lsp_client and lsp_client:supports_method('textDocument/formatting')) then lsp_formatter() else native_formatter() end
 end
 vim.api.nvim_create_user_command('Format', select_formatter, {})
 

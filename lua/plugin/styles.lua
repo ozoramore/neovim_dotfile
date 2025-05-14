@@ -16,14 +16,13 @@ local add, now = require('mini.deps').add, require('mini.deps').now
 now(function() -- colorscheme
 	add({ source = 'folke/styler.nvim' })
 	local theme = { active = 'vim++', popup = 'vim++', bg = 'quiet++' }
-
 	local function select_theme()
-		for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
-			local theme_set = theme.bg
-			if w == vim.api.nvim_get_current_win() then theme_set = theme.active end
-			if vim.api.nvim_win_get_config(w).relative ~= '' then theme_set = theme.popup end
-			require('styler').set_theme(w, { colorscheme = theme_set })
+		local function choice_color(win)
+			if vim.api.nvim_win_get_config(win).relative ~= '' then return { colorscheme = theme.popup } end
+			if win == vim.api.nvim_get_current_win() then return { colorscheme = theme.active } end
+			return { colorscheme = theme.bg }
 		end
+		for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do require('styler').set_theme(w, choice_color(w)) end
 	end
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, { callback = select_theme })
 	vim.cmd.colorscheme(theme.active)
@@ -47,14 +46,14 @@ local function statusline()
 	style('MiniStatuslineModeReplace', nil, 'DarkYellow')
 	style('MiniStatuslineModeOther', nil, 'DarkGray')
 
-	local msl           = require('mini.statusline')
-	local mode, mode_hl = msl.section_mode({})
-	local filename      = msl.section_filename({})
-	local separator     = '%='
-	local fileinfo      = msl.section_fileinfo({})
-	local location      = '%4l:%3c'
+	local mini_statusline = require('mini.statusline')
+	local mode, mode_hl   = mini_statusline.section_mode({})
+	local filename        = mini_statusline.section_filename({})
+	local separator       = '%='
+	local fileinfo        = mini_statusline.section_fileinfo({})
+	local location        = '%4l:%3c'
 
-	return msl.combine_groups({
+	return mini_statusline.combine_groups({
 		{ hl = mode_hl,      strings = { mode:upper() } },
 		{ hl = 'StatusLine', strings = { filename, separator, fileinfo, location } },
 	})

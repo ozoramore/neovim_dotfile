@@ -1,18 +1,11 @@
 if vim.fn.executable('wl-copy') == 0 then
 	print('wl-clipboard not found')
 else
-	vim.g.clipboard = {
-		name = 'win32yank',
-		copy = {
-			['+'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-i' },
-			['*'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-i' },
-		},
-		paste = {
-			['+'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-o' },
-			['*'] = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', '-o' },
-		},
-		cache_enabled = true
-	}
+	local function win32yank(cmd)
+		local exe = { '/mnt/c/Program Files/Neovim/bin/win32yank.exe', cmd }
+		return { ['+'] = exe, ['*'] = exe }
+	end
+	vim.g.clipboard = { name = 'win32yank', copy = win32yank('-i'), paste = win32yank('-o'), cache_enabled = true }
 end
 
 vim.api.nvim_create_autocmd('InsertLeave', {
