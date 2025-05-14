@@ -3,10 +3,8 @@ local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
 local mini_repo = 'https://github.com/echasnovski/mini.nvim'
 if not vim.loop.fs_stat(mini_path) then
-	vim.cmd('echo "Installing `mini.nvim`" | redraw')
 	vim.system({ 'git', 'clone', '--filter=blob:none', mini_repo, mini_path, })
-	vim.cmd('packadd mini.nvim | helptags ALL')
-	vim.cmd('echo "Installed `mini.nvim`" | redraw')
+	vim.cmd.packadd('mini.nvim')
 end
 
 -- Set up 'mini.deps' (customize to your liking)
@@ -65,7 +63,7 @@ vim.api.nvim_create_user_command('Format', select_formatter, {})
 
 
 if vim.fn.has('unix') == 1 then
-	if vim.fn.has("wsl") == 1 then
+	if vim.fn.has('wsl') == 1 then
 		require('plugin.wsl')
 	else
 		now(function() add({ source = 'h-hg/fcitx.nvim' }) end)

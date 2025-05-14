@@ -40,19 +40,19 @@ local function statusline()
 		vim.api.nvim_set_hl(0, hl_name, hl_color)
 	end
 
-	style('MiniStatuslineModeNormal', nil, "DarkBlue")
-	style('MiniStatuslineModeInsert', nil, "DarkGreen")
-	style('MiniStatuslineModeCommand', nil, "DarkRed")
-	style('MiniStatuslineModeVisual', nil, "DarkMagenta")
-	style('MiniStatuslineModeReplace', nil, "DarkYellow")
-	style('MiniStatuslineModeOther', nil, "DarkGray")
+	style('MiniStatuslineModeNormal', nil, 'DarkBlue')
+	style('MiniStatuslineModeInsert', nil, 'DarkGreen')
+	style('MiniStatuslineModeCommand', nil, 'DarkRed')
+	style('MiniStatuslineModeVisual', nil, 'DarkMagenta')
+	style('MiniStatuslineModeReplace', nil, 'DarkYellow')
+	style('MiniStatuslineModeOther', nil, 'DarkGray')
 
 	local msl           = require('mini.statusline')
 	local mode, mode_hl = msl.section_mode({})
 	local filename      = msl.section_filename({})
-	local separator     = "%="
+	local separator     = '%='
 	local fileinfo      = msl.section_fileinfo({})
-	local location      = "%4l:%3c"
+	local location      = '%4l:%3c'
 
 	return msl.combine_groups({
 		{ hl = mode_hl,      strings = { mode:upper() } },

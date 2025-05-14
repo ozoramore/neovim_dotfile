@@ -11,9 +11,11 @@ vim.filetype.add({
 })
 
 -- Set up each filetype options.
-vim.api.nvim_create_autocmd('FileType', {
-	callback = function(args) require('filetypes')[args.match]() end,
-})
+local function filetype_process(filetype)
+	require('filetypes')[filetype.match]()
+end
+
+vim.api.nvim_create_autocmd('FileType', { callback = filetype_process })
 
 -- Set up external plugin.
 require('plugins')

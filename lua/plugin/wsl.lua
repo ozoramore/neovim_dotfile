@@ -1,5 +1,5 @@
 if vim.fn.executable('wl-copy') == 0 then
-	print("wl-clipboard not found, clipboard integration won't work")
+	print('wl-clipboard not found')
 else
 	vim.g.clipboard = {
 		name = 'win32yank',
