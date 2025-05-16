@@ -1,50 +1,39 @@
-local options = {
-	ambiwidth = 'single',
-	number = true,
-	showmatch = true,
-	termguicolors = false,
-	laststatus = 3,
-	bg = 'dark',
-	list = true,
-	listchars = { tab = '>-', trail = '_', extends = '>', precedes = '<', nbsp = '%' },
-}
+local M = {}
 
-for k, v in pairs(options) do vim.opt[k] = v end
+local theme = { active = 'vim++', popup = 'vim++', bg = 'quiet++' }
 
-local add, now = require('mini.deps').add, require('mini.deps').now
-
-now(function() -- colorscheme
-	add({ source = 'folke/styler.nvim' })
-	local theme = { active = 'vim++', popup = 'vim++', bg = 'quiet++' }
-	local function select_theme()
-		local function choice_color(win)
-			if vim.api.nvim_win_get_config(win).relative ~= '' then return { colorscheme = theme.popup } end
-			if win == vim.api.nvim_get_current_win() then return { colorscheme = theme.active } end
-			return { colorscheme = theme.bg }
-		end
-		for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do require('styler').set_theme(w, choice_color(w)) end
+local function choice_theme(win)
+	if vim.api.nvim_win_get_config(win).relative ~= '' then
+		return { colorscheme = theme.popup }
 	end
+	if win == vim.api.nvim_get_current_win() then
+		return { colorscheme = theme.active }
+	end
+	return { colorscheme = theme.bg }
+end
+
+local function select_theme()
+	for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+		require('styler').set_theme(w, choice_theme(w))
+	end
+end
+
+M.styler = function()
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, { callback = select_theme })
 	vim.cmd.colorscheme(theme.active)
-end)
+end
 
-now(function()
-	add({ source = 'cameron-wags/rainbow_csv.nvim' })
-	require('rainbow_csv').setup()
-end)
-
-local function statusline()
-	local function style(hl_name, fgcolor, bgcolor)
+M.statusline = function()
+	local function set_color(hl_name, fgcolor, bgcolor)
 		local hl_color = { fg = fgcolor, bg = bgcolor, ctermbg = bgcolor, bold = true, force = true }
 		vim.api.nvim_set_hl(0, hl_name, hl_color)
 	end
-
-	style('MiniStatuslineModeNormal', nil, 'DarkBlue')
-	style('MiniStatuslineModeInsert', nil, 'DarkGreen')
-	style('MiniStatuslineModeCommand', nil, 'DarkRed')
-	style('MiniStatuslineModeVisual', nil, 'DarkMagenta')
-	style('MiniStatuslineModeReplace', nil, 'DarkYellow')
-	style('MiniStatuslineModeOther', nil, 'DarkGray')
+	set_color('MiniStatuslineModeNormal', nil, 'DarkBlue')
+	set_color('MiniStatuslineModeInsert', nil, 'DarkGreen')
+	set_color('MiniStatuslineModeCommand', nil, 'DarkRed')
+	set_color('MiniStatuslineModeVisual', nil, 'DarkMagenta')
+	set_color('MiniStatuslineModeReplace', nil, 'DarkYellow')
+	set_color('MiniStatuslineModeOther', nil, 'DarkGray')
 
 	local mini_statusline = require('mini.statusline')
 	local mode, mode_hl   = mini_statusline.section_mode({})
@@ -59,11 +48,7 @@ local function statusline()
 	})
 end
 
-require('mini.statusline').setup({ content = { active = statusline, inactive = statusline } })
-require('mini.tabline').setup()
-
-now(function() -- status column
-	add({ source = 'lewis6991/gitsigns.nvim' })
+M.gitsigns = function()
 	local git_signs = {
 		add = { text = '┃' },
 		change = { text = '┃' },
@@ -73,9 +58,10 @@ now(function() -- status column
 		untracked = { text = '┆' },
 	}
 	require('gitsigns').setup({ signs = git_signs, signs_staged = git_signs })
-	add({ source = 'luukvbaal/statuscol.nvim' })
-	local builtin = require('statuscol.builtin')
+end
 
+M.statuscol = function()
+	local builtin = require('statuscol.builtin')
 	require('statuscol').setup({
 		bt_ignore = { 'terminal', 'nofile' },
 		relculright = true,
@@ -87,4 +73,8 @@ now(function() -- status column
 			{ sign = { namespace = { 'git.*' }, colwidth = 1, wrap = true, fillchar = '│', fillcharhl = 'NonText' }, click = 'v:lua.ScSa' },
 		},
 	})
-end)
+end
+
+M.rainbow_csv = function() require('rainbow_csv').setup() end
+
+return M

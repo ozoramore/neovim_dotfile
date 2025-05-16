@@ -1,21 +1,25 @@
--- Set up Global options.
-require('options')
-
-vim.filetype.add({
-	extension = {
-		h = 'cpp',
-		def = 'cpp',
-		tbl = 'cpp',
-		inc = 'cpp',
-	},
-})
-
--- Set up each filetype options.
-local function filetype_process(filetype)
-	require('filetypes')[filetype.match]()
+local function lsp_formatter()
+	vim.lsp.buf.format({ async = true })
 end
 
-vim.api.nvim_create_autocmd('FileType', { callback = filetype_process })
+local function native_formatter()
+	local pos = vim.fn.getpos('.')
+	vim.cmd.normal('gg=G')
+	vim.fn.setpos('.', pos)
+end
 
--- Set up external plugin.
-require('plugins')
+local function formatter()
+	local lsp_client = vim.lsp.get_clients({ bufnr = 0 })[1]
+	if (lsp_client and lsp_client:supports_method('textDocument/formatting')) then
+		lsp_formatter()
+	else
+		native_formatter()
+	end
+end
+
+vim.api.nvim_create_user_command('Format', formatter, {})
+
+require('option')
+require('keymap')
+require('filetype')
+require('plugin')

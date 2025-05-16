@@ -1,9 +1,9 @@
+if vim.fn.has('unix') ~= 1 then return {} end
+
 -- Linux Config.
+local M = {}
 
-local add, now = require('mini.deps').add, require('mini.deps').now
-
-now(function()
-	add({ source = 'neovim/nvim-lspconfig' })
+M.lspconfig = function()
 	local lspconfig = require('lspconfig')
 	lspconfig.lua_ls.setup({})
 	lspconfig.solargraph.setup({})
@@ -22,10 +22,9 @@ now(function()
 			end
 		end,
 	})
-end)
+end
 
-now(function()
-	add({ source = 'mfussenegger/nvim-dap' })
+M.nvim_dap = function()
 	local dap = require('dap')
 	dap.adapters.gdb = {
 		id = 'gdb',
@@ -53,4 +52,16 @@ now(function()
 	vim.keymap.set({ 'n', 'v' }, '<Leader>dp', widgets.preview)
 	vim.keymap.set({ 'n' }, '<Leader>df', frames)
 	vim.keymap.set({ 'n' }, '<Leader>ds', scopes)
-end)
+end
+
+M.treesitter = function()
+	require('nvim-treesitter.configs').setup({
+		ensure_installed = { 'c', 'cpp', 'rust', 'bash', 'lua', 'python', 'ruby', 'vue', 'typescript', 'javascript', 'html', 'markdown', 'vimdoc', 'css', 'xml', 'toml', 'yaml', },
+		highlight = { enable = true },
+		incremental_selection = { enable = true },
+		indent = { enable = true },
+		textobjects = { enable = true },
+	})
+end
+
+return M
