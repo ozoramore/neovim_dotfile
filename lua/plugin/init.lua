@@ -1,18 +1,28 @@
-require('plugin.loader').setup()
-
-require('plugin.im').setup()
-require('plugin.mini').setup()
+local M = {}
 
 local load = require('plugin.loader').load
 
-local styles = require('plugin.styles')
-load('folke/styler.nvim', styles.styler)
-load('cameron-wags/rainbow_csv.nvim', styles.rainbow_csv)
-load('lewis6991/gitsigns.nvim', styles.gitsigns)
-load('luukvbaal/statuscol.nvim', styles.statuscol)
+local function styles_setup()
+	local styles = require('plugin.styles')
+	load('folke/styler.nvim', styles.styler)
+	load('cameron-wags/rainbow_csv.nvim', styles.rainbow_csv)
+	load('lewis6991/gitsigns.nvim', styles.gitsigns)
+	load('luukvbaal/statuscol.nvim', styles.statuscol)
+end
 
-local for_linux = require('plugin.for_linux')
+local function unix_setup()
+	local unix = require('plugin.unix')
+	load('neovim/nvim-lspconfig', unix.lspconfig)
+	load('mfussenegger/nvim-dap', unix.nvim_dap)
+	load('nvim-treesitter/nvim-treesitter', unix.treesitter)
+end
 
-load('neovim/nvim-lspconfig', for_linux.lspconfig)
-load('mfussenegger/nvim-dap', for_linux.nvim_dap)
-load('nvim-treesitter/nvim-treesitter', for_linux.treesitter)
+M.setup = function()
+	require('plugin.loader').setup()
+	require('plugin.fep').setup()
+	require('plugin.mini').setup()
+	styles_setup()
+	unix_setup()
+end
+
+return M

@@ -5,11 +5,11 @@ local theme = { active = 'vim++', popup = 'vim++', bg = 'quiet++' }
 local function choice_theme(win)
 	if vim.api.nvim_win_get_config(win).relative ~= '' then
 		return { colorscheme = theme.popup }
-	end
-	if win == vim.api.nvim_get_current_win() then
+	elseif win == vim.api.nvim_get_current_win() then
 		return { colorscheme = theme.active }
+	else
+		return { colorscheme = theme.bg }
 	end
-	return { colorscheme = theme.bg }
 end
 
 local function select_theme()
@@ -75,6 +75,8 @@ M.statuscol = function()
 	})
 end
 
-M.rainbow_csv = function() require('rainbow_csv').setup() end
+M.rainbow_csv = function()
+	require('rainbow_csv').setup()
+end
 
 return M

@@ -1,4 +1,4 @@
-vim.filetype.add({ extension = { h = 'cpp', def = 'cpp', tbl = 'cpp', inc = 'cpp', }, })
+local M = {}
 
 local function set_indent(tab_length, is_expand)
 	return function()
@@ -17,10 +17,16 @@ local indent_table = {
 	markdown = set_indent(4, true),
 }
 
-
 local function filetype_callback(args)
-	local function default_indent() return set_indent(4, false) end
+	local function default_indent()
+		return set_indent(4, false)
+	end
 	setmetatable(indent_table, { __index = default_indent })[args.match]()
 end
 
-vim.api.nvim_create_autocmd('FileType', { callback = filetype_callback })
+M.setup = function()
+	vim.filetype.add({ extension = { h = 'cpp', def = 'cpp', tbl = 'cpp', inc = 'cpp', }, })
+	vim.api.nvim_create_autocmd('FileType', { callback = filetype_callback })
+end
+
+return M
