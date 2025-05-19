@@ -19,7 +19,7 @@ M.options = {
 	},
 	folding = {
 		foldenable = true,
-		foldmethod = 'indent',
+		foldmethod = 'expr',
 		foldcolumn = '1',
 		foldlevel = 99,
 		fillchars = { fold = "─", foldopen = "┬", foldsep = "│", foldclose = "─", },
