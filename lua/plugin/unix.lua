@@ -1,5 +1,3 @@
-if vim.fn.has('unix') ~= 1 then return {} end
-
 -- Linux Config.
 local M = {}
 
