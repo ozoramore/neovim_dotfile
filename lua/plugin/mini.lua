@@ -14,7 +14,6 @@ local M = {
 	}
 }
 
-
 local function snippets_stop()
 	local s = require('mini.snippets').session
 	local function all_stop() while s.get() do s.stop() end end

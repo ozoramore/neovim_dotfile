@@ -1,5 +1,6 @@
 local M = {}
-local if_a_else_b = require('util').if_a_else_b
+
+local fn = require('util').fn
 
 local function wsl_im_conf()
 	if vim.fn.executable('wl-copy') ~= 0 then
@@ -15,22 +16,29 @@ local function wsl_im_conf()
 		}
 	end
 
-	local function zenhan()
-		vim.system({ '/opt/zenhan/zenhan.exe', '0' })
-	end
-
 	vim.api.nvim_create_autocmd('InsertLeave', {
 		group = vim.api.nvim_create_augroup('conf_ime', {}),
-		callback = zenhan
+		callback = fn({ '/opt/zenhan/zenhan.exe', '0' })
 	})
 end
 
-local function native_im_conf()
+local function windows_im_conf()
+	vim.api.nvim_create_autocmd('InsertLeave', {
+		group = vim.api.nvim_create_augroup('conf_ime', {}),
+		callback = fn({ 'C:/FreeSoft/zenhan/zenhan.exe', '0' })
+	})
+end
+
+local function fcitx_conf()
 	require('plugin.loader').load('h-hg/fcitx.nvim', nil)
 end
 
-local is_wsl = vim.fn.has('wsl') == 1
+local fep = {
+	{ env = 'wsl',     func = wsl_im_conf },
+	{ env = 'unix',    func = fcitx_conf },
+	{ env = 'windows', func = windows_im_conf }
+}
 
-M.setup = if_a_else_b(is_wsl, wsl_im_conf, native_im_conf)
+M.setup = require('util').sel_by_env(fep)
 
 return M
