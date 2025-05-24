@@ -22,7 +22,7 @@ M.options = {
 		foldmethod = 'expr',
 		foldcolumn = '1',
 		foldlevel = 99,
-		fillchars = { fold = '─', foldopen = '┬', foldsep = '│', foldclose = '─', },
+		fillchars = { fold = ' ', foldopen = '┯', foldsep = '│', foldclose = '━', },
 	},
 	style = {
 		ambiwidth = 'single',
