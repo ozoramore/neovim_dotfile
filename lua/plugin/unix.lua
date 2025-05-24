@@ -2,14 +2,16 @@
 local M = {}
 
 M.lspconfig = function()
-	local lspconfig = require('lspconfig')
-	lspconfig.lua_ls.setup({})
-	lspconfig.solargraph.setup({})
-	lspconfig.bashls.setup({})
-	lspconfig.lemminx.setup({})
-	lspconfig.clangd.setup({ cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } })
-	lspconfig.rust_analyzer.setup({ cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' } })
-	lspconfig.ts_ls.setup({ filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' } })
+	local clangd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' }
+	local rust_analyzer = { 'rustup', 'run', 'stable', 'rust-analyzer' }
+
+	require('lspconfig').lua_ls.setup({})
+	require('lspconfig').solargraph.setup({})
+	require('lspconfig').bashls.setup({})
+	require('lspconfig').lemminx.setup({})
+	require('lspconfig').clangd.setup({ cmd = clangd })
+	require('lspconfig').rust_analyzer.setup({ cmd = rust_analyzer })
+	require('lspconfig').ts_ls.setup({})
 
 	vim.api.nvim_create_autocmd('LspAttach', {
 		group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -54,7 +56,11 @@ end
 
 M.treesitter = function()
 	require('nvim-treesitter.configs').setup({
-		ensure_installed = { 'c', 'cpp', 'rust', 'bash', 'lua', 'python', 'ruby', 'vue', 'typescript', 'javascript', 'html', 'markdown', 'vimdoc', 'css', 'xml', 'toml', 'yaml', },
+		ensure_installed = {
+			'c', 'cpp', 'rust', 'bash', 'lua', 'python',
+			'ruby', 'vue', 'typescript', 'javascript', 'html', 'markdown',
+			'vimdoc', 'css', 'xml', 'toml', 'yaml',
+		},
 		highlight = { enable = true },
 		incremental_selection = { enable = true },
 		indent = { enable = true },

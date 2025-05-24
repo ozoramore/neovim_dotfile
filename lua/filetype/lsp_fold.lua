@@ -45,8 +45,8 @@ end
 
 local function configure_fold_options()
 	set_opval('foldmethod', 'expr')
-	set_opval('foldexpr', 'v:lua.require("lsp_fold").foldexpr(v:lnum)')
-	set_opval('foldtext', 'v:lua.require("lsp_fold").foldtext(v:foldstart, v:foldend, v:folddashes)')
+	set_opval('foldexpr', 'v:lua.require(\'lsp_fold\').foldexpr(v:lnum)')
+	set_opval('foldtext', 'v:lua.require(\'lsp_fold\').foldtext(v:foldstart, v:foldend, v:folddashes)')
 end
 
 local function update_fold(bufnr, top, bottom)

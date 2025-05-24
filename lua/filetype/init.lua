@@ -27,8 +27,8 @@ local function filetype_callback(args)
 	local function get_parser()
 		local client = vim.lsp.get_client_by_id(1)
 		if client and client:supports_method('textDocument/completion') then
-			vim.opt.foldtext = 'v:lua.require("filetype.lsp_fold").foldtext(v:foldstart, v:foldend, v:folddashes)'
-			vim.opt.foldexpr = 'v:lua.require("filetype.lsp_fold").foldexpr(v:lnum)'
+			vim.opt.foldtext = 'v:lua.require(\'filetype.lsp_fold\').foldtext(v:foldstart, v:foldend, v:folddashes)'
+			vim.opt.foldexpr = 'v:lua.require(\'filetype.lsp_fold\').foldexpr(v:lnum)'
 		elseif require('nvim-treesitter.parsers').has_parser(args.match) then
 			vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 		else

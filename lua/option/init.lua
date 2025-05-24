@@ -22,7 +22,7 @@ M.options = {
 		foldmethod = 'expr',
 		foldcolumn = '1',
 		foldlevel = 99,
-		fillchars = { fold = "─", foldopen = "┬", foldsep = "│", foldclose = "─", },
+		fillchars = { fold = '─', foldopen = '┬', foldsep = '│', foldclose = '─', },
 	},
 	style = {
 		ambiwidth = 'single',
@@ -37,7 +37,7 @@ M.options = {
 }
 
 local function setopts(dict)
-	for k,v in pairs(dict) do
+	for k, v in pairs(dict) do
 		vim.opt[k] = v
 	end
 end

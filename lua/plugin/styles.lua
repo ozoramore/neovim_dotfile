@@ -35,14 +35,13 @@ M.statusline = function()
 	set_color('MiniStatuslineModeReplace', nil, 'DarkYellow')
 	set_color('MiniStatuslineModeOther', nil, 'DarkGray')
 
-	local mini_statusline = require('mini.statusline')
-	local mode, mode_hl   = mini_statusline.section_mode({})
-	local filename        = mini_statusline.section_filename({})
-	local separator       = '%='
-	local fileinfo        = mini_statusline.section_fileinfo({})
-	local location        = '%4l:%3c'
+	local mode, mode_hl = require('mini.statusline').section_mode({})
+	local filename      = require('mini.statusline').section_filename({})
+	local separator     = '%='
+	local fileinfo      = require('mini.statusline').section_fileinfo({})
+	local location      = '%4l:%3c'
 
-	return mini_statusline.combine_groups({
+	return require('mini.statusline').combine_groups({
 		{ hl = mode_hl,      strings = { mode:upper() } },
 		{ hl = 'StatusLine', strings = { filename, separator, fileinfo, location } },
 	})
@@ -61,17 +60,21 @@ M.gitsigns = function()
 end
 
 M.statuscol = function()
-	local builtin = require('statuscol.builtin')
+	local function signs(ns, add_sign)
+		local sign = { namespace = { ns }, maxwidth = 1, colwidth = 1, auto = false }
+		for k, v in pairs(add_sign) do sign[k] = v end
+		return { sign = sign, click = 'v:lua.ScSa' }
+	end
 	require('statuscol').setup({
 		bt_ignore = { 'terminal', 'nofile' },
 		relculright = true,
 		segments = {
-			{ text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
-			{ sign = { namespace = { 'diagnostic' }, maxwidth = 1, colwidth = 1, auto = false }, click = 'v:lua.ScSa' },
-			{ sign = { name = { 'Dap*' }, maxwidth = 1, colwidth = 1, auto = false }, click = 'v:lua.ScSa' },
-			{ text = { builtin.lnumfunc }, click = 'v:lua.ScLa' },
-			{ sign = { namespace = { 'git.*' }, colwidth = 1, wrap = true, fillchar = '│', fillcharhl = 'NonText' }, click = 'v:lua.ScSa' },
-		},
+			{ text = { require('statuscol.builtin').foldfunc }, click = 'v:lua.ScFa' },
+			signs('diagnostic', {}),
+			signs('Dap*', {}),
+			{ text = { require('statuscol.builtin').lnumfunc }, click = 'v:lua.ScLa' },
+			signs('git.*', { wrap = true, fillchar = '│', fillcharhl = 'NonText' }),
+		}
 	})
 end
 
