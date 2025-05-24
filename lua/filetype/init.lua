@@ -18,28 +18,24 @@ local indent_table = {
 }
 
 local function filetype_callback(args)
-	local function default_indent()
-		return set_indent(4, false)
-	end
+	local function default_indent() return set_indent(4, false) end
 	setmetatable(indent_table, { __index = default_indent })[args.match]()
 
 	--folding
-	local function get_parser()
-		local client = vim.lsp.get_client_by_id(1)
-		if client and client:supports_method('textDocument/completion') then
-			vim.opt.foldtext = 'v:lua.require(\'filetype.lsp_fold\').foldtext(v:foldstart, v:foldend, v:folddashes)'
-			vim.opt.foldexpr = 'v:lua.require(\'filetype.lsp_fold\').foldexpr(v:lnum)'
-		elseif require('nvim-treesitter.parsers').has_parser(args.match) then
-			vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-		else
-			vim.opt.foldexpr = nil
-		end
+	local client = vim.lsp.get_client_by_id(1)
+	if client and client:supports_method('textDocument/completion') then
+		local lsp_fold = 'v:lua.require(\'filetype.lsp_fold\')'
+		vim.opt.foldtext = lsp_fold .. 'foldtext(v:foldstart, v:foldend, v:folddashes)'
+		vim.opt.foldexpr = lsp_fold .. 'foldexpr(v:lnum)'
+	elseif require('nvim-treesitter.parsers').has_parser(args.match) then
+		vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+	else
+		vim.opt.foldexpr = nil
 	end
-	get_parser()
 end
 
 M.setup = function()
-	vim.filetype.add({ extension = { h = 'cpp', def = 'cpp', tbl = 'cpp', inc = 'cpp', }, })
+	vim.filetype.add({ extension = { h = 'cpp', def = 'cpp', tbl = 'cpp', inc = 'cpp', } })
 	vim.api.nvim_create_autocmd('FileType', { callback = filetype_callback })
 end
 

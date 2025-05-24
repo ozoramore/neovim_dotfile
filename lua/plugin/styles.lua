@@ -69,10 +69,10 @@ M.statuscol = function()
 		bt_ignore = { 'terminal', 'nofile' },
 		relculright = true,
 		segments = {
-			{ text = { require('statuscol.builtin').foldfunc }, click = 'v:lua.ScFa' },
 			signs('diagnostic', {}),
 			signs('Dap*', {}),
 			{ text = { require('statuscol.builtin').lnumfunc }, click = 'v:lua.ScLa' },
+			{ text = { require('statuscol.builtin').foldfunc }, click = 'v:lua.ScFa' },
 			signs('git.*', { wrap = true, fillchar = '│', fillcharhl = 'NonText' }),
 		}
 	})

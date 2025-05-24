@@ -47,6 +47,7 @@ M.setup = function()
 	setopts(M.options.encoding)
 	setopts(M.options.folding)
 	setopts(M.options.style)
+	vim.cmd.language('en_US.utf-8') -- TODO: 消したい
 end
 
 return M
