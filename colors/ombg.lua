@@ -1,0 +1,263 @@
+vim.cmd.hi('clear')
+vim.g.colors_name = 'ombg'
+local colors = {
+	black     = '#101010',
+	red       = '#808080',
+	green     = '#707070',
+	yellow    = '#b0b0b0',
+	blue      = '#505050',
+	magenta   = '#a0a0a0',
+	cyan      = '#b0b0b0',
+	white     = '#d0d0d0',
+	b_black   = '#555555',
+	b_red     = '#999999',
+	b_green   = '#aaaaaa',
+	b_yellow  = '#cccccc',
+	b_blue    = '#666666',
+	b_magenta = '#bbbbbb',
+	b_cyan    = '#eeeeee',
+	b_white   = '#ffffff',
+
+	separator = '#eecc77',
+}
+
+local hi = function(name, fg, bg, val)
+	val.force = true
+	val.cterm = val.cterm or {}
+	val.fg = fg
+	val.bg = bg
+	vim.api.nvim_set_hl(0, name, val)
+end
+
+local function link(name, target)
+	vim.api.nvim_set_hl(0, name, { link = target, force = true })
+end
+
+-- General
+hi('Normal', nil, nil, {})
+
+hi('Conceal', colors.white, colors.b_black, {})
+hi('Cursor', nil, nil, {})
+hi('lCursor', nil, nil, {})
+hi('DiffText', nil, colors.b_red, { bold = true })
+hi('ErrorMsg', colors.b_white, colors.red, {})
+hi('IncSearch', nil, nil, { reverse = true })
+hi('ModeMsg', nil, nil, { bold = true })
+hi('NonText', colors.b_black, nil, {})
+hi('PmenuSbar', nil, colors.b_black, {})
+hi('StatusLine', nil, nil, { bold = true })
+hi('StatusLineNC', nil, nil, {})
+hi('TabLineFill', nil, nil, {})
+hi('TabLineSel', nil, nil, { bold = true })
+hi('TermCursor', nil, nil, { reverse = true })
+hi('WinBar', nil, nil, { bold = true })
+hi('WildMenu', colors.black, colors.b_yellow, {})
+
+hi('VertSplit', colors.separator, nil, {})
+link('WinSeparator', 'VertSplit')
+link('WinBarNC', 'WinBar')
+link('EndOfBuffer', 'NonText')
+link('LineNrAbove', 'LineNr')
+link('LineNrBelow', 'LineNr')
+link('QuickFixLine', 'Search')
+link('CursorLineSign', 'SignColumn')
+link('CursorLineFold', 'FoldColumn')
+link('CurSearch', 'Search')
+link('PmenuKind', 'Pmenu')
+link('PmenuKindSel', 'PmenuSel')
+link('PmenuExtra', 'Pmenu')
+link('PmenuExtraSel', 'PmenuSel')
+link('Substitute', 'Search')
+link('Whitespace', 'NonText')
+link('MsgSeparator', 'StatusLine')
+link('NormalFloat', 'Pmenu')
+link('FloatBorder', 'WinSeparator')
+link('FloatTitle', 'Title')
+link('FloatFooter', 'Title')
+
+hi('FloatShadow', nil, nil, { blend = 80 })
+hi('FloatShadowThrough', nil, nil, { blend = 100 })
+hi('RedrawDebugNormal', nil, nil, { reverse = true })
+hi('RedrawDebugClear', nil, colors.b_yellow, {})
+hi('RedrawDebugComposed', nil, colors.green, {})
+hi('RedrawDebugRecompose', nil, colors.red, {})
+hi('Error', colors.b_white, colors.red, {})
+hi('Todo', colors.black, colors.b_yellow, {})
+
+link('String', 'Constant')
+link('Character', 'Constant')
+link('Number', 'Constant')
+link('Boolean', 'Constant')
+link('Float', 'Number')
+link('Conditional', 'Statement')
+link('Repeat', 'Statement')
+link('Label', 'Statement')
+link('Keyword', 'Statement')
+link('Exception', 'Statement')
+link('Include', 'PreProc')
+link('Define', 'PreProc')
+link('Macro', 'PreProc')
+link('PreCondit', 'PreProc')
+link('StorageClass', 'Type')
+link('Structure', 'Type')
+link('Typedef', 'Type')
+link('Tag', 'Special')
+link('Delimiter', 'Special')
+link('Debug', 'Special')
+
+hi('DiagnosticError', colors.red, nil, { bold = true })
+hi('DiagnosticWarn', colors.yellow, nil, { bold = true })
+hi('DiagnosticInfo', colors.blue, nil, { bold = true })
+hi('DiagnosticHint', colors.white, nil, { bold = true })
+hi('DiagnosticOk', colors.green, nil, { bold = true })
+hi('DiagnosticUnderlineError', nil, nil, { sp = colors.b_red, underline = true })
+hi('DiagnosticUnderlineWarn', nil, nil, { sp = colors.yellow, underline = true })
+hi('DiagnosticUnderlineInfo', nil, nil, { sp = colors.b_blue, underline = true })
+hi('DiagnosticUnderlineHint', nil, nil, { sp = colors.white, underline = true })
+hi('DiagnosticUnderlineOk', nil, nil, { sp = colors.b_green, underline = true })
+link('DiagnosticVirtualTextError', 'DiagnosticError')
+link('DiagnosticVirtualTextWarn', 'DiagnosticWarn')
+link('DiagnosticVirtualTextInfo', 'DiagnosticInfo')
+link('DiagnosticVirtualTextHint', 'DiagnosticHint')
+link('DiagnosticVirtualTextOk', 'DiagnosticOk')
+link('DiagnosticFloatingError', 'DiagnosticError')
+link('DiagnosticFloatingWarn', 'DiagnosticWarn')
+link('DiagnosticFloatingInfo', 'DiagnosticInfo')
+link('DiagnosticFloatingHint', 'DiagnosticHint')
+link('DiagnosticFloatingOk', 'DiagnosticOk')
+link('DiagnosticSignError', 'DiagnosticError')
+link('DiagnosticSignWarn', 'DiagnosticWarn')
+link('DiagnosticSignInfo', 'DiagnosticInfo')
+link('DiagnosticSignHint', 'DiagnosticHint')
+link('DiagnosticSignOk', 'DiagnosticOk')
+hi('DiagnosticDeprecated', nil, nil, { sp = colors.b_red, strikethrough = true })
+
+link('DiagnosticUnnecessary', 'Comment')
+link('LspInlayHint', 'NonText')
+link('SnippetTabstop', 'Visual')
+
+-- Text
+link('@markup.raw', 'Comment')
+link('@markup.link', 'Identifier')
+link('@markup.heading', 'Title')
+link('@markup.link.url', 'Underlined')
+link('@markup.underline', 'Underlined')
+link('@comment.todo', 'Todo')
+
+-- Miscs
+link('@comment', 'Comment')
+link('@punctuation', 'Delimiter')
+
+-- Constants
+link('@constant', 'Constant')
+link('@constant.builtin', 'SpecialChar')
+link('@constant.macro', 'Define')
+link('@keyword.directive', 'Define')
+link('@string', 'String')
+link('@string.escape', 'SpecialChar')
+link('@string.special', 'SpecialChar')
+link('@character', 'Character')
+link('@character.special', 'SpecialChar')
+link('@number', 'Number')
+link('@boolean', 'Boolean')
+link('@number.float', 'Float')
+
+-- Functions
+link('@function', 'Function')
+link('@function.builtin', 'Special')
+link('@function.macro', 'Macro')
+link('@function.method', 'Function')
+link('@variable.parameter', 'Identifier')
+link('@variable.parameter.builtin', 'Special')
+link('@variable.member', 'Identifier')
+link('@property', 'Identifier')
+link('@attribute', 'Macro')
+link('@attribute.builtin', 'Special')
+link('@constructor', 'Special')
+
+-- Keywords
+link('@keyword.conditional', 'Conditional')
+link('@keyword.repeat', 'Repeat')
+link('@keyword.type', 'Structure')
+link('@label', 'Label')
+link('@operator', 'Operator')
+link('@keyword', 'Keyword')
+link('@keyword.exception', 'Exception')
+
+link('@variable', 'Identifier')
+link('@type', 'Type')
+link('@type.definition', 'Typedef')
+link('@module', 'Identifier')
+link('@keyword.import', 'Include')
+link('@keyword.directive', 'PreProc')
+link('@keyword.debug', 'Debug')
+link('@tag', 'Tag')
+link('@tag.builtin', 'Special')
+
+-- LSP semantic tokens
+link('@lsp.type.class', 'Structure')
+link('@lsp.type.comment', 'Comment')
+link('@lsp.type.decorator', 'Function')
+link('@lsp.type.enum', 'Structure')
+link('@lsp.type.enumMember', 'Constant')
+link('@lsp.type.function', 'Function')
+link('@lsp.type.interface', 'Structure')
+link('@lsp.type.macro', 'Macro')
+link('@lsp.type.method', 'Function')
+link('@lsp.type.namespace', 'Structure')
+link('@lsp.type.parameter', 'Identifier')
+link('@lsp.type.property', 'Identifier')
+link('@lsp.type.struct', 'Structure')
+link('@lsp.type.type', 'Type')
+link('@lsp.type.typeParameter', 'TypeDef')
+link('@lsp.type.variable', 'Identifier')
+
+-- Default colors only used with a dark background.
+hi('ColorColumn', nil, colors.red, {})
+hi('CursorColumn', nil, colors.b_black, {})
+hi('CursorLine', nil, nil, {})
+hi('CursorLineNr', colors.b_yellow, nil, { reverse = true })
+hi('DiffAdd', colors.b_green, colors.black, {})
+hi('DiffChange', nil, colors.magenta, {})
+hi('DiffDelete', colors.red, colors.black, {})
+hi('Directory', colors.b_cyan, nil, {})
+hi('FoldColumn', colors.b_cyan, nil, {})
+hi('Folded', colors.b_cyan, nil, { undercurl = true })
+hi('LineNr', colors.b_yellow, nil, { bold = false })
+hi('MatchParen', nil, colors.cyan, {})
+hi('MoreMsg', colors.b_green, nil, { bold = true })
+hi('Pmenu', colors.b_white, colors.black, {})
+hi('PmenuSel', colors.b_white, colors.blue, {})
+hi('PmenuThumb', nil, colors.b_white, {})
+hi('Question', colors.b_green, nil, { italic = true })
+hi('Search', colors.black, colors.b_yellow, {})
+hi('SignColumn', colors.b_cyan, nil, { bold = true })
+hi('SpecialKey', colors.b_blue, nil, {})
+hi('SpellBad', nil, colors.b_red, { sp = colors.b_red, undercurl = true })
+hi('SpellCap', nil, colors.b_blue, { sp = colors.b_blue, undercurl = true })
+hi('SpellLocal', nil, colors.b_cyan, { sp = colors.b_cyan, undercurl = true })
+hi('SpellRare', nil, colors.b_magenta, { sp = colors.b_magenta, undercurl = true })
+hi('TabLine', colors.b_white, colors.b_black, { underline = true })
+hi('Title', colors.b_magenta, nil, { bold = true })
+hi('Visual', colors.black, colors.white, {})
+hi('WarningMsg', colors.red, nil, {})
+hi('Comment', colors.cyan, nil, { italic = true })
+hi('Constant', colors.b_green, nil, {})
+hi('Special', colors.white, nil, {})
+hi('SpecialChar', colors.yellow, nil, { italic = true })
+hi('Function', colors.b_blue, nil, { bold = true })
+hi('BuiltinFunc', colors.b_blue, nil, { italic = true, bold = true })
+hi('Identifier', colors.b_cyan, nil, {})
+hi('Statement', colors.b_yellow, nil, { bold = false })
+hi('Operator', colors.yellow, nil, { bold = false })
+hi('PreProc', colors.white, nil, { bold = true })
+hi('Type', colors.magenta, nil, { bold = true })
+hi('Underlined', colors.b_blue, nil, { underline = true })
+hi('Ignore', colors.black, nil, {})
+
+hi('MiniStatuslineModeNormal', nil, colors.blue, {})
+hi('MiniStatuslineModeInsert', nil, colors.green, {})
+hi('MiniStatuslineModeCommand', nil, colors.red, {})
+hi('MiniStatuslineModeVisual', nil, colors.magenta, {})
+hi('MiniStatuslineModeReplace', nil, colors.yellow, {})
+hi('MiniStatuslineModeOther', nil, colors.b_black, {})

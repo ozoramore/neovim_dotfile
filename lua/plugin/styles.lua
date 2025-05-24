@@ -1,6 +1,6 @@
 local M = {}
 
-local theme = { active = 'vim++', popup = 'vim++', bg = 'quiet++' }
+local theme = { active = 'omfg', popup = 'omfg', bg = 'ombg' }
 
 local function choice_theme(win)
 	if vim.api.nvim_win_get_config(win).relative ~= '' then
@@ -24,17 +24,6 @@ M.styler = function()
 end
 
 M.statusline = function()
-	local function set_color(hl_name, fgcolor, bgcolor)
-		local hl_color = { fg = fgcolor, bg = bgcolor, ctermbg = bgcolor, bold = true, force = true }
-		vim.api.nvim_set_hl(0, hl_name, hl_color)
-	end
-	set_color('MiniStatuslineModeNormal', nil, 'DarkBlue')
-	set_color('MiniStatuslineModeInsert', nil, 'DarkGreen')
-	set_color('MiniStatuslineModeCommand', nil, 'DarkRed')
-	set_color('MiniStatuslineModeVisual', nil, 'DarkMagenta')
-	set_color('MiniStatuslineModeReplace', nil, 'DarkYellow')
-	set_color('MiniStatuslineModeOther', nil, 'DarkGray')
-
 	local mode, mode_hl = require('mini.statusline').section_mode({})
 	local filename      = require('mini.statusline').section_filename({})
 	local separator     = '%='
