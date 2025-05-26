@@ -22,7 +22,6 @@ M.options = {
 		foldmethod = 'expr',
 		foldcolumn = '1',
 		foldlevel = 99,
-		fillchars = { fold = ' ', foldopen = '┯', foldsep = '│', foldclose = '━', },
 	},
 	style = {
 		ambiwidth = 'single',
@@ -32,6 +31,7 @@ M.options = {
 		laststatus = 3,
 		bg = 'dark',
 		list = true,
+		fillchars = { fold = ' ', foldopen = '┌', foldsep = '│', foldclose = '─' },
 		listchars = { tab = '>-', trail = '_', extends = '>', precedes = '<', nbsp = '%' },
 	}
 }
