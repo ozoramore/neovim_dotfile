@@ -3,7 +3,7 @@ vim.g.colors_name = 'omfg'
 local colors = {
 	black     = '#17181a',
 	red       = '#d95136',
-	green     = '#5f7d72',
+	green     = '#51966c',
 	yellow    = '#d9a336',
 	blue      = '#366cd9',
 	magenta   = '#9589d9',
@@ -18,6 +18,8 @@ local colors = {
 	b_cyan    = '#80eaff',
 	b_white   = '#ffffff',
 
+	tools     = '#b5a182',
+	comment   = '#a4bfb6',
 	separator = '#eecc77',
 }
 
@@ -223,13 +225,13 @@ hi('ColorColumn', nil, colors.red)
 hi('CursorColumn', nil, colors.b_black)
 hi('CursorLine', nil, nil)
 link('CursorLineNr', 'LineNr')
-hi('DiffAdd', colors.b_green, colors.black)
+hi('DiffAdd', colors.green, colors.black)
 hi('DiffChange', nil, colors.magenta)
 hi('DiffDelete', colors.red, colors.black)
 hi('Directory', colors.b_cyan, nil)
-hi('FoldColumn', colors.white, nil)
-hi('Folded', colors.white, nil, { underline = true })
-hi('LineNr', colors.b_yellow, nil, { bold = false })
+hi('FoldColumn', colors.tools, nil)
+hi('Folded', colors.tools, nil, { underline = true })
+hi('LineNr', colors.tools, nil)
 hi('MatchParen', nil, nil, { underline = true })
 hi('MoreMsg', colors.b_green, nil, { bold = true })
 hi('Pmenu', colors.b_white, colors.black)
@@ -246,7 +248,7 @@ hi('SpellRare', nil, colors.b_magenta, { sp = colors.b_magenta, undercurl = true
 hi('Title', colors.b_magenta, nil, { bold = true })
 hi('Visual', colors.yellow, nil, { reverse = true })
 hi('WarningMsg', colors.red, nil)
-hi('Comment', colors.green, nil, { italic = true })
+hi('Comment', colors.comment, nil, { italic = true })
 hi('Constant', colors.b_green, nil)
 hi('Special', colors.white, nil)
 hi('SpecialChar', colors.yellow, nil, { italic = true })
