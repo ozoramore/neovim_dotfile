@@ -2,26 +2,27 @@ vim.cmd.hi('clear')
 vim.g.colors_name = 'omfg'
 local colors = {
 	black     = '#17181a',
-	red       = '#ee6666',
-	green     = '#55aa44',
-	yellow    = '#f0ab5b',
-	blue      = '#327cc7',
-	magenta   = '#cc77dd',
-	cyan      = '#55bbbb',
+	red       = '#d95136',
+	green     = '#5f7d72',
+	yellow    = '#d9a336',
+	blue      = '#366cd9',
+	magenta   = '#9589d9',
+	cyan      = '#36bed9',
 	white     = '#dcdfe4',
 	b_black   = '#5c5c6e',
-	b_red     = '#e06c75',
-	b_green   = '#98ef79',
-	b_yellow  = '#eecc77',
-	b_blue    = '#77aaff',
-	b_magenta = '#dd88dd',
-	b_cyan    = '#33eeee',
+	b_red     = '#ff9580',
+	b_green   = '#84cf98',
+	b_yellow  = '#ffd480',
+	b_blue    = '#80aaff',
+	b_magenta = '#d273e6',
+	b_cyan    = '#80eaff',
 	b_white   = '#ffffff',
 
 	separator = '#eecc77',
 }
 
 local hi = function(name, fg, bg, val)
+	val = val or {}
 	val.force = true
 	val.cterm = val.cterm or {}
 	val.fg = fg
@@ -29,32 +30,35 @@ local hi = function(name, fg, bg, val)
 	vim.api.nvim_set_hl(0, name, val)
 end
 
-local function link(name, target)
-	vim.api.nvim_set_hl(0, name, { link = target, force = true })
+local function link(name, target, val)
+	val = val or {}
+	val.force = true
+	val.link = target
+	vim.api.nvim_set_hl(0, name, val)
 end
 
 -- General
-hi('Normal', nil, nil, {})
+hi('Normal', nil, nil)
 
-hi('Conceal', colors.white, colors.b_black, {})
-hi('Cursor', nil, nil, {})
-hi('lCursor', nil, nil, {})
+hi('Conceal', colors.white, colors.b_black)
+hi('Cursor', nil, nil)
+hi('lCursor', nil, nil)
 hi('DiffText', nil, colors.b_red, { bold = true })
-hi('ErrorMsg', colors.b_white, colors.red, {})
+hi('ErrorMsg', colors.b_white, colors.red)
 hi('IncSearch', nil, nil, { reverse = true })
 hi('ModeMsg', nil, nil, { bold = true })
-hi('NonText', colors.b_black, nil, {})
-hi('PmenuSbar', nil, colors.b_black, {})
-hi('StatusLine', nil, colors.black, {})
-hi('StatusLineNC', nil, nil, {})
-hi('TabLine', colors.b_black, nil, {})
-hi('TabLineFill', nil, nil, {})
+hi('NonText', colors.b_black, nil)
+hi('PmenuSbar', nil, colors.b_black)
+hi('StatusLine', nil, colors.black)
+hi('StatusLineNC', nil, nil)
+hi('TabLine', colors.b_black, nil)
+hi('TabLineFill', nil, nil)
 hi('TabLineSel', colors.b_white, nil, { underline = true })
 hi('TermCursor', nil, nil, { reverse = true })
 hi('WinBar', nil, nil, { bold = true })
-hi('WildMenu', colors.black, colors.b_yellow, {})
+hi('WildMenu', colors.black, colors.b_yellow)
 
-hi('VertSplit', colors.separator, nil, {})
+hi('VertSplit', colors.separator, nil)
 link('WinSeparator', 'VertSplit')
 link('WinBarNC', 'WinBar')
 link('EndOfBuffer', 'NonText')
@@ -79,11 +83,11 @@ link('FloatFooter', 'Title')
 hi('FloatShadow', nil, nil, { blend = 80 })
 hi('FloatShadowThrough', nil, nil, { blend = 100 })
 hi('RedrawDebugNormal', nil, nil, { reverse = true })
-hi('RedrawDebugClear', nil, colors.b_yellow, {})
-hi('RedrawDebugComposed', nil, colors.green, {})
-hi('RedrawDebugRecompose', nil, colors.red, {})
-hi('Error', colors.b_white, colors.red, {})
-hi('Todo', colors.black, colors.b_yellow, {})
+hi('RedrawDebugClear', nil, colors.b_yellow)
+hi('RedrawDebugComposed', nil, colors.green)
+hi('RedrawDebugRecompose', nil, colors.red)
+hi('Error', colors.b_white, colors.red)
+hi('Todo', colors.black, colors.b_yellow)
 
 link('String', 'Constant')
 link('Character', 'Constant')
@@ -165,7 +169,7 @@ link('@number.float', 'Float')
 
 -- Functions
 link('@function', 'Function')
-link('@function.builtin', 'Special')
+link('@function.builtin', 'BuiltinFunc', { italic = true })
 link('@function.macro', 'Macro')
 link('@function.method', 'Function')
 link('@variable.parameter', 'Identifier')
@@ -173,7 +177,7 @@ link('@variable.parameter.builtin', 'Special')
 link('@variable.member', 'Identifier')
 link('@property', 'Identifier')
 link('@attribute', 'Macro')
-link('@attribute.builtin', 'Special')
+link('@attribute.builtin', 'Macro', { italic = true })
 link('@constructor', 'Special')
 
 -- Keywords
@@ -187,13 +191,14 @@ link('@keyword.exception', 'Exception')
 
 link('@variable', 'Identifier')
 link('@type', 'Type')
+link('@type.builtin', 'BuiltinType')
 link('@type.definition', 'Typedef')
 link('@module', 'Identifier')
 link('@keyword.import', 'Include')
 link('@keyword.directive', 'PreProc')
 link('@keyword.debug', 'Debug')
 link('@tag', 'Tag')
-link('@tag.builtin', 'Special')
+link('@tag.builtin', 'Tag', { italic = true })
 
 -- LSP semantic tokens
 link('@lsp.type.class', 'Structure')
@@ -214,50 +219,51 @@ link('@lsp.type.typeParameter', 'TypeDef')
 link('@lsp.type.variable', 'Identifier')
 
 -- Default colors
-hi('ColorColumn', nil, colors.red, {})
-hi('CursorColumn', nil, colors.b_black, {})
-hi('CursorLine', nil, nil, {})
-hi('CursorLineNr', colors.b_yellow, nil, { reverse = true })
-hi('DiffAdd', colors.b_green, colors.black, {})
-hi('DiffChange', nil, colors.magenta, {})
-hi('DiffDelete', colors.red, colors.black, {})
-hi('Directory', colors.b_cyan, nil, {})
-hi('FoldColumn', colors.white, nil, {})
+hi('ColorColumn', nil, colors.red)
+hi('CursorColumn', nil, colors.b_black)
+hi('CursorLine', nil, nil)
+link('CursorLineNr', 'LineNr')
+hi('DiffAdd', colors.b_green, colors.black)
+hi('DiffChange', nil, colors.magenta)
+hi('DiffDelete', colors.red, colors.black)
+hi('Directory', colors.b_cyan, nil)
+hi('FoldColumn', colors.white, nil)
 hi('Folded', colors.white, nil, { underline = true })
 hi('LineNr', colors.b_yellow, nil, { bold = false })
 hi('MatchParen', nil, nil, { underline = true })
 hi('MoreMsg', colors.b_green, nil, { bold = true })
-hi('Pmenu', colors.b_white, colors.black, {})
-hi('PmenuSel', colors.b_white, colors.blue, {})
-hi('PmenuThumb', nil, colors.b_white, {})
+hi('Pmenu', colors.b_white, colors.black)
+hi('PmenuSel', colors.b_white, colors.blue)
+hi('PmenuThumb', nil, colors.b_white)
 hi('Question', colors.b_green, nil, { italic = true })
-hi('Search', colors.black, colors.b_yellow, {})
+hi('Search', colors.b_yellow, colors.black, { reverse = true })
 hi('SignColumn', colors.b_cyan, nil, { bold = true })
-hi('SpecialKey', colors.b_blue, nil, {})
+hi('SpecialKey', colors.b_blue, nil)
 hi('SpellBad', nil, colors.b_red, { sp = colors.b_red, undercurl = true })
 hi('SpellCap', nil, colors.b_blue, { sp = colors.b_blue, undercurl = true })
 hi('SpellLocal', nil, colors.b_cyan, { sp = colors.b_cyan, undercurl = true })
 hi('SpellRare', nil, colors.b_magenta, { sp = colors.b_magenta, undercurl = true })
 hi('Title', colors.b_magenta, nil, { bold = true })
 hi('Visual', colors.yellow, nil, { reverse = true })
-hi('WarningMsg', colors.red, nil, {})
-hi('Comment', colors.cyan, nil, { italic = true })
-hi('Constant', colors.b_green, nil, {})
-hi('Special', colors.white, nil, {})
+hi('WarningMsg', colors.red, nil)
+hi('Comment', colors.green, nil, { italic = true })
+hi('Constant', colors.b_green, nil)
+hi('Special', colors.white, nil)
 hi('SpecialChar', colors.yellow, nil, { italic = true })
-hi('Function', colors.b_blue, nil, { bold = true })
-hi('BuiltinFunc', colors.b_blue, nil, { italic = true, bold = true })
-hi('Identifier', colors.b_cyan, nil, {})
-hi('Statement', colors.b_yellow, nil, { bold = false })
-hi('Operator', colors.yellow, nil, { bold = false })
-hi('PreProc', colors.white, nil, { bold = true })
-hi('Type', colors.magenta, nil, { bold = true })
-hi('Underlined', colors.b_blue, nil, { underline = true })
-hi('Ignore', colors.black, nil, {})
+hi('Function', colors.b_blue, nil)
+hi('BuiltinFunc', colors.b_blue, nil, { italic = true })
+hi('Identifier', colors.b_cyan, nil)
+hi('Statement', colors.b_yellow, nil)
+hi('Operator', colors.yellow, nil)
+hi('PreProc', colors.magenta, nil)
+hi('Type', colors.cyan, nil)
+hi('BuiltinType', colors.cyan, nil, { italic = true })
+hi('Underlined', nil, nil, { underline = true })
+hi('Ignore', colors.black, nil)
 
-hi('MiniStatuslineModeNormal', nil, colors.blue, {})
-hi('MiniStatuslineModeInsert', nil, colors.green, {})
-hi('MiniStatuslineModeCommand', nil, colors.red, {})
-hi('MiniStatuslineModeVisual', nil, colors.magenta, {})
-hi('MiniStatuslineModeReplace', nil, colors.yellow, {})
-hi('MiniStatuslineModeOther', nil, colors.b_black, {})
+hi('MiniStatuslineModeNormal', colors.black, colors.b_blue)
+hi('MiniStatuslineModeInsert', colors.black, colors.b_green)
+hi('MiniStatuslineModeCommand', colors.black, colors.b_red)
+hi('MiniStatuslineModeVisual', colors.black, colors.magenta)
+hi('MiniStatuslineModeReplace', colors.black, colors.yellow)
+hi('MiniStatuslineModeOther', nil, colors.b_black)
