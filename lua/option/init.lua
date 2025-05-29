@@ -20,7 +20,7 @@ M.options = {
 	folding = {
 		foldenable = true,
 		foldmethod = 'expr',
-		foldcolumn = '1',
+		foldcolumn = '2',
 		foldlevel = 99,
 	},
 	style = {
