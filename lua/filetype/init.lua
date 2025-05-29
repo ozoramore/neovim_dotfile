@@ -20,18 +20,6 @@ local indent_table = {
 local function filetype_callback(args)
 	local function default_indent() return set_indent(4, false) end
 	setmetatable(indent_table, { __index = default_indent })[args.match]()
-
-	--folding
-	local client = vim.lsp.get_client_by_id(1)
-	if client and client:supports_method('textDocument/completion') then
-		local lsp_fold = 'v:lua.require(\'filetype.lsp_fold\')'
-		vim.opt.foldtext = lsp_fold .. 'foldtext(v:foldstart, v:foldend, v:folddashes)'
-		vim.opt.foldexpr = lsp_fold .. 'foldexpr(v:lnum)'
-	elseif require('nvim-treesitter.parsers').has_parser(args.match) then
-		vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-	else
-		vim.opt.foldexpr = nil
-	end
 end
 
 M.setup = function()

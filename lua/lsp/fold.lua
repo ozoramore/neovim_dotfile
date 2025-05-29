@@ -194,4 +194,14 @@ function M.get_state(bufnr)
 	return fold_states[bufnr]
 end
 
+function M.set(buf)
+	local client = vim.lsp.get_clients({ buf })[1]
+	local has_fold = client and client:supports_method('textDocument/completion')
+	if has_fold then
+		vim.opt.foldtext = 'v:lua.require("lsp.fold").foldtext(v:foldstart, v:foldend, v:folddashes)'
+		vim.opt.foldexpr = 'v:lua.require("lsp.fold").foldexpr(v:lnum)'
+	end
+	return has_fold
+end
+
 return M

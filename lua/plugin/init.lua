@@ -13,7 +13,6 @@ end
 local function unix_setup()
 	if vim.fn.has('unix') ~= 1 then return nil end
 	local unix = require('plugin.unix')
-	load('neovim/nvim-lspconfig', unix.lspconfig)
 	load('mfussenegger/nvim-dap', unix.nvim_dap)
 	load('nvim-treesitter/nvim-treesitter', unix.treesitter)
 end
