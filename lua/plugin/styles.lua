@@ -38,12 +38,12 @@ end
 
 M.gitsigns = function()
 	local git_signs = {
-		add = { text = '╂' },
-		change = { text = '┃' },
-		delete = { text = '⎣' },
-		topdelete = { text = '⎡' },
+		add          = { text = '║' },
+		change       = { text = '┃' },
+		delete       = { text = '⎣' },
+		topdelete    = { text = '⎡' },
 		changedelete = { text = '╪' },
-		untracked = { text = '┆' },
+		untracked    = { text = '┆' },
 	}
 	require('gitsigns').setup({ signs = git_signs, signs_staged = git_signs })
 end
