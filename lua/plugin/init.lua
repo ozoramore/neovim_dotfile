@@ -23,6 +23,7 @@ M.setup = function()
 	require('plugin.mini').setup()
 	styles_setup()
 	unix_setup()
+	load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
 end
 
 return M
