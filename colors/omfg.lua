@@ -18,7 +18,7 @@ local colors = {
 	b_cyan    = '#80eaff',
 	b_white   = '#ffffff',
 
-	tools     = '#b5a182',
+	tools     = '#606066',
 	comment   = '#a4bfb6',
 	separator = '#eecc77',
 }
@@ -269,3 +269,8 @@ hi('MiniStatuslineModeCommand', colors.black, colors.b_red)
 hi('MiniStatuslineModeVisual', colors.black, colors.magenta)
 hi('MiniStatuslineModeReplace', colors.black, colors.yellow)
 hi('MiniStatuslineModeOther', nil, colors.b_black)
+
+hi('GitSignsAdd', colors.green, nil)
+hi('GitSignsChange', colors.blue, nil)
+hi('GitSignsDelete', colors.red, nil)
+hi('GitSignsUntracked', colors.white, nil)
