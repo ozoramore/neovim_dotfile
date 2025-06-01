@@ -1,6 +1,14 @@
 local M = {}
 
-local load = require('plugin.loader').load
+local load = function(src, setup)
+	local load = function()
+		if src then require('plugin.mini').deps.add({ source = src }) end
+		if setup then setup() end
+	end
+	require('plugin.mini').deps.now(load)
+end
+
+M.load = load
 
 local function styles_setup()
 	local styles = require('plugin.styles')
@@ -18,7 +26,7 @@ local function unix_setup()
 end
 
 M.setup = function()
-	require('plugin.loader').setup()
+	require('plugin.mini').packadd()
 	require('plugin.fep').setup()
 	require('plugin.mini').setup()
 	styles_setup()

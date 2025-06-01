@@ -30,7 +30,7 @@ local function windows_im_conf()
 end
 
 local function fcitx_conf()
-	require('plugin.loader').load('h-hg/fcitx.nvim', nil)
+	require('plugin').load('h-hg/fcitx.nvim', nil)
 end
 
 local fep = {
