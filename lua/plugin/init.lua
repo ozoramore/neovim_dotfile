@@ -31,6 +31,7 @@ M.setup = function()
 	require('plugin.mini').setup()
 	styles_setup()
 	unix_setup()
+	load('folke/styler.nvim', require('plugin.styler').setup)
 	load('cameron-wags/rainbow_csv.nvim', require('plugin.rainbow_csv').setup)
 	load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
 end
