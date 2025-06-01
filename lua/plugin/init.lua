@@ -34,6 +34,7 @@ M.setup = function()
 	load('folke/styler.nvim', require('plugin.styler').setup)
 	load('cameron-wags/rainbow_csv.nvim', require('plugin.rainbow_csv').setup)
 	load('lewis6991/gitsigns.nvim', require('plugin.gitsigns').setup)
+	load('luukvbaal/statuscol.nvim', require('plugin.statuscol').setup)
 	load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
 end
 
