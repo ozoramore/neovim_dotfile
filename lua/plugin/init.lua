@@ -38,6 +38,7 @@ M.setup = function()
 	load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
 	if vim.fn.has('unix') == 1 then
 		load('mfussenegger/nvim-dap', require('plugin.dap').setup)
+		load('nvim-treesitter/nvim-treesitter', require('plugin.treesitter').setup)
 	end
 end
 
