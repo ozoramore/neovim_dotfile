@@ -36,6 +36,9 @@ M.setup = function()
 	load('lewis6991/gitsigns.nvim', require('plugin.gitsigns').setup)
 	load('luukvbaal/statuscol.nvim', require('plugin.statuscol').setup)
 	load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
+	if vim.fn.has('unix') == 1 then
+		load('mfussenegger/nvim-dap', require('plugin.dap').setup)
+	end
 end
 
 return M
