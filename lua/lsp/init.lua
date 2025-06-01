@@ -37,15 +37,4 @@ function M.setup()
 	load('neovim/nvim-lspconfig', setup)
 end
 
-local function has_format()
-	local lsp_client = vim.lsp.get_clients({ method = 'textDocument/formatting' })
-	return #lsp_client ~= 0
-end
-
-function M.format()
-	local result = has_format()
-	if result then vim.lsp.buf.format() end
-	return result
-end
-
 return M
