@@ -13,18 +13,6 @@ M.statusline = function()
 	})
 end
 
-M.gitsigns = function()
-	local git_signs = {
-		add          = { text = '║' },
-		change       = { text = '┃' },
-		delete       = { text = '⎣' },
-		topdelete    = { text = '⎡' },
-		changedelete = { text = '╪' },
-		untracked    = { text = '┆' },
-	}
-	require('gitsigns').setup({ signs = git_signs, signs_staged = git_signs })
-end
-
 M.statuscol = function()
 	local function signs(ns, add_sign)
 		local sign = { namespace = { ns }, maxwidth = 1, colwidth = 1, auto = false }
