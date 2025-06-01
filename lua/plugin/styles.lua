@@ -66,9 +66,4 @@ M.statuscol = function()
 		}
 	})
 end
-
-M.rainbow_csv = function()
-	require('rainbow_csv').setup()
-end
-
 return M
