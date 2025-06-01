@@ -1,6 +1,11 @@
 local M = {}
 
-local fn = require('util').fn
+local fn = function(cmd)
+	return function() vim.system(cmd) end
+end
+
+local sel_by_env = function(dict)
+end
 
 local function wsl_im_conf()
 	if vim.fn.executable('wl-copy') ~= 0 then
@@ -39,6 +44,13 @@ local fep = {
 	{ env = 'windows', func = windows_im_conf }
 }
 
-M.setup = require('util').sel_by_env(fep)
+function M.setup()
+	for _, val in pairs(fep) do
+		if vim.fn.has(val.env) == 1 then
+			return val.func
+		end
+	end
+	return nil
+end
 
 return M
