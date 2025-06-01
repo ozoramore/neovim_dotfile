@@ -12,7 +12,7 @@ local lsps = {
 	{ name = 'lua_ls' },
 	{ name = 'ts_ls' },
 	{ name = 'lemminx' },
-	{ name = 'solargraph' },
+	-- { name = 'solargraph' },
 	{ name = 'clangd',        config = { cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } } },
 	{ name = 'rust_analyzer', config = { cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' } } }
 }

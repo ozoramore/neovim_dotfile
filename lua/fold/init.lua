@@ -1,16 +1,19 @@
+-- fold
+-- author ozoramore
+--
+-- foldexprを選択する. 順番は以下の通り
+-- 1. LSP
+-- 2. treesitter
+
 local M = {}
 
-local function set_treesitter(buf)
-	local has_parser = vim.treesitter.get_parser(buf, nil, { error = false })
-	if has_parser then vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()' end
-	return has_parser
-end
-
 M.setup = function()
+	local set_lsp = require('fold.lsp').set
+	local set_ts = require('fold.treesitter').set
 	vim.api.nvim_create_autocmd('BufWinEnter', {
 		callback = function(args)
-			if require('fold.lsp').set(args.buf) then return end
-			set_treesitter(args.buf)
+			if set_lsp(args.buf) then return end
+			if set_ts(args.buf) then return end
 		end
 	})
 end

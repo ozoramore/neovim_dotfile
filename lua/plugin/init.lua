@@ -10,15 +10,16 @@ end
 
 M.load = load
 
-M.setup = function()
-	require('plugin.mini').packadd()
-	require('plugin.fep').setup()
+M.setup = function() -- plugin設定
 	require('plugin.mini').setup()
+	require('plugin.fep').setup()
+
 	load('folke/styler.nvim', require('plugin.styler').setup)
 	load('cameron-wags/rainbow_csv.nvim', require('plugin.rainbow_csv').setup)
 	load('lewis6991/gitsigns.nvim', require('plugin.gitsigns').setup)
 	load('luukvbaal/statuscol.nvim', require('plugin.statuscol').setup)
 	load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
+
 	if vim.fn.has('unix') == 1 then
 		load('mfussenegger/nvim-dap', require('plugin.dap').setup)
 		load('nvim-treesitter/nvim-treesitter', require('plugin.treesitter').setup)

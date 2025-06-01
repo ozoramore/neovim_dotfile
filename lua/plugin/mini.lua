@@ -34,7 +34,7 @@ local function snippets_stop()
 	vim.api.nvim_create_autocmd('ModeChanged', { pattern = '*:n', once = true, callback = all_stop })
 end
 
-M.packadd = function()
+local packadd = function()
 	local mini_path = M.deps.path_package .. 'pack/deps/start/mini.nvim'
 	local mini_repo = 'https://github.com/echasnovski/mini.nvim'
 	if not vim.loop.fs_stat(mini_path) then
@@ -44,6 +44,7 @@ M.packadd = function()
 end
 
 M.setup = function()
+	packadd()
 	local setup = function()
 		M.deps.add({ name = 'mini.nvim' })
 		require('mini.deps').setup({ path = { package = M.deps.path_package } })

@@ -4,9 +4,6 @@ local fn = function(cmd)
 	return function() vim.system(cmd) end
 end
 
-local sel_by_env = function(dict)
-end
-
 local function wsl_im_conf()
 	if vim.fn.executable('wl-copy') ~= 0 then
 		local function win32yank(cmd)
