@@ -45,8 +45,8 @@ end
 
 local function configure_fold_options()
 	set_opval('foldmethod', 'expr')
-	set_opval('foldexpr', 'v:lua.require(\'lsp_fold\').foldexpr(v:lnum)')
-	set_opval('foldtext', 'v:lua.require(\'lsp_fold\').foldtext(v:foldstart, v:foldend, v:folddashes)')
+	set_opval('foldexpr', 'v:lua.require(\'lsp.fold\').foldexpr(v:lnum)')
+	set_opval('foldtext', 'v:lua.require(\'lsp.fold\').foldtext(v:foldstart, v:foldend, v:folddashes)')
 end
 
 local function update_fold(bufnr, top, bottom)
@@ -197,10 +197,7 @@ end
 function M.set(buf)
 	local client = vim.lsp.get_clients({ buf })[1]
 	local has_fold = client and client:supports_method('textDocument/completion')
-	if has_fold then
-		vim.opt.foldtext = 'v:lua.require("lsp.fold").foldtext(v:foldstart, v:foldend, v:folddashes)'
-		vim.opt.foldexpr = 'v:lua.require("lsp.fold").foldexpr(v:lnum)'
-	end
+	if has_fold then configure_fold_options() end
 	return has_fold
 end
 

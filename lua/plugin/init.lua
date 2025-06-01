@@ -39,6 +39,7 @@ M.setup = function()
 	if vim.fn.has('unix') == 1 then
 		load('mfussenegger/nvim-dap', require('plugin.dap').setup)
 		load('nvim-treesitter/nvim-treesitter', require('plugin.treesitter').setup)
+		load('neovim/nvim-lspconfig', require('plugin.lsp').setup)
 	end
 end
 
