@@ -7,14 +7,24 @@ local function setup_completion(args)
 	end
 end
 
+local conf = {
+	clangd = {
+		cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' },
+		capabilities = { offsetEncoding = {} } -- Error -32602 対策
+	},
+	rust_analyzer = {
+		cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' }
+	}
+}
+
 local lsps = {
 	{ name = 'bashls' },
 	{ name = 'lua_ls' },
 	{ name = 'ts_ls' },
 	{ name = 'lemminx' },
 	-- { name = 'solargraph' },
-	{ name = 'clangd',        config = { cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' } } },
-	{ name = 'rust_analyzer', config = { cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' } } }
+	{ name = 'clangd',        config = conf.clangd },
+	{ name = 'rust_analyzer', config = conf.rust_analyzer },
 }
 
 function M.setup()
