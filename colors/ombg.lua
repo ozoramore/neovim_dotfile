@@ -20,6 +20,7 @@ local colors = {
 
 	tools     = '#606060',
 	comment   = '#aaaaaa',
+	highlight = '#606060',
 	separator = '#eecc77',
 }
 
@@ -221,10 +222,10 @@ link('@lsp.type.typeParameter', 'TypeDef')
 link('@lsp.type.variable', 'Identifier')
 
 -- Default colors
-hi('ColorColumn', nil, colors.red)
-hi('CursorColumn', nil, colors.b_black)
-hi('CursorLine', nil, nil)
-link('CursorLineNr', 'LineNr')
+hi('ColorColumn', nil, colors.tools)
+hi('CursorColumn', nil, nil)
+hi('CursorLine', nil, nil, { sp = colors.tools, underline = true })
+hi('CursorLineNr', colors.highlight, nil, { sp = colors.tools, underline = true })
 hi('DiffAdd', colors.green, colors.black)
 hi('DiffChange', nil, colors.magenta)
 hi('DiffDelete', colors.red, colors.black)
@@ -232,13 +233,13 @@ hi('Directory', colors.b_cyan, nil)
 hi('FoldColumn', colors.tools, nil)
 hi('Folded', colors.tools, nil, { underline = true })
 hi('LineNr', colors.tools, nil)
-hi('MatchParen', nil, nil, { underline = true })
+hi('MatchParen', nil, nil, { sp = colors.highlight, underdouble = true })
 hi('MoreMsg', colors.b_green, nil, { bold = true })
 hi('Pmenu', colors.b_white, colors.black)
 hi('PmenuSel', colors.b_white, colors.blue)
 hi('PmenuThumb', nil, colors.b_white)
 hi('Question', colors.b_green, nil, { italic = true })
-hi('Search', colors.b_yellow, colors.black, { reverse = true })
+hi('Search', colors.highlight, colors.black, { reverse = true })
 hi('SignColumn', colors.b_cyan, nil, { bold = true })
 hi('SpecialKey', colors.b_blue, nil)
 hi('SpellBad', nil, colors.b_red, { sp = colors.b_red, undercurl = true })
@@ -246,7 +247,7 @@ hi('SpellCap', nil, colors.b_blue, { sp = colors.b_blue, undercurl = true })
 hi('SpellLocal', nil, colors.b_cyan, { sp = colors.b_cyan, undercurl = true })
 hi('SpellRare', nil, colors.b_magenta, { sp = colors.b_magenta, undercurl = true })
 hi('Title', colors.b_magenta, nil, { bold = true })
-hi('Visual', colors.yellow, nil, { reverse = true })
+hi('Visual', nil, nil, { reverse = true })
 hi('WarningMsg', colors.red, nil)
 hi('Comment', colors.comment, nil, { italic = true })
 hi('Constant', colors.b_green, nil)

@@ -20,6 +20,7 @@ local colors = {
 
 	tools     = '#606066',
 	comment   = '#a4bfb6',
+	highlight = '#eecc77',
 	separator = '#eecc77',
 }
 
@@ -32,8 +33,8 @@ local hi = function(name, fg, bg, val)
 	vim.api.nvim_set_hl(0, name, val)
 end
 
-local function link(name, target, val)
-	val = val or {}
+local function link(name, target)
+	local val = {}
 	val.force = true
 	val.link = target
 	vim.api.nvim_set_hl(0, name, val)
@@ -171,7 +172,7 @@ link('@number.float', 'Float')
 
 -- Functions
 link('@function', 'Function')
-link('@function.builtin', 'BuiltinFunc', { italic = true })
+link('@function.builtin', 'BuiltinFunc')
 link('@function.macro', 'Macro')
 link('@function.method', 'Function')
 link('@variable.parameter', 'Identifier')
@@ -179,7 +180,7 @@ link('@variable.parameter.builtin', 'Special')
 link('@variable.member', 'Identifier')
 link('@property', 'Identifier')
 link('@attribute', 'Macro')
-link('@attribute.builtin', 'Macro', { italic = true })
+link('@attribute.builtin', 'Macro')
 link('@constructor', 'Special')
 
 -- Keywords
@@ -200,7 +201,7 @@ link('@keyword.import', 'Include')
 link('@keyword.directive', 'PreProc')
 link('@keyword.debug', 'Debug')
 link('@tag', 'Tag')
-link('@tag.builtin', 'Tag', { italic = true })
+link('@tag.builtin', 'Tag')
 
 -- LSP semantic tokens
 link('@lsp.type.class', 'Structure')
@@ -221,10 +222,10 @@ link('@lsp.type.typeParameter', 'TypeDef')
 link('@lsp.type.variable', 'Identifier')
 
 -- Default colors
-hi('ColorColumn', nil, colors.red)
-hi('CursorColumn', nil, colors.b_black)
+hi('ColorColumn', nil, colors.tools)
+hi('CursorColumn', nil, nil)
 hi('CursorLine', nil, nil)
-link('CursorLineNr', 'LineNr')
+hi('CursorLineNr', colors.highlight, nil, { sp = colors.tools, underline = true })
 hi('DiffAdd', colors.green, colors.black)
 hi('DiffChange', nil, colors.magenta)
 hi('DiffDelete', colors.red, colors.black)
@@ -232,13 +233,13 @@ hi('Directory', colors.b_cyan, nil)
 hi('FoldColumn', colors.tools, nil)
 hi('Folded', colors.tools, nil, { underline = true })
 hi('LineNr', colors.tools, nil)
-hi('MatchParen', nil, nil, { underline = true })
+hi('MatchParen', nil, nil, { sp = colors.highlight, underdouble = true })
 hi('MoreMsg', colors.b_green, nil, { bold = true })
 hi('Pmenu', colors.b_white, colors.black)
 hi('PmenuSel', colors.b_white, colors.blue)
 hi('PmenuThumb', nil, colors.b_white)
 hi('Question', colors.b_green, nil, { italic = true })
-hi('Search', colors.b_yellow, colors.black, { reverse = true })
+hi('Search', colors.highlight, colors.black, { reverse = true })
 hi('SignColumn', colors.b_cyan, nil, { bold = true })
 hi('SpecialKey', colors.b_blue, nil)
 hi('SpellBad', nil, colors.b_red, { sp = colors.b_red, undercurl = true })
@@ -246,7 +247,7 @@ hi('SpellCap', nil, colors.b_blue, { sp = colors.b_blue, undercurl = true })
 hi('SpellLocal', nil, colors.b_cyan, { sp = colors.b_cyan, undercurl = true })
 hi('SpellRare', nil, colors.b_magenta, { sp = colors.b_magenta, undercurl = true })
 hi('Title', colors.b_magenta, nil, { bold = true })
-hi('Visual', colors.yellow, nil, { reverse = true })
+hi('Visual', nil, nil, { reverse = true })
 hi('WarningMsg', colors.red, nil)
 hi('Comment', colors.comment, nil, { italic = true })
 hi('Constant', colors.b_green, nil)

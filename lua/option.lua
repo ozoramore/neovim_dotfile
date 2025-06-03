@@ -28,6 +28,7 @@ local opt = {
 	foldlevel = 99,
 
 	-- style
+	cursorline = true,
 	ambiwidth = 'single',
 	number = true,
 	showmatch = true,
