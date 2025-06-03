@@ -10,11 +10,11 @@ function M.setup()
 		bt_ignore = { 'terminal', 'nofile' },
 		relculright = true,
 		segments = {
-			signs('diagnostic', {}),
-			signs('Dap*', {}),
+			signs('diagnostic', { serverity_sort = true }),
+			signs('Dap', {}),
 			{ text = { require('statuscol.builtin').lnumfunc }, click = 'v:lua.ScLa' },
 			{ text = { require('statuscol.builtin').foldfunc }, click = 'v:lua.ScFa' },
-			signs('git.*', { wrap = true, fillchar = '│', fillcharhl = 'NonText' }),
+			signs('git', { wrap = true, fillchar = '│', fillcharhl = 'NonText' }),
 		}
 	})
 end
