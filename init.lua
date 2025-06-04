@@ -16,5 +16,6 @@ require('indent').setup({
 		json = { tabstop = 2, is_expand = true },
 		ruby = { tabstop = 2, is_expand = true },
 		rust = { tabstop = 4, is_expand = true },
+		zig = { tabstop = 4, is_expand = true },
 	},
 })

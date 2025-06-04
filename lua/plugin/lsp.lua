@@ -25,6 +25,7 @@ local lsps = {
 	-- { name = 'solargraph' },
 	{ name = 'clangd',        config = conf.clangd },
 	{ name = 'rust_analyzer', config = conf.rust_analyzer },
+	{ name = 'zls' },
 }
 
 function M.setup()
