@@ -28,12 +28,6 @@ M.statusline = {
 	}
 }
 
-local function snippets_stop()
-	local s = require('mini.snippets').session
-	local function all_stop() while s.get() do s.stop() end end
-	vim.api.nvim_create_autocmd('ModeChanged', { pattern = '*:n', once = true, callback = all_stop })
-end
-
 local packadd = function()
 	local mini_path = M.deps.path_package .. 'pack/deps/start/mini.nvim'
 	local mini_repo = 'https://github.com/echasnovski/mini.nvim'
@@ -49,10 +43,9 @@ M.setup = function()
 		M.deps.add({ name = 'mini.nvim' })
 		require('mini.deps').setup({ path = { package = M.deps.path_package } })
 		require('mini.completion').setup()
-		require('mini.snippets').setup()
 		require('mini.tabline').setup()
 		require('mini.statusline').setup(M.statusline.contents)
-		vim.api.nvim_create_autocmd('User', { pattern = 'MiniSnippetsSessionStart', callback = snippets_stop })
+		require('plugin.mini.snippets').setup()
 	end
 	M.deps.now(setup)
 end
