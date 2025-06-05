@@ -1,46 +1,45 @@
 local TYPE_START = 1
 local TYPE_END = 2
 
-local SymbolKind = vim.lsp.protocol.SymbolKind
-
-local augroup = vim.api.nvim_create_augroup('LSPFold', {})
-
-local fold_states = {}
-
 local function set_opval(opt, val)
 	vim.api.nvim_set_option_value(opt, val, { scope = 'local' })
 end
 
 local function is_foldable_symbol(symbol)
 	local range = symbol.range
+	local k = vim.lsp.protocol.SymbolKind
 	local kind = symbol.kind
-	local line_count = range['end'].line - range.start.line
-	if line_count < vim.wo.foldminlines then return false end
-	if kind == SymbolKind.Property then return false end
-	if kind == SymbolKind.Field then return false end
-	if kind == SymbolKind.Variable then return false end
-	if kind == SymbolKind.Constant then return false end
-	if kind == SymbolKind.EnumMember then return false end
-	return true
+
+	if range['end'].line - range.start.line < vim.wo.foldminlines then return false end
+	local not_foldable =
+		kind == k.Property or
+		kind == k.Field or
+		kind == k.Variable or
+		kind == k.Constant or
+		kind == k.EnumMember
+	return not not_foldable
 end
 
-local function calculate_folds(folds, symbols, level, max_level)
-	local next_level = 0
-	local function check_calc_folds(symbol)
-		if not is_foldable_symbol(symbol) then return nil end
-		local start_line = symbol.range.start.line + 1
-		local end_line = symbol.range['end'].line + 1
-		next_level = level
-		if folds[start_line] == nil then
-			folds[start_line] = { type = TYPE_START, level = level, symbol = symbol, }
-			next_level = next_level + 1
-		end
-		if symbol.children and next_level <= max_level then
-			calculate_folds(folds, symbol.children, next_level, max_level)
-		end
-		folds[end_line] = { type = TYPE_END, level = level, symbol = symbol }
+local calculate_folds = function(_, _, _, _) end
+
+local function check_calc_folds(folds, symbol, level, max_level)
+	if not is_foldable_symbol(symbol) then return end
+
+	local folds_start = symbol.range.start.line + 1
+	local folds_end = symbol.range['end'].line + 1
+	local start_fold = { type = TYPE_START, level = level, symbol = symbol }
+	local end_fold = { type = TYPE_END, level = level, symbol = symbol }
+
+	if folds[folds_start] == nil then level = level + 1 end
+	folds[folds_start] = folds[folds_start] or start_fold
+	if symbol.children and level <= max_level then
+		calculate_folds(folds, symbol.children, level, max_level)
 	end
-	for _, symbol in pairs(symbols) do check_calc_folds(symbol) end
+	folds[folds_end] = end_fold
+end
+
+calculate_folds = function(folds, symbols, lv, cap)
+	for _, s in pairs(symbols) do check_calc_folds(folds, s, lv, cap) end
 end
 
 local function configure_fold_options()
@@ -56,18 +55,13 @@ local function update_fold(bufnr, top, bottom)
 end
 
 local function request_update_fold(bufnr)
-	local function buf_update_fold()
-		update_fold(bufnr, 0, vim.api.nvim_buf_line_count(bufnr))
-	end
-	if vim.api.nvim_get_mode().mode:match('^i') then
-		local function is_loaded_fold()
-			if vim.api.nvim_buf_is_loaded(bufnr) then buf_update_fold() end
-		end
-		return vim.schedule(is_loaded_fold)
-	end
+	local function buf_update_fold() update_fold(bufnr, 0, vim.api.nvim_buf_line_count(bufnr)) end
+	local function is_loaded_fold() if vim.api.nvim_buf_is_loaded(bufnr) then buf_update_fold() end end
+	local augroup = vim.api.nvim_create_augroup('LSPFold', {})
+	if vim.api.nvim_get_mode().mode:match('^i') then return vim.schedule(is_loaded_fold) end
 	if #(vim.api.nvim_get_autocmds({ group = augroup, buffer = bufnr })) > 0 then return end
-	vim.api.nvim_create_autocmd('InsertLeave',
-		{ group = augroup, buffer = bufnr, once = true, callback = buf_update_fold })
+	local autocmd = { group = augroup, buffer = bufnr, once = true, callback = buf_update_fold }
+	vim.api.nvim_create_autocmd('InsertLeave', autocmd)
 end
 
 local function restore_fold_options(state)
@@ -84,7 +78,9 @@ local function get_document_symboles(bufnr, state, changedtick)
 		local new_folds = {}
 		local max_level = vim.wo.foldnestmax
 		for _, response in pairs(responses) do
-			if response.result then calculate_folds(new_folds, response.result, 1, max_level) end
+			if response.result then
+				calculate_folds(new_folds, response.result, 1, max_level)
+			end
 		end
 		request_update_fold(bufnr)
 		state.folds = new_folds
@@ -106,97 +102,89 @@ local function new_state()
 	}
 end
 
-local function trim(text)
-	return text:gsub('^%s+', ''):gsub('%s+$', '')
-end
-
-local M = {}
+local fold_states = {}
 
 local function attach_on_lines(_, bufnr, changedtick)
 	local fold_state = fold_states[bufnr]
 	if not fold_state then return nil end
+
 	get_document_symboles(bufnr, fold_state, changedtick)
 	return fold_state.detached
 end
 
 local function attach_on_reload(_, bufnr)
-	local fold_state = fold_states[bufnr]
-	if not fold_state then return nil end
-	local changedtick = vim.api.nvim_buf_get_changedtick(bufnr)
-	get_document_symboles(bufnr, fold_state, changedtick)
-	return fold_state.detached
+	return attach_on_lines(nil, bufnr, vim.api.nvim_buf_get_changedtick(bufnr))
 end
 
 local function attach_on_detach(_, bufnr)
 	local fold_state = fold_states[bufnr]
 	if not fold_state then return nil end
+
 	if fold_state.request then fold_state.request() end
 	fold_state.request = nil
+
 	if vim.api.nvim_buf_is_loaded(bufnr) then restore_fold_options(fold_state) end
 	fold_states[bufnr] = nil
 end
 
-function M.attach(bufnr)
-	local state = fold_states[bufnr]
+local M = {}
 
-	-- This buffer has already been setup. So reuse the state that already
-	-- exists and abort detaching.
-	if state then
-		state.detached = false
-		return
+function M.attach(bufnr)
+	-- This buffer has already been setup. So reuse the state that already exists and abort detaching.
+	if fold_states[bufnr] then
+		fold_states[bufnr].detached = false; return
 	end
 
-	vim.api.nvim_buf_attach(bufnr, false, {
-		on_lines = attach_on_lines,
-		on_reload = attach_on_reload,
-		on_detach = attach_on_detach
-	})
+	local attach_act = { on_lines = attach_on_lines, on_reload = attach_on_reload, on_detach = attach_on_detach }
+	vim.api.nvim_buf_attach(bufnr, false, attach_act)
 
-	state = new_state()
-	fold_states[bufnr] = state
+	fold_states[bufnr] = new_state()
 
-	local changedtick = vim.api.nvim_buf_get_changedtick(bufnr)
 	configure_fold_options()
-	get_document_symboles(bufnr, state, changedtick)
+	get_document_symboles(bufnr, fold_states[bufnr], vim.api.nvim_buf_get_changedtick(bufnr))
 end
 
-function M.detach(bufnr)
-	local state = fold_states[bufnr]
-	-- vim.api.nvim_buf_detach() is only available with RPC. Instead, detach
-	-- from callbacks.
-	if state then state.detached = true end
-end
+-- vim.api.nvim_buf_detach() is only available with RPC. Instead, detach from callbacks.
+function M.detach(bufnr) if fold_states[bufnr] then fold_states[bufnr].detached = true end end
 
 function M.foldexpr(lnum)
 	local bufnr = vim.api.nvim_get_current_buf()
 	local state = fold_states[bufnr]
-	if state == nil then return -1 end
 	local fold = state.folds[lnum]
-	if fold == nil then return state.levels[lnum] or '=' end
-	if fold.type == TYPE_START then return '>' .. fold.level end
-	return '<' .. fold.level
+
+	if state == nil then
+		return -1
+	elseif fold == nil then
+		return state.levels[lnum] or '='
+	elseif fold.type == TYPE_START then
+		return '>' .. fold.level
+	else
+		return '<' .. fold.level
+	end
 end
 
 function M.foldtext(fold_start, fold_end, fold_dashes)
 	local bufnr = vim.api.nvim_get_current_buf()
-	local state = fold_states[bufnr]
-	if state == nil then return '' end
-	local fold = state.folds[fold_start]
-	if fold == nil then return '' end
-	local symbol = fold.symbol
-	local start_line = symbol.selectionRange.start.line
+	local fold = fold_states[bufnr].folds[fold_start]
+
+	if not fold_states[bufnr] or not fold then return '' end
+
+	local start_line = fold.symbol.selectionRange.start.line
+	local length = fold.symbol.range['end'].line - fold.symbol.range.start.line
 	local line = vim.api.nvim_buf_get_lines(bufnr, start_line, start_line + 1, false)[1] or ''
-	return string.format('+-%s%3d lines: %s', fold_dashes, symbol.range['end'].line - symbol.range.start.line, trim(line))
+	local trim = function(s) return s:gsub('^%s+', ''):gsub('%s+$', '') end
+
+	return string.format('+-%s%3d lines: %s', fold_dashes, length, trim(line))
 end
 
 function M.get_state(bufnr)
-	bufnr = bufnr or vim.api.nvim_get_current_buf()
-	return fold_states[bufnr]
+	return fold_states[bufnr or vim.api.nvim_get_current_buf()]
 end
 
 function M.set(buf)
 	local client = vim.lsp.get_clients({ buf })[1]
 	local has_fold = client and client:supports_method('textDocument/completion')
+
 	if has_fold then configure_fold_options() end
 	return has_fold
 end

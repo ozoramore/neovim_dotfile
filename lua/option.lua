@@ -43,6 +43,7 @@ local opt = {
 local function setopts(dict)
 	for k, v in pairs(dict) do vim.opt[k] = v end
 end
+
 M.setup = function()
 	setopts(opt)
 	vim.g.mapleader = ','

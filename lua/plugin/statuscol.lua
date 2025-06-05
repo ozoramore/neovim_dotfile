@@ -8,11 +8,10 @@ function M.setup()
 	end
 	require('statuscol').setup({
 		bt_ignore = { 'terminal', 'nofile' },
-		relculright = true,
 		segments = {
-			signs('diagnostic', { serverity_sort = true }),
+			signs('diagnostic/signs', { serverity_sort = true }),
 			signs('Dap', {}),
-			{ text = { require('statuscol.builtin').lnumfunc }, click = 'v:lua.ScLa' },
+			{ text = { '%l' },                                  click = 'v:lua.ScLa' },
 			{ text = { require('statuscol.builtin').foldfunc }, click = 'v:lua.ScFa' },
 			signs('git', { wrap = true, fillchar = '│', fillcharhl = 'NonText' }),
 		}
