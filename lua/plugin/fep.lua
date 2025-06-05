@@ -1,13 +1,6 @@
-local M = {}
-
-local fn = function(cmd)
-	return function() vim.system(cmd) end
-end
-
-local set_zenhan = function(path)
+local set_insertleave = function(cmd)
 	vim.api.nvim_create_autocmd('InsertLeave', {
-		group = vim.api.nvim_create_augroup('conf_ime', {}),
-		callback = fn({ path, '0' })
+		callback = function(_) vim.system(cmd) end
 	})
 end
 
@@ -24,15 +17,15 @@ local function wsl_im_conf()
 			cache_enabled = true
 		}
 	end
-	set_zenhan('/opt/zenhan/zenhan.exe')
-end
-
-local function windows_im_conf()
-	set_zenhan('C:/FreeSoft/zenhan/zenhan.exe')
+	set_insertleave({ '/opt/zenhan/zenhan.exe', '0' })
 end
 
 local function fcitx_conf()
 	require('plugin').load('h-hg/fcitx.nvim', nil)
+end
+
+local function windows_im_conf()
+	set_insertleave('C:/FreeSoft/zenhan/zenhan.exe')
 end
 
 local fep = {
@@ -41,13 +34,15 @@ local fep = {
 	{ env = 'windows', func = windows_im_conf }
 }
 
-function M.setup()
+local FEP = {}
+
+function FEP.setup()
 	for _, val in pairs(fep) do
 		if vim.fn.has(val.env) == 1 then
-			return val.func
+			return val.func()
 		end
 	end
 	return nil
 end
 
-return M
+return FEP
