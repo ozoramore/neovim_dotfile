@@ -1,5 +1,4 @@
 require('option').setup()
-require('keymap').setup()
 require('fold').setup()
 require('format').setup()
 require('plugin').setup()

@@ -45,6 +45,7 @@ local function setopts(dict)
 end
 M.setup = function()
 	setopts(opt)
+	vim.g.mapleader = ','
 	vim.cmd.language('en_US.utf-8') -- TODO: 消したい
 end
 
