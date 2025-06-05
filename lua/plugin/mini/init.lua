@@ -6,28 +6,6 @@ M.deps = {
 	path_package = vim.fn.stdpath('data') .. '/site/'
 }
 
-local function statusline()
-	local mode, mode_hl = require('mini.statusline').section_mode({})
-	local filename      = require('mini.statusline').section_filename({})
-	local separator     = '%='
-	local fileinfo      = require('mini.statusline').section_fileinfo({})
-	local location      = '%4l:%3c'
-
-	return require('mini.statusline').combine_groups({
-		{ hl = mode_hl,      strings = { mode:upper() } },
-		{ hl = 'StatusLine', strings = { filename, separator, fileinfo, location } },
-	})
-end
-
-M.statusline = {
-	contents = {
-		content = {
-			active = statusline,
-			inactive = statusline,
-		}
-	}
-}
-
 local packadd = function()
 	local mini_path = M.deps.path_package .. 'pack/deps/start/mini.nvim'
 	local mini_repo = 'https://github.com/echasnovski/mini.nvim'
@@ -44,8 +22,8 @@ M.setup = function()
 		require('mini.deps').setup({ path = { package = M.deps.path_package } })
 		require('mini.completion').setup()
 		require('mini.tabline').setup()
-		require('mini.statusline').setup(M.statusline.contents)
 		require('plugin.mini.snippets').setup()
+		require('plugin.mini.statusline').setup()
 	end
 	M.deps.now(setup)
 end
