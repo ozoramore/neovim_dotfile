@@ -1,12 +1,19 @@
+-- neovim設定
+-- author ozoramore
+
+--- 各種環境変数などなど
+-- vim.v[key] = value
 require('option').setvals({
 	mapleader = ',',
 })
 
+-- vim.cmd[key](value)
 require('option').setcmds({
 	language = 'en_US.utf-8',
 	colorscheme = 'omfg',
 })
 
+-- vim.opt[key] = value
 require('option').setopts({
 	incsearch = true,
 	backup = false,
@@ -42,14 +49,12 @@ require('option').setopts({
 	listchars = { tab = '>-', trail = '_', extends = '>', precedes = '<', nbsp = '%' },
 })
 
-require('fold').setup()
-require('format').setup()
-require('plugin').setup()
-
+--- filetypeの紐付け
 require('filetype').setup({
 	['cpp'] = { 'h', 'def', 'tbl', 'inc' },
 })
 
+--- ファイルタイプごとのインデント設定
 require('indent').setup({
 	default = { tabstop = 4, is_expand = false },
 	config = {
@@ -61,3 +66,31 @@ require('indent').setup({
 		zig = { tabstop = 4, is_expand = true },
 	},
 })
+
+--- フォーマッタ
+vim.api.nvim_create_user_command('Format', require('format').exec, { nargs = 0 })
+
+--- コードフォールディング
+vim.api.nvim_create_autocmd('BufWinEnter', { callback = require('fold').set })
+
+--- 各種プラグイン設定
+require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
+local load = require('plugin.mini').deps.load
+
+-- neovimでmpdを制御する自作プラグイン
+load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
+
+-- 外観
+load('folke/styler.nvim', require('plugin.styler').setup)
+load('lewis6991/gitsigns.nvim', require('plugin.gitsigns').setup)
+load('luukvbaal/statuscol.nvim', require('plugin.statuscol').setup)
+
+-- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
+if vim.fn.has('unix') == 1 then
+	load('mfussenegger/nvim-dap', require('plugin.dap').setup)
+	load('nvim-treesitter/nvim-treesitter', require('plugin.treesitter').setup)
+	load('neovim/nvim-lspconfig', require('plugin.lsp').setup)
+end
+
+-- FEP設定(OSごとに振り分け)
+require('plugin.fep').setup()

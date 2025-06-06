@@ -21,7 +21,7 @@ local function wsl_im_conf()
 end
 
 local function fcitx_conf()
-	require('plugin').load('h-hg/fcitx.nvim', nil)
+	require('plugin.mini').deps.load('h-hg/fcitx.nvim', nil)
 end
 
 local function windows_im_conf()

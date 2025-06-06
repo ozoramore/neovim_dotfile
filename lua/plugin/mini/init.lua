@@ -6,6 +6,14 @@ M.deps = {
 	path_package = vim.fn.stdpath('data') .. '/site/'
 }
 
+M.deps.load = function(src, setup)
+	local _load = function()
+		if src then require('plugin.mini').deps.add({ source = src }) end
+		if setup then setup() end
+	end
+	require('plugin.mini').deps.now(_load)
+end
+
 local packadd = function()
 	local mini_path = M.deps.path_package .. 'pack/deps/start/mini.nvim'
 	local mini_repo = 'https://github.com/echasnovski/mini.nvim'

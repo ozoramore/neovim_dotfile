@@ -5,17 +5,15 @@
 -- 1. LSP
 -- 2. treesitter
 
-local M = {}
+local set_lsp = require('fold.lsp').set
+local set_ts = require('fold.treesitter').set
 
-M.setup = function()
-	local set_lsp = require('fold.lsp').set
-	local set_ts = require('fold.treesitter').set
-	vim.api.nvim_create_autocmd('BufWinEnter', {
-		callback = function(args)
-			if set_lsp(args.buf) then return end
-			if set_ts(args.buf) then return end
-		end
-	})
+local FOLD = {}
+
+FOLD.set = function(args)
+	if set_lsp(args.buf) then return end
+	if set_ts(args.buf) then return end
 end
 
-return M
+return FOLD
+
