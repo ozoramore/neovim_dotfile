@@ -5,8 +5,8 @@
 -- 1. LSP
 -- 2. treesitter
 
-local set_lsp = require('fold.lsp').set
-local set_ts = require('fold.treesitter').set
+local set_lsp = require('util.fold.lsp').set
+local set_ts = require('util.fold.treesitter').set
 
 local FOLD = {}
 

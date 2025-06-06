@@ -3,18 +3,18 @@
 
 --- 各種環境変数などなど
 -- vim.v[key] = value
-require('option').setvals({
+require('util.option').setvals({
 	mapleader = ',',
 })
 
 -- vim.cmd[key](value)
-require('option').setcmds({
+require('util.option').setcmds({
 	language = 'en_US.utf-8',
 	colorscheme = 'omfg',
 })
 
 -- vim.opt[key] = value
-require('option').setopts({
+require('util.option').setopts({
 	incsearch = true,
 	backup = false,
 	swapfile = false,
@@ -50,12 +50,12 @@ require('option').setopts({
 })
 
 --- filetypeの紐付け
-require('filetype').setup({
+require('util.filetype').setup({
 	['cpp'] = { 'h', 'def', 'tbl', 'inc' },
 })
 
 --- ファイルタイプごとのインデント設定
-require('indent').setup({
+require('util.indent').setup({
 	default = { tabstop = 4, is_expand = false },
 	config = {
 		markdown = { tabstop = 4, is_expand = true },
@@ -68,10 +68,10 @@ require('indent').setup({
 })
 
 --- フォーマッタ
-vim.api.nvim_create_user_command('Format', require('format').exec, { nargs = 0 })
+vim.api.nvim_create_user_command('Format', require('util.format').exec, { nargs = 0 })
 
 --- コードフォールディング
-vim.api.nvim_create_autocmd('BufWinEnter', { callback = require('fold').set })
+vim.api.nvim_create_autocmd('BufWinEnter', { callback = require('util.fold').set })
 
 --- 各種プラグイン設定
 require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
