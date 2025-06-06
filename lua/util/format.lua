@@ -7,7 +7,8 @@
 local FORMAT = {}
 
 local function lsp()
-	local has_clients = #vim.lsp.get_clients({ method = 'textDocument/formatting' }) ~= 0
+	local buf = vim.api.nvim_get_current_buf()
+	local has_clients = #vim.lsp.get_clients({ bufnr = buf, method = 'textDocument/formatting' }) ~= 0
 	if has_clients then vim.lsp.buf.format({ async = true }) end
 	return has_clients
 end
