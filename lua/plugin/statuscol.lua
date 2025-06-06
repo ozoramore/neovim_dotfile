@@ -8,7 +8,7 @@ end
 
 function STATUSCOL.setup()
 	local builtin = require('statuscol.builtin')
-	local ignore = { 'terminal', 'nofile' }
+	local ignore = { 'terminal', 'nofile', 'help' }
 	local diag = signs('diagnostic', { serverity_sort = true })
 	local dap = signs('Dap', {})
 	local lnum = { text = { builtin.lnumfunc }, click = 'v:lua.ScLa' }
