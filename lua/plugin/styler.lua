@@ -20,7 +20,6 @@ end
 
 function M.setup()
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, { callback = select_theme })
-	vim.cmd.colorscheme(theme.active)
 end
 
 return M
