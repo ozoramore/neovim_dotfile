@@ -71,7 +71,7 @@ require('util.indent').setup({
 vim.api.nvim_create_user_command('Format', require('util.format').exec, { nargs = 0 })
 
 --- コードフォールディング
-vim.api.nvim_create_autocmd('BufWinEnter', { callback = require('util.fold').set })
+vim.api.nvim_create_autocmd('BufCreate', { callback = require('util.fold').set })
 
 --- 各種プラグイン設定
 require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
