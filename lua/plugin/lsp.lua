@@ -22,7 +22,7 @@ local lsps = {
 	{ name = 'lua_ls' },
 	{ name = 'ts_ls' },
 	{ name = 'lemminx' },
-	-- { name = 'solargraph' },
+	{ name = 'solargraph' },
 	{ name = 'clangd',        config = conf.clangd },
 	{ name = 'rust_analyzer', config = conf.rust_analyzer },
 	{ name = 'zls' },
