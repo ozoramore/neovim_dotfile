@@ -6,9 +6,9 @@
 
 local M = {}
 
-local set_ext = function(tbl)
+local set_ext = function(args)
 	local ext = {}
-	for key, t in pairs(tbl) do
+	for key, t in pairs(args) do
 		for _, value in ipairs(t) do ext[value] = key end
 	end
 	return ext
