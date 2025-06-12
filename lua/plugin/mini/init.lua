@@ -17,9 +17,12 @@ end
 local packadd = function()
 	local mini_path = M.deps.path_package .. 'pack/deps/start/mini.nvim'
 	local mini_repo = 'https://github.com/echasnovski/mini.nvim'
-	if not vim.loop.fs_stat(mini_path) then
-		vim.system({ 'git', 'clone', '--filter=blob:none', mini_repo, mini_path, })
-		vim.cmd.packadd('mini.nvim')
+	if not vim.uv.fs_stat(mini_path) then
+		vim.system({ 'git', 'clone', '--filter=blob:none', mini_repo, mini_path })
+		vim.cmd.helptags('ALL')
+		print("Please restart neovim.")
+		-- TODO: Put vim.cmd.restart()
+		-- ( vim.cmd.restart is depends on NVIM v0.12 or later. )
 	end
 end
 
