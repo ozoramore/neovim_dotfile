@@ -67,6 +67,9 @@ require('util.indent').setup({
 	},
 })
 
+-- FEP設定(OSごとに振り分け)
+require('util.fep').setup()
+
 --- フォーマッタ
 vim.api.nvim_create_user_command('Format', require('util.format').exec, { nargs = 0 })
 
@@ -91,6 +94,3 @@ if vim.fn.has('unix') == 1 then
 	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup, true)
 	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup)
 end
-
--- FEP設定(OSごとに振り分け)
-require('plugin.fep').setup()
