@@ -1,14 +1,8 @@
 local M = {}
 
-M.deps = {
-	add = require('mini.deps').add,
-	now = require('mini.deps').now,
-	path_package = vim.fn.stdpath('data') .. '/site/'
-}
-
 local path_package = vim.fn.stdpath('data') .. '/site/'
 
-M.deps.load = function(src, setup)
+M.load = function(src, setup)
 	local _load = function()
 		if src then require('mini.deps').add({ source = src }) end
 		if setup then setup() end

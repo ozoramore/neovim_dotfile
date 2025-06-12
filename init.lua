@@ -75,7 +75,7 @@ vim.api.nvim_create_autocmd('BufCreate', { callback = require('util.fold').set }
 
 --- 各種プラグイン設定
 require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
-local load = require('plugin.mini').deps.load
+local load = require('plugin.mini').load
 
 -- neovimでmpdを制御する自作プラグイン
 load('ozoramore/nvimpc.lua', require('plugin.mpc').setup)
