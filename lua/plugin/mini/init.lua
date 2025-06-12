@@ -2,12 +2,16 @@ local M = {}
 
 local path_package = vim.fn.stdpath('data') .. '/site/'
 
-M.load = function(spec, setup)
+M.load = function(spec, setup, do_it_later)
 	local _load = function()
 		if spec then require('mini.deps').add(spec) end
 		if setup then setup() end
 	end
-	require('mini.deps').now(_load)
+	if do_it_later then
+		require('mini.deps').later(_load)
+	else
+		require('mini.deps').now(_load)
+	end
 end
 
 local packadd = function()
