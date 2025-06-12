@@ -2,9 +2,9 @@ local M = {}
 
 local path_package = vim.fn.stdpath('data') .. '/site/'
 
-M.load = function(src, setup)
+M.load = function(spec, setup)
 	local _load = function()
-		if src then require('mini.deps').add({ source = src }) end
+		if spec then require('mini.deps').add(spec) end
 		if setup then setup() end
 	end
 	require('mini.deps').now(_load)
@@ -25,15 +25,13 @@ end
 M.setup = function()
 	packadd()
 	local setup = function()
-		require('mini.deps').add({ name = 'mini.nvim' })
 		require('mini.deps').setup({ path = { package = path_package } })
 		require('mini.completion').setup()
 		require('mini.tabline').setup()
 		require('plugin.mini.snippets').setup()
 		require('plugin.mini.statusline').setup()
 	end
-
-	require('mini.deps').now(setup)
+	M.load({ name = 'mini.nvim' }, setup)
 end
 
 return M
