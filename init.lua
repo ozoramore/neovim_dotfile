@@ -88,7 +88,7 @@ load({ source = 'luukvbaal/statuscol.nvim' }, require('plugin.statuscol').setup)
 -- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
 if vim.fn.has('unix') == 1 then
 	load({ source = 'mfussenegger/nvim-dap' }, require('plugin.dap').setup)
-	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup)
+	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup, true)
 	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup)
 end
 
