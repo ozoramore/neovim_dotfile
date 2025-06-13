@@ -35,7 +35,7 @@ M.setup = function()
 		require('plugin.mini.snippets').setup()
 		require('plugin.mini.statusline').setup()
 	end
-	M.load({ name = 'mini.nvim' }, setup)
+	M.load({ name = 'mini.nvim' }, setup, true)
 end
 
 return M

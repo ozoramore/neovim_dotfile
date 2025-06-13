@@ -81,16 +81,16 @@ require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplu
 local load = require('plugin.mini').load
 
 -- neovimでmpdを制御する自作プラグイン
-load({ source = 'ozoramore/nvimpc.lua' }, require('plugin.mpc').setup)
+load({ source = 'ozoramore/nvimpc.lua' }, require('plugin.mpc').setup, true)
 
 -- 外観
-load({ source = 'folke/styler.nvim' }, require('plugin.styler').setup)
-load({ source = 'lewis6991/gitsigns.nvim' }, require('plugin.gitsigns').setup)
+load({ source = 'folke/styler.nvim' }, require('plugin.styler').setup, true)
+load({ source = 'lewis6991/gitsigns.nvim' }, require('plugin.gitsigns').setup, true)
 load({ source = 'luukvbaal/statuscol.nvim' }, require('plugin.statuscol').setup)
 
 -- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
 if vim.fn.has('unix') == 1 then
-	load({ source = 'mfussenegger/nvim-dap' }, require('plugin.dap').setup)
+	load({ source = 'mfussenegger/nvim-dap' }, require('plugin.dap').setup, true)
 	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup, true)
-	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup)
+	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup, true)
 end
