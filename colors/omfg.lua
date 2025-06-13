@@ -145,7 +145,7 @@ link('LspInlayHint', 'NonText')
 link('SnippetTabstop', 'Visual')
 
 -- Text
-link('@markup.raw', 'Comment')
+link('@markup.raw', 'Constant')
 link('@markup.link', 'Identifier')
 link('@markup.heading', 'Title')
 link('@markup.link.url', 'Underlined')
