@@ -29,7 +29,7 @@ local function wsl_im_conf()
 end
 
 local function fcitx_conf()
-	local fep = check_exec('fcitx_remote') or check_exec('fcitx5_remote')
+	local fep = check_exec('fcitx-remote') or check_exec('fcitx5-remote')
 	if fep then set_insertleave({ fep, '-c' }) end
 end
 
