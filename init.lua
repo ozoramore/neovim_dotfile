@@ -94,3 +94,6 @@ if vim.fn.has('unix') == 1 then
 	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup, true)
 	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup, true)
 end
+
+
+require('util.lnum')
