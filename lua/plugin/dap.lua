@@ -1,11 +1,5 @@
 local M = {}
 
-local function sign_def(tbl)
-	for name, text in pairs(tbl) do
-		vim.fn.sign_define(name, { text = text })
-	end
-end
-
 M.setup = function()
 	local dap = require('dap')
 	dap.adapters.gdb = {
@@ -15,16 +9,6 @@ M.setup = function()
 		command = 'gdb',
 		args = { '-i=dap', '-q' },
 	}
-
-	local dap_signs = {
-		['DapBreakpoint'] = '●',
-		['DapBreakpointCondition'] = '◑',
-		['DapBreakpointRejected'] = '◌',
-		['DapLogPoint'] = '◩',
-		['DapStopped'] = '▶',
-	}
-
-	sign_def(dap_signs)
 
 	local widgets = require('dap.ui.widgets')
 	local function setlogs() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end

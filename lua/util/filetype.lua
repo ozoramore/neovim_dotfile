@@ -4,19 +4,17 @@
 -- ファイルタイプの設定
 --
 
-local M = {}
-
 local set_ext = function(args)
 	local ext = {}
-	for key, t in pairs(args) do
-		for _, value in ipairs(t) do ext[value] = key end
-	end
+	for k, t in pairs(args) do for _, v in ipairs(t) do ext[v] = k end end
 	return ext
 end
 
-M.setup = function(config)
+local FILETYPE = {}
+
+FILETYPE.setup = function(config)
 	config = config or {}
 	vim.filetype.add({ extension = set_ext(config) })
 end
 
-return M
+return FILETYPE

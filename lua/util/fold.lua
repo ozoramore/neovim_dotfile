@@ -6,8 +6,8 @@
 -- 2. treesitter
 
 local setopt = function(exec)
-	vim.api.nvim_set_option_value('foldmethod', 'expr', { scope = 'local' } )
-	vim.api.nvim_set_option_value('foldexpr', exec, { scope = 'local' } )
+	vim.api.nvim_set_option_value('foldmethod', 'expr', { scope = 'local' })
+	vim.api.nvim_set_option_value('foldexpr', exec, { scope = 'local' })
 end
 
 local set_lsp = function(buf)
