@@ -67,6 +67,16 @@ require('util.indent').setup({
 	},
 })
 
+-- 行番号色付けの設定
+require('util.lnum').setup(function(lnum, current_line)
+	if lnum == current_line then return nil end
+	local range = math.abs(lnum - current_line)
+	if range == 5 then return 'LineNumberGroup1' end
+	if range == 10 then return 'LineNumberGroup2' end
+	if lnum % 10 == 0 then return 'LineNumberGroup5' end
+	return nil
+end)
+
 -- FEP設定(OSごとに振り分け)
 require('util.fep').setup()
 
@@ -94,6 +104,3 @@ if vim.fn.has('unix') == 1 then
 	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup, true)
 	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup, true)
 end
-
-
-require('util.lnum')
