@@ -34,6 +34,7 @@
 |       |-- fold.lua
 |       |-- format.lua
 |       |-- indent.lua
+|       |-- lnum.lua
 |       `-- option.lua
 |-- README.md
 `-- ss.png
