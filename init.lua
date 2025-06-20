@@ -68,12 +68,11 @@ require('util.indent').setup({
 })
 
 -- 行番号色付けの設定
-require('util.lnum').setup(function(lnum, current_line)
+require('util.lnum').setup(10, function(lnum, current_line)
 	if lnum == current_line then return nil end
 	local range = math.abs(lnum - current_line)
-	if range == 5 then return 'LineNumberGroup1' end
-	if range == 10 then return 'LineNumberGroup2' end
-	if lnum % 10 == 0 then return 'LineNumberGroup5' end
+	if range == 5 then return 'LineNrGroup1' end
+	if range == 10 then return 'LineNrGroup2' end
 	return nil
 end)
 
