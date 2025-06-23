@@ -7,11 +7,9 @@ M.load = function(spec, setup, do_it_later)
 		if spec then require('mini.deps').add(spec) end
 		if setup then setup() end
 	end
-	if do_it_later then
-		require('mini.deps').later(_load)
-	else
-		require('mini.deps').now(_load)
-	end
+	local loader = require('mini.deps').now
+	if do_it_later then loader = require('mini.deps').later end
+	loader(_load)
 end
 
 local packadd = function()
@@ -27,15 +25,19 @@ local packadd = function()
 end
 
 M.setup = function()
-	packadd()
-	local setup = function()
+	local setup_later = function()
 		require('mini.deps').setup({ path = { package = path_package } })
-		require('mini.completion').setup()
 		require('mini.tabline').setup()
-		require('plugin.mini.snippets').setup()
 		require('plugin.mini.statusline').setup()
 	end
-	M.load({ name = 'mini.nvim' }, setup, true)
+	local setup_now = function()
+		require('mini.completion').setup()
+		require('plugin.mini.snippets').setup()
+	end
+
+	packadd()
+	M.load({ name = 'mini.nvim' }, setup_now, false)
+	M.load(nil, setup_later, true)
 end
 
 return M

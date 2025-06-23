@@ -3,7 +3,7 @@ local M = {}
 local function setup_completion(args)
 	local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 	if client:supports_method('textDocument/completion') then
-		vim.lsp.completion.enable(true, client.id, 0)
+		vim.lsp.completion.enable(true, client.id, args.bufnr)
 	end
 end
 
@@ -29,12 +29,12 @@ local lsps = {
 }
 
 function M.setup()
+	vim.api.nvim_create_autocmd({ 'LspAttach' }, { callback = setup_completion })
 	require('lspconfig')
 	for _, lsp in ipairs(lsps) do
 		if lsp.config then vim.lsp.config(lsp.name, lsp.config) end
 		vim.lsp.enable(lsp.name)
 	end
-	vim.api.nvim_create_autocmd({ 'LspAttach' }, { callback = setup_completion })
 end
 
 return M
