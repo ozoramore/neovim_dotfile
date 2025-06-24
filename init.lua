@@ -67,18 +67,6 @@ require('util.indent').setup({
 	},
 })
 
--- 行番号色付けの設定
-require('util.lnum').setup(10, function(lnum, current_line)
-	if lnum == current_line then return nil end
-	local range = math.abs(lnum - current_line)
-	if range == 5 then return 'LineNrGroup1' end
-	if range == 10 then return 'LineNrGroup2' end
-	if range == 20 then return 'LineNrGroup2' end
-	if range == 50 then return 'LineNrGroup3' end
-	if range == 100 then return 'LineNrGroup3' end
-	return nil
-end)
-
 -- FEP設定(OSごとに振り分け)
 require('util.fep').setup()
 
@@ -99,6 +87,7 @@ load({ source = 'ozoramore/nvimpc.lua' }, require('plugin.mpc').setup, true)
 load({ source = 'folke/styler.nvim' }, require('plugin.styler').setup, true)
 load({ source = 'lewis6991/gitsigns.nvim' }, require('plugin.gitsigns').setup, true)
 load({ source = 'luukvbaal/statuscol.nvim' }, require('plugin.statuscol').setup)
+load({ source = 'ozoramore/lnum_color.lua' }, require('plugin.lnum_color').setup,true)
 
 -- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
 if vim.fn.has('unix') == 1 then
