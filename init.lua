@@ -33,7 +33,7 @@ require('util.option').setopts({
 	-- fold
 	foldenable = true,
 	foldmethod = 'indent',
-	foldcolumn = '2',
+	foldcolumn = '1',
 	foldlevel = 99,
 
 	-- style
@@ -87,7 +87,7 @@ load({ source = 'ozoramore/nvimpc.lua' }, require('plugin.mpc').setup, true)
 load({ source = 'folke/styler.nvim' }, require('plugin.styler').setup, true)
 load({ source = 'lewis6991/gitsigns.nvim' }, require('plugin.gitsigns').setup, true)
 load({ source = 'luukvbaal/statuscol.nvim' }, require('plugin.statuscol').setup)
-load({ source = 'ozoramore/lnum_color.lua' }, require('plugin.lnum_color').setup,true)
+load({ source = 'ozoramore/lnum_color.lua' }, require('plugin.lnum_color').setup)
 
 -- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
 if vim.fn.has('unix') == 1 then
