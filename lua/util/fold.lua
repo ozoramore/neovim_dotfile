@@ -30,8 +30,8 @@ end
 local FOLD = {}
 
 FOLD.set = function(args)
-	if set_lsp(args.buf) then return end
 	if set_ts(args.buf) then return end
+	if set_lsp(args.buf) then return end
 end
 
 return FOLD
