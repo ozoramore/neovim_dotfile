@@ -11,7 +11,7 @@ end
 local M = {}
 
 M.setup = function()
-	require('lnum_color').setup(10, lnumfunc)
+	require('lnum_color').setup({ interval = 10, get_name = lnumfunc })
 end
 
 return M
