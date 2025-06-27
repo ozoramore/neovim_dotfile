@@ -26,11 +26,11 @@ end
 
 M.setup = function()
 	local setup_later = function()
-		require('mini.deps').setup({ path = { package = path_package } })
 		require('mini.tabline').setup()
 		require('plugin.mini.statusline').setup()
 	end
 	local setup_now = function()
+		require('mini.deps').setup({ path = { package = path_package } })
 		require('mini.completion').setup()
 		require('plugin.mini.snippets').setup()
 	end
