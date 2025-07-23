@@ -13,7 +13,6 @@
 |   |-- ombg.lua
 |   `-- omfg.lua
 |-- init.lua
-|-- _init.vim
 |-- lua
 |   |-- plugin
 |   |   |-- dap.lua
