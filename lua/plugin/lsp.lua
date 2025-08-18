@@ -14,7 +14,7 @@ local conf = {
 	},
 	rust_analyzer = {
 		cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' }
-	}
+	},
 }
 
 local lsps = {
@@ -26,6 +26,9 @@ local lsps = {
 	{ name = 'clangd',        config = conf.clangd },
 	{ name = 'rust_analyzer', config = conf.rust_analyzer },
 	{ name = 'zls' },
+	{ name = 'html' },
+	{ name = 'cssls' },
+	{ name = 'zk' }, -- markdown
 }
 
 function M.setup()
