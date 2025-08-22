@@ -28,7 +28,9 @@ local lsps = {
 	{ name = 'zls' },
 	{ name = 'html' },
 	{ name = 'cssls' },
-	{ name = 'zk' }, -- markdown
+	{ name = 'jsonls' },
+	{ name = 'pylsp' },
+	{ name = 'cmake' },
 }
 
 function M.setup()
