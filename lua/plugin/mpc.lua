@@ -14,10 +14,7 @@ end
 
 M.setup = function()
 	local mpc = require('nvimpc')
-	local host = os.getenv('MPD_HOST') or 'localhost'
-	local port = tonumber(os.getenv('MPD_PORT') or 6600)
-	mpc.setup({ host = host, port = port })
-
+	mpc.setup({ host = os.getenv('MPD_HOST'), port = os.getenv('MPD_PORT') })
 	local cmp_command = function(a, _, _) return vim.tbl_filter(lead_filter(a), mpc.commands) end
 	local cmp_files = function(a, _, _) return vim.tbl_filter(lead_filter(a), mpc.files) end
 
@@ -25,6 +22,7 @@ M.setup = function()
 		local t = split(l, ' ')
 		if #t < 2 or (#t == 2 and a ~= "") then return cmp_command(a, l, p) end
 		if t[2] == 'add' then return cmp_files(a, l, p) end
+		if t[2] == 'listfiles' then return cmp_files(a, l, p) end
 		return nil
 	end
 
