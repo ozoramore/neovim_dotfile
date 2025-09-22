@@ -23,15 +23,8 @@ M.setup = function()
 	vim.keymap.set({ 'n' }, '<Leader>b', dap.toggle_breakpoint)
 	vim.keymap.set({ 'n' }, '<Leader>B', dap.set_breakpoint)
 
-	load({ source = 'rcarriga/nvim-dap-ui', }, function()
-		load({ source = 'nvim-neotest/nvim-nio' }, nil)
-		local dapui = require('dapui')
-		dapui.setup()
-		dap.listeners.before.attach.dapui_config = dapui.open
-		dap.listeners.before.launch.dapui_config = dapui.open
-		dap.listeners.before.event_terminated.dapui_config = dapui.close
-		dap.listeners.before.event_exited.dapui_config = dapui.close
-	end, true)
+	local setup_dap_view = function() require('dap-view').setup() end
+	load({ source = 'igorlfs/nvim-dap-view' }, setup_dap_view, true)
 end
 
 return M
