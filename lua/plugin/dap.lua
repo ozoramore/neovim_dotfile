@@ -10,6 +10,11 @@ M.setup = function()
 		command = 'gdb',
 		args = { '-i=dap', '-q' },
 	}
+	local buf = vim.api.nvim_buf_get_name(0)
+	local root = require('util.rooter').root_dir(buf)
+	if not root then return end
+	local filetype = vim.bo.filetype
+	dap.configurations[filetype] = require('dap.ext.vscode').getconfigs(root .. '/.vscode/launch.json')
 
 	vim.keymap.set({ 'n' }, '<F5>', dap.continue)
 	vim.keymap.set({ 'n' }, '<F10>', dap.step_over)
