@@ -9,23 +9,25 @@ local gdb = {
 local get_launch_json = function()
 	local buf = vim.api.nvim_buf_get_name(0)
 	local root = require('util.rooter').root_dir(buf)
-	if not root then return '' end
+	if not root then return nil end
 	return root .. '/.vscode/launch.json'
+end
+
+local get_debugger = function()
+	local filetype = vim.bo.filetype
+	local json = get_launch_json()
+	if not json then return end
+	local config = require('dap.ext.vscode').getconfigs(json)
+	require('dap').configurations[filetype] = config
 end
 
 local setup_dap_view = function()
 	require('dap-view').setup()
 end
 
-local get_debugger = function()
-	local filetype = vim.bo.filetype
-	local json = get_launch_json()
-	local config = require('dap.ext.vscode').getconfigs(json)
-	require('dap').configurations[filetype] = config
-end
+local load = require('plugin.mini').load
 
 local M = {}
-local load = require('plugin.mini').load
 
 M.setup = function()
 	local dap = require('dap')
