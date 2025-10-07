@@ -14,7 +14,7 @@ end
 
 local packadd = function()
 	local mini_path = path_package .. 'pack/deps/start/mini.nvim'
-	local mini_repo = 'https://github.com/echasnovski/mini.nvim'
+	local mini_repo = 'https://github.com/nvim-mini/mini.nvim'
 	if not vim.uv.fs_stat(mini_path) then
 		vim.system({ 'git', 'clone', '--filter=blob:none', mini_repo, mini_path })
 		vim.cmd.helptags('ALL')
