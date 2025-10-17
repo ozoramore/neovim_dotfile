@@ -271,6 +271,13 @@ hi('MiniStatuslineModeVisual', colors.black, colors.magenta)
 hi('MiniStatuslineModeReplace', colors.black, colors.yellow)
 hi('MiniStatuslineModeOther', nil, colors.b_black)
 
+hi('OMStatuslineModeNormal', nil, colors.black, { sp = colors.b_blue, underline = true })
+hi('OMStatuslineModeInsert', nil, colors.black, { sp = colors.b_green, underline = true })
+hi('OMStatuslineModeCommand', nil, colors.black, { sp = colors.b_red, underline = true })
+hi('OMStatuslineModeVisual', nil, colors.black, { sp = colors.magenta, underline = true })
+hi('OMStatuslineModeReplace', nil, colors.black, { sp = colors.yellow, underline = true })
+hi('OMStatuslineModeOther', nil, colors.black, { sp = colors.b_black, underline = true })
+
 hi('GitSignsAdd', colors.green, nil)
 hi('GitSignsChange', colors.blue, nil)
 hi('GitSignsDelete', colors.red, nil)
