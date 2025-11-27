@@ -44,6 +44,9 @@ M.setup = function()
 
 	--tui
 	setup_dap_view()
+
+	--現在のバッファのデバッガを取得して終了(遅延実行の対応)
+	get_debugger()
 end
 
 return M
