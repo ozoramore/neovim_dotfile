@@ -25,8 +25,6 @@ local setup_dap_view = function()
 	require('dap-view').setup()
 end
 
-local load = require('plugin.mini').load
-
 local M = {}
 
 M.setup = function()
@@ -45,7 +43,7 @@ M.setup = function()
 	vim.keymap.set({ 'n' }, '<Leader>B', dap.set_breakpoint)
 
 	--tui
-	load({ source = 'igorlfs/nvim-dap-view' }, setup_dap_view, true)
+	setup_dap_view()
 end
 
 return M

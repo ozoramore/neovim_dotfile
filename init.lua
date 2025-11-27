@@ -91,7 +91,7 @@ load({ source = 'ozoramore/lnum_color.lua' }, require('plugin.lnum_color').setup
 
 -- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
 if vim.fn.has('unix') == 1 then
-	load({ source = 'mfussenegger/nvim-dap' }, require('plugin.dap').setup, true)
+	load({ source = 'igorlfs/nvim-dap-view', depends = { 'mfussenegger/nvim-dap' } }, require('plugin.dap').setup, true)
 	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup, true)
 	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup, true)
 end
