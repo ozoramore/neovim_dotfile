@@ -20,6 +20,7 @@ end
 
 function M.setup()
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, { callback = select_theme })
+	select_theme() --遅延実行に対応
 end
 
 return M
