@@ -30,12 +30,12 @@
 |   |-- readme.md
 |   `-- util
 |       |-- fep.lua
+|       |-- file.lua
 |       |-- filetype.lua
 |       |-- fold.lua
 |       |-- format.lua
 |       |-- indent.lua
-|       |-- option.lua
-|       `-- rooter.lua
+|       `-- option.lua
 |-- README.md
 `-- ss.png
 ```
