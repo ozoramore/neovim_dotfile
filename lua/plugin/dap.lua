@@ -8,7 +8,7 @@ local gdb = {
 
 local get_launch_json = function()
 	local buf = vim.api.nvim_buf_get_name(0)
-	local root = require('util.rooter').root_dir(buf)
+	local root = require('util.file').root_dir(buf)
 	if not root then return nil end
 	return root .. '/.vscode/launch.json'
 end
