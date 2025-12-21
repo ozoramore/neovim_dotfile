@@ -22,9 +22,9 @@ local set_w32y = function(path)
 end
 
 local function wsl_im_conf()
-	local w32y = check_exec('/mnt/c/Program Files/Neovim/bin/win32yank.exe')
+	local w32y = check_exec('win32yank.exe')
 	if w32y then set_w32y(w32y) end
-	local fep = check_exec('/mnt/c/FreeSoft/zenhan/zenhan.exe')
+	local fep = check_exec('zenhan.exe')
 	if fep then set_insertleave({ fep, '-0' }) end
 end
 
@@ -34,9 +34,9 @@ local function fcitx_conf()
 end
 
 local function windows_im_conf()
-	local w32y = check_exec('C:/Program Files/Neovim/bin/win32yank.exe')
+	local w32y = check_exec('win32yank.exe')
 	if w32y then set_w32y(w32y) end
-	local fep = check_exec('C:/FreeSoft/zenhan/zenhan.exe')
+	local fep = check_exec('zenhan.exe')
 	if fep then set_insertleave({ fep, '-0' }) end
 end
 
