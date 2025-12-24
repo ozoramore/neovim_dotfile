@@ -1,11 +1,11 @@
 local M = {}
 
-local displaySong = function(tbl) return string.format('%2d: %s / %s - %s', tbl.Track, tbl.Title, tbl.Artist, tbl.Album) end
+local display_song = function(tbl) return string.format('%s / %s - %s', tbl.Title, tbl.Artist, tbl.Album) end
 
-local printsongs = function(result)
+local print_songs = function(result)
 	local mpc_util = require('nvimpc.util')
 	local t = {}
-	for _, v in mpc_util.devide(result) do table.insert(t, displaySong(v)) end
+	for _, v in mpc_util.devide(result) do table.insert(t, display_song(v)) end
 	mpc_util.printer(t)
 end
 
@@ -15,8 +15,8 @@ M.setup = function()
 	local mpc = require('nvimpc')
 	mpc.setup(conf)
 
-	vim.api.nvim_create_user_command('MpcNowPlaying', mpc.gen('currentsong', printsongs), {})
-	vim.api.nvim_create_user_command('MpcQueue', mpc.gen('playlistinfo', printsongs), {})
+	vim.api.nvim_create_user_command('MpcNowPlaying', mpc.gen('currentsong', print_songs), {})
+	vim.api.nvim_create_user_command('MpcQueue', mpc.gen('playlistinfo', print_songs), {})
 end
 
 return M
