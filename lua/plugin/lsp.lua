@@ -31,6 +31,8 @@ local lsps = {
 	{ name = 'jsonls' },
 	{ name = 'pylsp' },
 	{ name = 'cmake' },
+	{ name = "perlls" },
+	{ name = "phan" },
 }
 
 function M.setup()

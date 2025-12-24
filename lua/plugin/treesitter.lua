@@ -9,6 +9,8 @@ local installed = {
 	'javascript',
 	'lua',
 	'markdown',
+	'perl',
+	'php',
 	'python',
 	'ruby',
 	'rust',
