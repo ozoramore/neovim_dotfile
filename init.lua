@@ -5,6 +5,17 @@
 -- vim.v[key] = value
 require('util.option').setvals({
 	mapleader = ',',
+
+	-- netrw(filemanager)
+	netrw_banner = 0,
+	netrw_liststyle = 1,
+	netrw_sizestyle = "H",
+	netrw_winsize = 10,
+	netrw_wiw = 1,
+	netrw_browse_split = 3,
+	netrw_timefmt = "%F %T%z",
+	netrw_dirhistmax = 0,
+	netrw_hide = 0,
 })
 
 -- vim.cmd[key](value)
@@ -47,6 +58,7 @@ require('util.option').setopts({
 	list = true,
 	fillchars = { fold = ' ', foldopen = '┌', foldsep = '│', foldclose = '─' },
 	listchars = { tab = '>-', trail = '_', extends = '>', precedes = '<', nbsp = '%' },
+
 })
 
 --- filetypeの紐付け
