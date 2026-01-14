@@ -1,35 +1,53 @@
 vim.cmd.hi('clear')
 vim.g.colors_name = 'omfg'
 local colors = {
-	black     = '#17181a',
-	red       = '#d95136',
-	green     = '#51966c',
-	yellow    = '#d9a336',
-	blue      = '#366cd9',
-	magenta   = '#9589d9',
-	cyan      = '#36bed9',
-	white     = '#dcdfe4',
-	b_black   = '#5c5c6e',
-	b_red     = '#ff9580',
-	b_green   = '#84cf98',
-	b_yellow  = '#ffd480',
-	b_blue    = '#80aaff',
-	b_magenta = '#d273e6',
-	b_cyan    = '#80eaff',
-	b_white   = '#ffffff',
+	black     = { gui = '#17181a', cli = 'Black' },
+	red       = { gui = '#d95136', cli = 'DarkRed' },
+	green     = { gui = '#51966c', cli = 'DarkGreen' },
+	yellow    = { gui = '#d9a336', cli = 'DarkYellow' },
+	blue      = { gui = '#366cd9', cli = 'DarkBlue' },
+	magenta   = { gui = '#9589d9', cli = 'DarkMagenta' },
+	cyan      = { gui = '#36bed9', cli = 'DarkCyan' },
+	white     = { gui = '#dcdfe4', cli = 'LightGrey' },
+	b_black   = { gui = '#5c5c6e', cli = 'DarkGrey' },
+	b_red     = { gui = '#ff9580', cli = 'LightRed' },
+	b_green   = { gui = '#84cf98', cli = 'LightGreen' },
+	b_yellow  = { gui = '#ffd480', cli = 'LightYellow' },
+	b_blue    = { gui = '#80aaff', cli = 'LightBlue' },
+	b_magenta = { gui = '#d273e6', cli = 'LightMagenta' },
+	b_cyan    = { gui = '#80eaff', cli = 'LightCyan' },
+	b_white   = { gui = '#ffffff', cli = 'White' },
 
-	tools     = '#606066',
-	comment   = '#a4bfb6',
-	highlight = '#eecc77',
-	separator = '#eecc77',
+	tools     = { gui = '#606066', cli = 'DarkGrey' },
+	comment   = { gui = '#a4bfb6', cli = 'LightGrey' },
+	highlight = { gui = '#eecc77', cli = 'DarkYellow' },
+	separator = { gui = '#eecc77', cli = 'DarkYellow' },
 }
 
-local hi = function(name, fg, bg, val)
-	val = val or {}
-	val.force = true
-	val.cterm = val.cterm or {}
-	val.fg = fg
-	val.bg = bg
+local hi = function(name, fg, bg, sp)
+	local val = {}
+	val.cterm = {}
+
+	if sp then
+		if sp.color then
+			val.sp = sp.color.gui
+		end
+		if sp.attr then
+			val[sp.attr] = true
+			val.cterm[sp.attr] = true
+		end
+	end
+
+	if fg then
+		val.fg = fg.gui
+		val.ctermfg = fg.cli
+	end
+
+	if bg then
+		val.bg = bg.gui
+		val.ctermbg = bg.cli
+	end
+
 	vim.api.nvim_set_hl(0, name, val)
 end
 
@@ -46,19 +64,19 @@ hi('Normal', nil, nil)
 hi('Conceal', colors.white, colors.b_black)
 hi('Cursor', nil, nil)
 hi('lCursor', nil, nil)
-hi('DiffText', nil, colors.b_red, { bold = true })
+hi('DiffText', nil, colors.b_red, { attr = 'bold' })
 hi('ErrorMsg', colors.b_white, colors.red)
-hi('IncSearch', nil, nil, { reverse = true })
-hi('ModeMsg', nil, nil, { bold = true })
-hi('NonText', colors.b_black, nil)
+hi('IncSearch', nil, nil, { attr = 'reverse' })
+hi('ModeMsg', nil, nil, { attr = 'bold' })
+hi('NonText', colors.b_black)
 hi('PmenuSbar', nil, colors.b_black)
 hi('StatusLine', nil, nil)
 hi('StatusLineNC', nil, nil)
 hi('TabLine', colors.b_black, nil)
 hi('TabLineFill', nil, nil)
-hi('TabLineSel', colors.b_white, nil, { underline = true })
-hi('TermCursor', nil, nil, { reverse = true })
-hi('WinBar', nil, nil, { bold = true })
+hi('TabLineSel', colors.b_white, nil, { attr = 'underline' })
+hi('TermCursor', nil, nil, { attr = 'reverse' })
+hi('WinBar', nil, nil, { attr = 'bold' })
 hi('WildMenu', colors.black, colors.b_yellow)
 
 hi('VertSplit', colors.separator, nil)
@@ -85,7 +103,7 @@ link('FloatFooter', 'Title')
 
 hi('FloatShadow', nil, nil, { blend = 80 })
 hi('FloatShadowThrough', nil, nil, { blend = 100 })
-hi('RedrawDebugNormal', nil, nil, { reverse = true })
+hi('RedrawDebugNormal', nil, nil, { attr = 'reverse' })
 hi('RedrawDebugClear', nil, colors.b_yellow)
 hi('RedrawDebugComposed', nil, colors.green)
 hi('RedrawDebugRecompose', nil, colors.red)
@@ -113,16 +131,16 @@ link('Tag', 'Statement')
 link('Delimiter', 'Special')
 link('Debug', 'Special')
 
-hi('DiagnosticError', colors.red, nil, { bold = true })
-hi('DiagnosticWarn', colors.yellow, nil, { bold = true })
-hi('DiagnosticInfo', colors.blue, nil, { bold = true })
-hi('DiagnosticHint', colors.white, nil, { bold = true })
-hi('DiagnosticOk', colors.green, nil, { bold = true })
-hi('DiagnosticUnderlineError', nil, nil, { sp = colors.b_red, underline = true })
-hi('DiagnosticUnderlineWarn', nil, nil, { sp = colors.yellow, underline = true })
-hi('DiagnosticUnderlineInfo', nil, nil, { sp = colors.b_blue, underline = true })
-hi('DiagnosticUnderlineHint', nil, nil, { sp = colors.white, underline = true })
-hi('DiagnosticUnderlineOk', nil, nil, { sp = colors.b_green, underline = true })
+hi('DiagnosticError', colors.red, nil, { attr = 'bold' })
+hi('DiagnosticWarn', colors.yellow, nil, { attr = 'bold' })
+hi('DiagnosticInfo', colors.blue, nil, { attr = 'bold' })
+hi('DiagnosticHint', colors.white, nil, { attr = 'bold' })
+hi('DiagnosticOk', colors.green, nil, { attr = 'bold' })
+hi('DiagnosticUnderlineError', nil, nil, { color = colors.b_red, attr = 'underline' })
+hi('DiagnosticUnderlineWarn', nil, nil, { color = colors.yellow, attr = 'underline' })
+hi('DiagnosticUnderlineInfo', nil, nil, { color = colors.b_blue, attr = 'underline' })
+hi('DiagnosticUnderlineHint', nil, nil, { color = colors.white, attr = 'underline' })
+hi('DiagnosticUnderlineOk', nil, nil, { color = colors.b_green, attr = 'underline' })
 link('DiagnosticVirtualTextError', 'DiagnosticError')
 link('DiagnosticVirtualTextWarn', 'DiagnosticWarn')
 link('DiagnosticVirtualTextInfo', 'DiagnosticInfo')
@@ -138,7 +156,7 @@ link('DiagnosticSignWarn', 'DiagnosticWarn')
 link('DiagnosticSignInfo', 'DiagnosticInfo')
 link('DiagnosticSignHint', 'DiagnosticHint')
 link('DiagnosticSignOk', 'DiagnosticOk')
-hi('DiagnosticDeprecated', nil, nil, { sp = colors.b_red, strikethrough = true })
+hi('DiagnosticDeprecated', nil, nil, { color = colors.b_red, attr = 'strikethrough' })
 
 link('DiagnosticUnnecessary', 'Comment')
 link('LspInlayHint', 'NonText')
@@ -225,43 +243,43 @@ link('@lsp.type.variable', 'Identifier')
 hi('ColorColumn', nil, colors.tools)
 hi('CursorColumn', nil, nil)
 hi('CursorLine', nil, nil)
-hi('CursorLineNr', colors.highlight, nil, { sp = colors.highlight, underline = true })
+hi('CursorLineNr', colors.highlight, nil, { color = colors.highlight, attr = 'underline' })
 hi('DiffAdd', colors.green, colors.black)
 hi('DiffChange', nil, colors.magenta)
 hi('DiffDelete', colors.red, colors.black)
 hi('Directory', colors.b_cyan, nil)
 hi('FoldColumn', colors.tools, nil)
-hi('Folded', colors.tools, nil, { underline = true })
+hi('Folded', colors.tools, nil, { attr = 'underline' })
 hi('LineNr', colors.tools, nil)
-hi('MatchParen', nil, nil, { sp = colors.highlight, underdouble = true })
-hi('MoreMsg', colors.b_green, nil, { bold = true })
+hi('MatchParen', nil, nil, { color = colors.highlight, attr = 'underdouble' })
+hi('MoreMsg', colors.b_green, nil, { attr = 'bold' })
 hi('Pmenu', colors.b_white, colors.black)
 hi('PmenuSel', colors.b_white, colors.blue)
 hi('PmenuThumb', nil, colors.b_white)
-hi('Question', colors.b_green, nil, { italic = true })
-hi('Search', colors.highlight, colors.black, { reverse = true })
-hi('SignColumn', colors.b_cyan, nil, { bold = true })
+hi('Question', colors.b_green, nil, { attr = 'italic' })
+hi('Search', colors.highlight, colors.black, { attr = 'reverse' })
+hi('SignColumn', colors.b_cyan, nil, { attr = 'bold' })
 hi('SpecialKey', colors.b_blue, nil)
-hi('SpellBad', nil, colors.b_red, { sp = colors.b_red, undercurl = true })
-hi('SpellCap', nil, colors.b_blue, { sp = colors.b_blue, undercurl = true })
-hi('SpellLocal', nil, colors.b_cyan, { sp = colors.b_cyan, undercurl = true })
-hi('SpellRare', nil, colors.b_magenta, { sp = colors.b_magenta, undercurl = true })
-hi('Title', colors.b_magenta, nil, { bold = true })
-hi('Visual', nil, nil, { reverse = true })
+hi('SpellBad', nil, colors.b_red, { color = colors.b_red, attr = 'undercurl' })
+hi('SpellCap', nil, colors.b_blue, { color = colors.b_blue, attr = 'undercurl' })
+hi('SpellLocal', nil, colors.b_cyan, { color = colors.b_cyan, attr = 'undercurl' })
+hi('SpellRare', nil, colors.b_magenta, { color = colors.b_magenta, attr = 'undercurl' })
+hi('Title', colors.b_magenta, nil, { attr = 'bold' })
+hi('Visual', nil, nil, { attr = 'reverse' })
 hi('WarningMsg', colors.red, nil)
-hi('Comment', colors.comment, nil, { italic = true })
+hi('Comment', colors.comment, nil, { attr = 'italic' })
 hi('Constant', colors.b_green, nil)
 hi('Special', colors.white, nil)
-hi('SpecialChar', colors.yellow, nil, { italic = true })
+hi('SpecialChar', colors.yellow, nil, { attr = 'italic' })
 hi('Function', colors.b_blue, nil)
-hi('BuiltinFunc', colors.b_blue, nil, { italic = true })
+hi('BuiltinFunc', colors.b_blue, nil, { attr = 'italic' })
 hi('Identifier', colors.b_cyan, nil)
 hi('Statement', colors.b_yellow, nil)
 hi('Operator', colors.yellow, nil)
 hi('PreProc', colors.magenta, nil)
 hi('Type', colors.cyan, nil)
-hi('BuiltinType', colors.cyan, nil, { italic = true })
-hi('Underlined', nil, nil, { underline = true })
+hi('BuiltinType', colors.cyan, nil, { attr = 'italic' })
+hi('Underlined', nil, nil, { attr = 'underline' })
 hi('Ignore', colors.black, nil)
 
 hi('MiniStatuslineModeNormal', colors.black, colors.b_blue)
@@ -271,21 +289,21 @@ hi('MiniStatuslineModeVisual', colors.black, colors.magenta)
 hi('MiniStatuslineModeReplace', colors.black, colors.yellow)
 hi('MiniStatuslineModeOther', nil, colors.b_black)
 
-hi('OMStatuslineModeNormal', nil, nil, { sp = colors.b_blue, underline = true })
-hi('OMStatuslineModeInsert', nil, nil, { sp = colors.b_green, underline = true })
-hi('OMStatuslineModeCommand', nil, nil, { sp = colors.b_red, underline = true })
-hi('OMStatuslineModeVisual', nil, nil, { sp = colors.magenta, underline = true })
-hi('OMStatuslineModeReplace', nil, nil, { sp = colors.yellow, underline = true })
-hi('OMStatuslineModeOther', nil, nil, { sp = colors.b_black, underline = true })
+hi('OMStatuslineModeNormal', nil, nil, { color = colors.b_blue, attr = 'underline' })
+hi('OMStatuslineModeInsert', nil, nil, { color = colors.b_green, attr = 'underline' })
+hi('OMStatuslineModeCommand', nil, nil, { color = colors.b_red, attr = 'underline' })
+hi('OMStatuslineModeVisual', nil, nil, { color = colors.magenta, attr = 'underline' })
+hi('OMStatuslineModeReplace', nil, nil, { color = colors.yellow, attr = 'underline' })
+hi('OMStatuslineModeOther', nil, nil, { color = colors.b_black, attr = 'underline' })
 
 hi('GitSignsAdd', colors.green, nil)
 hi('GitSignsChange', colors.blue, nil)
 hi('GitSignsDelete', colors.red, nil)
 hi('GitSignsUntracked', colors.white, nil)
 
-hi('LineNrGroup1', nil, nil, { sp = colors.highlight, underdotted = true })
-hi('LineNrGroup2', nil, nil, { sp = colors.highlight, underdashed = true })
-hi('LineNrGroup3', nil, nil, { sp = colors.highlight, underline = true })
-hi('LineNrGroup4', nil, nil, { sp = colors.b_cyan, underdashed = true })
-hi('LineNrGroup5', colors.b_cyan, nil, { sp = colors.b_cyan, underdashed = true })
-hi('LineNrInterval', nil, nil, { sp = colors.cyan, underline = true })
+hi('LineNrGroup1', nil, nil, { color = colors.highlight, attr = 'underdotted' })
+hi('LineNrGroup2', nil, nil, { color = colors.highlight, attr = 'underdashed' })
+hi('LineNrGroup3', nil, nil, { color = colors.highlight, attr = 'underline' })
+hi('LineNrGroup4', nil, nil, { color = colors.b_cyan, attr = 'underdashed' })
+hi('LineNrGroup5', colors.b_cyan, nil, { color = colors.b_cyan, attr = 'underdashed' })
+hi('LineNrInterval', nil, nil, { color = colors.cyan, attr = 'underline' })
