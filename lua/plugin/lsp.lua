@@ -8,19 +8,19 @@ local function setup_completion(args)
 end
 
 local nvim_libs = {
-	"${3rd}/luv/library",
-	"${3rd}/busted/library",
-	"${3rd}/luassert/library",
+	'${3rd}/luv/library',
+	'${3rd}/busted/library',
+	'${3rd}/luassert/library',
 }
 
 local conf = {
 	lua_ls = {
 		settings = {
 			Lua = {
-				runtime = { version = "LuaJIT", pathStrict = true, path = { "?.lua", "?/init.lua" }, },
+				runtime = { version = 'LuaJIT', pathStrict = true, path = { '?.lua', '?/init.lua' }, },
 				workspace = {
-					library = vim.tbl_deep_extend('force', nvim_libs, vim.api.nvim_get_runtime_file("lua", true)),
-					checkThirdParty = "Disable",
+					library = vim.tbl_deep_extend('force', nvim_libs, vim.api.nvim_get_runtime_file('lua', true)),
+					checkThirdParty = 'Disable',
 				},
 			},
 		},
@@ -48,8 +48,8 @@ local lsps = {
 	{ name = 'jsonls' },
 	{ name = 'pylsp' },
 	{ name = 'cmake' },
-	{ name = "perlls" },
-	{ name = "phan" },
+	{ name = 'perlls' },
+	{ name = 'phan' },
 }
 
 function M.setup()
