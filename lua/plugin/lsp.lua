@@ -7,7 +7,24 @@ local function setup_completion(args)
 	end
 end
 
+local nvim_libs = {
+	"${3rd}/luv/library",
+	"${3rd}/busted/library",
+	"${3rd}/luassert/library",
+}
+
 local conf = {
+	lua_ls = {
+		settings = {
+			Lua = {
+				runtime = { version = "LuaJIT", pathStrict = true, path = { "?.lua", "?/init.lua" }, },
+				workspace = {
+					library = vim.tbl_deep_extend('force', nvim_libs, vim.api.nvim_get_runtime_file("lua", true)),
+					checkThirdParty = "Disable",
+				},
+			},
+		},
+	},
 	clangd = {
 		cmd = { 'clangd', '--header-insertion=never', '--clang-tidy', '--enable-config' },
 		capabilities = { offsetEncoding = {} } -- Error -32602 対策
@@ -19,7 +36,7 @@ local conf = {
 
 local lsps = {
 	{ name = 'bashls' },
-	{ name = 'lua_ls' },
+	{ name = 'lua_ls',        config = conf.lua_ls },
 	{ name = 'ts_ls' },
 	{ name = 'lemminx' },
 	{ name = 'solargraph' },
