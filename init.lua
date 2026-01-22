@@ -92,6 +92,9 @@ vim.api.nvim_create_autocmd('LspAttach', { callback = require('util.fold').set }
 require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
 local load = require('plugin.mini').load
 
+-- unicode検索
+load({ source = 'https://git.sr.ht/~xigoi/nvim-unicode-search' }, require('plugin.unicode').setup)
+
 -- neovimでmpdを制御する自作プラグイン
 load({ source = 'ozoramore/nvimpc.lua' }, require('plugin.mpc').setup, true)
 
