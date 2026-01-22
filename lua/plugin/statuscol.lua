@@ -1,8 +1,6 @@
 local function signs(ns, add_sign)
-	local sign = { maxwidth = 1, colwidth = 1, auto = false }
-	if ns then sign.namespace = { ns } end
-	for k, v in pairs(add_sign) do sign[k] = v end
-	return { sign = sign, click = 'v:lua.ScSa' }
+	local sign = { maxwidth = 1, colwidth = 1, auto = false, namespace = { ns } }
+	return { sign = vim.tbl_deep_extend('force', sign, add_sign), click = 'v:lua.ScSa' }
 end
 
 local diag_signs = {
