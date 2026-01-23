@@ -6,15 +6,15 @@ end
 local diag_signs = {
 	[vim.diagnostic.severity.ERROR] = '✗',
 	[vim.diagnostic.severity.WARN]  = '⚠',
-	[vim.diagnostic.severity.INFO]  = '◆',
+	[vim.diagnostic.severity.INFO]  = '⎖',
 	[vim.diagnostic.severity.HINT]  = '*',
 }
 
 local dap_signs = {
-	['DapBreakpoint']          = '●',
-	['DapBreakpointCondition'] = '◑',
-	['DapBreakpointRejected']  = '◌',
-	['DapLogPoint']            = '◩',
+	['DapBreakpoint']          = '◆',
+	['DapBreakpointCondition'] = '◈',
+	['DapBreakpointRejected']  = '◇',
+	['DapLogPoint']            = '+',
 	['DapStopped']             = '▶',
 }
 

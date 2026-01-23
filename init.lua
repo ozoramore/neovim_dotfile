@@ -57,7 +57,7 @@ require('util.option').setopts({
 	bg = 'dark',
 	list = true,
 	fillchars = { fold = ' ', foldopen = '┌', foldsep = '│', foldclose = '─' },
-	listchars = { tab = '>-', trail = '_', extends = '>', precedes = '<', nbsp = '%' },
+	listchars = { tab = '>-', trail = '_', extends = '…', precedes = '…', nbsp = '␣' },
 
 })
 
