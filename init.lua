@@ -90,7 +90,14 @@ vim.api.nvim_create_autocmd('LspAttach', { callback = require('util.fold').set }
 
 --- 各種プラグイン設定
 require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
+
 local load = require('plugin.mini').load
+
+-- mini.nvim
+load({ name = 'mini.nvim' }, require('mini.tabline').setup, true)
+load({ name = 'mini.nvim' }, require('plugin.mini.statusline').setup, true)
+load({ name = 'mini.nvim' }, require('mini.completion').setup)
+load({ name = 'mini.nvim' }, require('plugin.mini.snippets').setup)
 
 -- unicode検索
 load({ source = 'https://git.sr.ht/~xigoi/nvim-unicode-search' }, require('plugin.unicode').setup)
