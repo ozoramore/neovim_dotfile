@@ -94,9 +94,9 @@ require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplu
 local load = require('plugin.mini').load
 
 -- mini.nvim
-load({ name = 'mini.nvim' }, require('mini.tabline').setup, true)
+load({ name = 'mini.nvim' }, require('plugin.mini.tabline').setup, true)
 load({ name = 'mini.nvim' }, require('plugin.mini.statusline').setup, true)
-load({ name = 'mini.nvim' }, require('mini.completion').setup)
+load({ name = 'mini.nvim' }, require('plugin.mini.completion').setup)
 load({ name = 'mini.nvim' }, require('plugin.mini.snippets').setup)
 
 -- unicode検索
