@@ -1,35 +1,12 @@
 local TS = {}
 
-local installed = {
-	'bash',
-	'c',
-	'cpp',
-	'css',
-	'html',
-	'javascript',
-	'lua',
-	'markdown',
-	'perl',
-	'php',
-	'python',
-	'ruby',
-	'rust',
-	'toml',
-	'typescript',
-	'vimdoc',
-	'vue',
-	'xml',
-	'yaml',
-	'zig',
-}
-
 TS.setup = function()
-	require('nvim-treesitter.configs').setup({
-		ensure_installed = installed,
-		highlight = { enable = true },
-		incremental_selection = { enable = true },
-		indent = { enable = true },
-		textobjects = { enable = true },
+	require('nvim-treesitter').setup({})
+	pcall(vim.treesitter.start)
+	vim.api.nvim_create_autocmd('FileType', {
+		callback = function(_)
+			pcall(vim.treesitter.start)
+		end
 	})
 end
 
