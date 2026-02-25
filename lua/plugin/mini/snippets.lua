@@ -1,28 +1,32 @@
 local SNIPS = {}
 
-local snips = require('mini.snippets')
-
 -- Do not match with whitespace to cursor's left
-local function match_strict(s) return snips.default_match(s, { pattern_fuzzy = '%S+' }) end
+local function match_strict(s)
+	return require('mini.snippets').default_match(s, { pattern_fuzzy = '%S+' })
+end
 
 local function snippets_stop()
-	local function all_stop() while snips.session.get() do snips.session.stop() end end
+	local function all_stop()
+		while require('mini.snippets').session.get() do
+			require('mini.snippets').session.stop()
+		end
+	end
 	vim.api.nvim_create_autocmd('ModeChanged', { pattern = '*:n', once = true, callback = all_stop })
 end
 
 local function expand_or_jump(key, expand_key, jump)
 	if vim.fn.pumvisible() ~= 0 then
 		return expand_key
-	elseif snips.session.get() then
-		snips.session.jump(jump); return ''
+	elseif require('mini.snippets').session.get() then
+		require('mini.snippets').session.jump(jump); return ''
 	else
 		return key
 	end
 end
 
 local function supertab()
-	if #snips.expand({ insert = false }) > 0 then
-		vim.schedule(snips.expand)
+	if #require('mini.snippets').expand({ insert = false }) > 0 then
+		vim.schedule(require('mini.snippets').expand)
 		return ''
 	end
 	return expand_or_jump('<Tab>', '<C-n>', 'next')
