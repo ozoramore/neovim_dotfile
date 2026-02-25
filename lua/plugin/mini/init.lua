@@ -15,8 +15,8 @@ M.load = function(spec, setup, do_it_later)
 end
 
 M.setup = function()
-	local mini_path = path_package .. 'pack/deps/start/mini.nvim'
-	local mini_repo = 'https://github.com/nvim-mini/mini.nvim'
+	local mini_path = path_package .. 'pack/deps/start/mini.deps'
+	local mini_repo = 'https://github.com/nvim-mini/mini.deps'
 
 	M.has = vim.uv.fs_stat(mini_path)
 	if not M.has then

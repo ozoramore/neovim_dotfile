@@ -94,10 +94,10 @@ require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplu
 local load = require('plugin.mini').load
 
 -- mini.nvim
-load({ name = 'mini.nvim' }, require('plugin.mini.tabline').setup, true)
-load({ name = 'mini.nvim' }, require('plugin.mini.statusline').setup, true)
-load({ name = 'mini.nvim' }, require('plugin.mini.completion').setup)
-load({ name = 'mini.nvim' }, require('plugin.mini.snippets').setup)
+load({ source = 'nvim-mini/mini.tabline' }, require('plugin.mini.tabline').setup, true)
+load({ source = 'nvim-mini/mini.statusline' }, require('plugin.mini.statusline').setup, true)
+load({ source = 'nvim-mini/mini.completion' }, require('plugin.mini.completion').setup)
+load({ source = 'nvim-mini/mini.snippets' }, require('plugin.mini.snippets').setup)
 
 -- unicode検索
 load({ source = 'https://git.sr.ht/~xigoi/nvim-unicode-search' }, require('plugin.unicode').setup)
