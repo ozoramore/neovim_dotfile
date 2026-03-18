@@ -66,16 +66,16 @@ require('util.filetype').setup({
 	['cpp'] = { 'h', 'def', 'tbl', 'inc' },
 })
 
---- ファイルタイプごとのインデント設定
-require('util.indent').setup({
-	default = { tabstop = 4, is_expand = false },
+--- filetypeごとのbuf option設定
+require('util.filetype').config({
+	default = { tabstop = 4, expandtab = false },
 	config = {
-		markdown = { tabstop = 4, is_expand = true },
-		yaml = { tabstop = 2, is_expand = true },
-		json = { tabstop = 2, is_expand = true },
-		ruby = { tabstop = 2, is_expand = true },
-		rust = { tabstop = 4, is_expand = true },
-		zig = { tabstop = 4, is_expand = true },
+		markdown = { tabstop = 4, expandtab = true },
+		yaml = { tabstop = 2, expandtab = true },
+		json = { tabstop = 2, expandtab = true },
+		ruby = { tabstop = 2, expandtab = true },
+		rust = { tabstop = 4, expandtab = true },
+		zig = { tabstop = 4, expandtab = true },
 	},
 })
 
