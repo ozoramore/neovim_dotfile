@@ -1,5 +1,5 @@
-local check_exec = function(fep)
-	if vim.fn.executable(fep) == 1 then return fep else return nil end
+local check_exec = function(cmd)
+	if vim.fn.executable(cmd) == 1 then return cmd else return nil end
 end
 
 local set_insertleave = function(cmd)
@@ -8,9 +8,9 @@ local set_insertleave = function(cmd)
 	})
 end
 
-local set_w32y = function(path)
-	local function win32yank(cmd)
-		local exe = { path, cmd }
+local set_win32yank = function(cmd)
+	local function win32yank(arg)
+		local exe = { cmd, arg }
 		return { ['+'] = exe, ['*'] = exe }
 	end
 	vim.g.clipboard = {
@@ -22,8 +22,6 @@ local set_w32y = function(path)
 end
 
 local function wsl_im_conf()
-	local w32y = check_exec('win32yank.exe')
-	if w32y then set_w32y(w32y) end
 	local fep = check_exec('zenhan.exe')
 	if fep then set_insertleave({ fep, '-0' }) end
 end
@@ -34,10 +32,10 @@ local function fcitx_conf()
 end
 
 local function windows_im_conf()
-	local w32y = check_exec('win32yank.exe')
-	if w32y then set_w32y(w32y) end
 	local fep = check_exec('zenhan.exe')
 	if fep then set_insertleave({ fep, '-0' }) end
+	local win32yank = check_exec('win32yank.exe')
+	if win32yank then set_win32yank(win32yank) end
 end
 
 local fep = {
