@@ -9,6 +9,12 @@ M.setopts = function(opts)
 	end
 end
 
+M.setbufopts = function(opts)
+	for k, v in pairs(opts) do
+		vim.bo[k] = v
+	end
+end
+
 M.setcmds = function(cmds)
 	for k, v in pairs(cmds) do
 		vim.cmd[k](v)
