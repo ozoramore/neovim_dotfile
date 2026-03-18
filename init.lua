@@ -89,7 +89,7 @@ vim.api.nvim_create_user_command('Format', require('util.format').exec, { nargs 
 vim.api.nvim_create_autocmd('LspAttach', { callback = require('util.fold').set })
 
 --- 各種プラグイン設定
-require('plugin.mini').setup() -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
+require('plugin.mini').setup('https://github.com/nvim-mini/mini.deps') -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
 
 local load = require('plugin.mini').load
 

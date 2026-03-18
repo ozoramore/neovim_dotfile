@@ -1,6 +1,9 @@
 local M = {}
 
 local path_package = vim.fn.stdpath('data') .. '/site/'
+local mini_path = path_package .. 'pack/deps/start/mini.deps'
+
+M.has = false
 
 M.load = function(spec, setup, do_it_later)
 	if not M.has then return end
@@ -14,20 +17,22 @@ M.load = function(spec, setup, do_it_later)
 	loader(_load)
 end
 
-M.setup = function()
-	local mini_path = path_package .. 'pack/deps/start/mini.deps'
-	local mini_repo = 'https://github.com/nvim-mini/mini.deps'
+M.initialize = function(url)
+	if not url then os.exit() end
 
+	vim.system({ 'git', 'clone', '--filter=blob:none', url, mini_path })
+	vim.cmd.helptags('ALL')
+	print('Please restart neovim.')
+	-- TODO: Put vim.cmd.restart()
+	-- ( vim.cmd.restart is depends on NVIM v0.12 or later. )
+	os.exit()
+end
+
+M.setup = function(url)
 	M.has = vim.uv.fs_stat(mini_path)
-	if not M.has then
-		vim.system({ 'git', 'clone', '--filter=blob:none', mini_repo, mini_path })
-		vim.cmd.helptags('ALL')
-		print('Please restart neovim.')
-		-- TODO: Put vim.cmd.restart()
-		-- ( vim.cmd.restart is depends on NVIM v0.12 or later. )
-	else
-		require('mini.deps').setup({ path = { package = path_package } })
-	end
+	if not M.has then M.initialize(url) end
+
+	require('mini.deps').setup({ path = { package = path_package } })
 end
 
 return M
