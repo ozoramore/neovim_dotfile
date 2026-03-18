@@ -20,15 +20,14 @@ local url = {
 
 M.setup = function()
 	--- 各種プラグイン設定
-	require('plugin.mini').setup(url.mini_deps) -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
-
-	local load = require('plugin.mini').load
+	require('plugin.mini_deps').setup(url.mini_deps)
+	local load = require('plugin.mini_deps').load
 
 	-- mini.nvim
-	load({ source = url.mini_tabline }, require('plugin.mini.tabline').setup, true)
-	load({ source = url.mini_statusline }, require('plugin.mini.statusline').setup, true)
-	load({ source = url.mini_completion }, require('plugin.mini.completion').setup)
-	load({ source = url.mini_snippets }, require('plugin.mini.snippets').setup)
+	load({ source = url.mini_tabline }, require('plugin.mini_tabline').setup, true)
+	load({ source = url.mini_statusline }, require('plugin.mini_statusline').setup, true)
+	load({ source = url.mini_completion }, require('plugin.mini_completion').setup)
+	load({ source = url.mini_snippets }, require('plugin.mini_snippets').setup)
 
 	-- unicode検索
 	load({ source = url.unicode_search }, require('plugin.unicode').setup)
