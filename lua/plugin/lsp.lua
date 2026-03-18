@@ -15,14 +15,12 @@ local nvim_libs = {
 
 local nvim_lua_runtime = vim.api.nvim_get_runtime_file('lua', true)
 
-local merge = require('util.table').mergeList
-
 local conf = {
 	lua_ls = {
 		settings = {
 			Lua = {
 				runtime = { version = 'LuaJIT', pathStrict = true, path = { '?.lua', '?/init.lua' }, },
-				workspace = { library = merge(nvim_libs, nvim_lua_runtime), checkThirdParty = false, },
+				workspace = { library = vim.tbl_deep_extend('force', nvim_libs, nvim_lua_runtime), checkThirdParty = false, },
 			},
 		},
 	},
