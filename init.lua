@@ -88,32 +88,5 @@ vim.api.nvim_create_user_command('Format', require('util.format').exec, { nargs 
 --- コードフォールディング
 vim.api.nvim_create_autocmd('LspAttach', { callback = require('util.fold').set })
 
---- 各種プラグイン設定
-require('plugin.mini').setup('https://github.com/nvim-mini/mini.deps') -- `load` は mini.deps 依存のため 先にplugin.miniをsetupしておく.
-
-local load = require('plugin.mini').load
-
--- mini.nvim
-load({ source = 'nvim-mini/mini.tabline' }, require('plugin.mini.tabline').setup, true)
-load({ source = 'nvim-mini/mini.statusline' }, require('plugin.mini.statusline').setup, true)
-load({ source = 'nvim-mini/mini.completion' }, require('plugin.mini.completion').setup)
-load({ source = 'nvim-mini/mini.snippets' }, require('plugin.mini.snippets').setup)
-
--- unicode検索
-load({ source = 'https://git.sr.ht/~xigoi/nvim-unicode-search' }, require('plugin.unicode').setup)
-
--- neovimでmpdを制御する自作プラグイン
-load({ source = 'ozoramore/nvimpc.lua' }, require('plugin.mpc').setup, true)
-
--- 外観
-load({ source = 'folke/styler.nvim' }, require('plugin.styler').setup, true)
-load({ source = 'lewis6991/gitsigns.nvim' }, require('plugin.gitsigns').setup, true)
-load({ source = 'luukvbaal/statuscol.nvim' }, require('plugin.statuscol').setup)
-load({ source = 'ozoramore/lnum_color.lua' }, require('plugin.lnum_color').setup)
-
--- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
-if vim.fn.has('unix') == 1 then
-	load({ source = 'igorlfs/nvim-dap-view', depends = { 'mfussenegger/nvim-dap' } }, require('plugin.dap').setup, true)
-	load({ source = 'nvim-treesitter/nvim-treesitter' }, require('plugin.treesitter').setup, true)
-	load({ source = 'neovim/nvim-lspconfig' }, require('plugin.lsp').setup, true)
-end
+--- 外部プラグインのセットアップ
+require('plugin').setup()
