@@ -1,7 +1,7 @@
 local M = {}
 
 M.is_exist = function(p)
-	local f = io.open(p,'r')
+	local f = io.open(p, 'r')
 	if not f then return false end
 	f:close()
 	return true
