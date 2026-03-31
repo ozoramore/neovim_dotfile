@@ -23,9 +23,12 @@ M.initialize = function(url)
 	vim.system({ 'git', 'clone', '--filter=blob:none', url, mini_path })
 	vim.cmd.helptags('ALL')
 	print('Please restart neovim.')
-	-- TODO: Put vim.cmd.restart()
-	-- ( vim.cmd.restart is depends on NVIM v0.12 or later. )
-	os.exit()
+
+	if (vim.version.ge(vim.version(), { 0, 12, 0 })) then
+		vim.cmd.restart()
+	else
+		os.exit()
+	end
 end
 
 M.setup = function(url)
