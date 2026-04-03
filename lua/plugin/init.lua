@@ -2,7 +2,6 @@ local M = {}
 
 local url = {
 	mini_deps = 'https://github.com/nvim-mini/mini.deps',           -- プラグインマネージャ
-	mini_tabline = 'https://github.com/nvim-mini/mini.tabline',     -- タブバーの表示
 	mini_statusline = 'https://github.com/nvim-mini/mini.statusline', -- statuslineの装飾
 	mini_completion = 'https://github.com/nvim-mini/mini.completion', -- タブ補完の対応
 	mini_snippets = 'https://github.com/nvim-mini/mini.snippets',   -- タブ補完で出てくる候補に対応
@@ -24,7 +23,6 @@ M.setup = function()
 	local load = require('plugin.mini_deps').load
 
 	-- mini.nvim
-	load({ source = url.mini_tabline }, require('plugin.mini_tabline').setup, true)
 	load({ source = url.mini_statusline }, require('plugin.mini_statusline').setup, true)
 	load({ source = url.mini_completion }, require('plugin.mini_completion').setup)
 	load({ source = url.mini_snippets }, require('plugin.mini_snippets').setup)
