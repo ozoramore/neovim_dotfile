@@ -15,6 +15,7 @@ local url = {
 	dap_view = 'https://github.com/igorlfs/nvim-dap-view',          -- DAPのビジュアライズ
 	treesitter = 'https://github.com/nvim-treesitter/nvim-treesitter', -- TreeSitterに対応
 	lspconfig = 'https://github.com/neovim/nvim-lspconfig',         -- LanguageServerProtocolに対応
+	tig = 'https://github.com/ozoramore/tig.nvim'                   -- Tig(git用TUI)を内部から呼び出す
 }
 
 M.setup = function()
@@ -43,6 +44,7 @@ M.setup = function()
 	load({ source = url.dap_view, depends = { url.dap } }, require('plugin.dap').setup, true)
 	load({ source = url.treesitter }, require('plugin.treesitter').setup, true)
 	load({ source = url.lspconfig }, require('plugin.lsp').setup, true)
+	load({ source = url.tig }, require('plugin.tig').setup, true)
 end
 
 return M
