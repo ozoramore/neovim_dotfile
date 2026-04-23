@@ -8,19 +8,6 @@ local set_insertleave = function(cmd)
 	})
 end
 
-local set_win32yank = function(cmd)
-	local function win32yank(arg)
-		local exe = { cmd, arg }
-		return { ['+'] = exe, ['*'] = exe }
-	end
-	vim.g.clipboard = {
-		name = 'win32yank',
-		copy = win32yank('-i'),
-		paste = win32yank('-o'),
-		cache_enabled = true
-	}
-end
-
 local function wsl_im_conf()
 	local fep = check_exec('zenhan.exe')
 	if fep then set_insertleave({ fep, '-0' }) end
@@ -34,8 +21,6 @@ end
 local function windows_im_conf()
 	local fep = check_exec('zenhan.exe')
 	if fep then set_insertleave({ fep, '-0' }) end
-	local win32yank = check_exec('win32yank.exe')
-	if win32yank then set_win32yank(win32yank) end
 end
 
 local fep = {
