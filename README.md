@@ -28,6 +28,7 @@
 |   |   |-- mpc.lua
 |   |   |-- statuscol.lua
 |   |   |-- styler.lua
+|   |   |-- tig.lua
 |   |   |-- treesitter.lua
 |   |   `-- unicode.lua
 |   |-- readme.md
@@ -38,7 +39,8 @@
 |       |-- filetype.lua
 |       |-- fold.lua
 |       |-- format.lua
-|       `-- option.lua
+|       |-- option.lua
+|       `-- treesitter.lua
 |-- README.md
 `-- ss.png
 ```
