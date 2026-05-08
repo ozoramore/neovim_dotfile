@@ -36,19 +36,8 @@ local conf = {
 local lsps = {
 	{ name = 'bashls' },
 	{ name = 'lua_ls',        config = conf.lua_ls },
-	{ name = 'ts_ls' },
-	{ name = 'lemminx' },
-	{ name = 'solargraph' },
 	{ name = 'clangd',        config = conf.clangd },
 	{ name = 'rust_analyzer', config = conf.rust_analyzer },
-	{ name = 'zls' },
-	{ name = 'html' },
-	{ name = 'cssls' },
-	{ name = 'jsonls' },
-	{ name = 'pylsp' },
-	{ name = 'cmake' },
-	{ name = 'perlls' },
-	{ name = 'phan' },
 }
 
 function M.setup()
