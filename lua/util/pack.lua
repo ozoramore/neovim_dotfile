@@ -1,9 +1,9 @@
 -- pack.lua
 -- use builtin package manager.
 
-local load_now = function(load) load() end
+local load_now = function(load) pcall(load) end
 local load_later = function(load)
-	vim.api.nvim_create_autocmd({ 'FileType' }, { callback = load })
+	pcall(vim.api.nvim_create_autocmd, { 'FileType' }, { callback = load })
 end
 
 local M = {}
