@@ -21,7 +21,7 @@ require('util.option').setvals({
 -- vim.cmd[key](value)
 require('util.option').setcmds({
 	language = 'en_US.utf-8',
-	colorscheme = 'omfg',
+	colorscheme = 'bitmatte',
 })
 
 -- vim.opt[key] = value
@@ -81,6 +81,9 @@ require('util.filetype').config({
 
 -- FEP設定(OSごとに振り分け)
 require('util.fep').setup()
+
+-- 配色自動切換え設定
+require('util.style').setup()
 
 --- フォーマッタ
 vim.api.nvim_create_user_command('Format', require('util.format').exec, { nargs = 0 })

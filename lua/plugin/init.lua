@@ -6,7 +6,6 @@ local url = {
 	'https://github.com/nvim-mini/mini.snippets',      -- タブ補完で出てくる候補に対応
 	'https://git.sr.ht/~xigoi/nvim-unicode-search',    -- Unicode文字を検索、カーソル位置のUnicode文字を探す。
 	'https://github.com/ozoramore/nvimpc.lua',         -- Music Player Daemonの制御
-	'https://github.com/folke/styler.nvim',            -- バッファごとに色分け
 	'https://github.com/lewis6991/gitsigns.nvim',      -- statuscolumnにgitの状態を表示
 	'https://github.com/luukvbaal/statuscol.nvim',     -- statuscolumnの装飾
 	'https://github.com/ozoramore/lnum_color.lua',     -- 行番号の装飾
@@ -34,7 +33,6 @@ M.setup = function()
 	load(require('plugin.mpc').setup, true)
 
 	-- 外観
-	load(require('plugin.styler').setup, true)
 	load(require('plugin.gitsigns').setup, true)
 	load(require('plugin.statuscol').setup, true)
 	load(require('plugin.lnum_color').setup, true)
