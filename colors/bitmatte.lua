@@ -26,18 +26,18 @@ local colors = {
 
 local color_nil = { active = { gui = nil, cli = nil }, inactive = { gui = nil, cli = nil } }
 
-local active_window_ns = vim.api.nvim_create_namespace("active_window")
-local inactive_window_ns = vim.api.nvim_create_namespace("inactive_window")
+local active_window_ns = vim.api.nvim_create_namespace('active_window')
+local inactive_window_ns = vim.api.nvim_create_namespace('inactive_window')
 local hi = function(name, fg, bg, sp)
 	fg = fg or color_nil
 	bg = bg or color_nil
 	sp = sp or { color = nil, attr = nil }
-	local gen_val = function(isactive)
-		local pallet = "inactive"
-		if (isactive) then pallet = "active" end
+	local gen_val = function(active)
+		local pallet = 'inactive'
+		if active then pallet = 'active' end
 		local val = { fg = fg[pallet].gui, bg = bg[pallet].gui, ctermfg = fg[pallet].cli, ctermbg = bg[pallet].cli }
-		if (sp.color) then val = vim.tbl_deep_extend("force", val, { sp = sp.color[pallet].gui }) end
-		if (sp.attr) then val = vim.tbl_deep_extend("force", val, { [sp.attr] = true, cterm = { [sp.attr] = true } }) end
+		if sp.color then val = vim.tbl_deep_extend('force', val, { sp = sp.color[pallet].gui }) end
+		if sp.attr then val = vim.tbl_deep_extend('force', val, { [sp.attr] = true, cterm = { [sp.attr] = true } }) end
 		return val
 	end
 	vim.api.nvim_set_hl(0, name, gen_val(true))
