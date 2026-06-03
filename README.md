@@ -10,8 +10,7 @@
 ```tree
 .
 |-- colors
-|   |-- ombg.lua
-|   `-- omfg.lua
+|   `-- bitmatte.lua
 |-- init.lua
 |-- lua
 |   |-- plugin
@@ -21,13 +20,11 @@
 |   |   |-- lnum_color.lua
 |   |   |-- lsp.lua
 |   |   |-- mini_completion.lua
-|   |   |-- mini_deps.lua
 |   |   |-- mini_snippets.lua
 |   |   |-- mini_statusline.lua
 |   |   |-- mini_tabline.lua
 |   |   |-- mpc.lua
 |   |   |-- statuscol.lua
-|   |   |-- styler.lua
 |   |   |-- tig.lua
 |   |   |-- treesitter.lua
 |   |   `-- unicode.lua
@@ -40,6 +37,8 @@
 |       |-- fold.lua
 |       |-- format.lua
 |       |-- option.lua
+|       |-- pack.lua
+|       |-- style.lua
 |       `-- treesitter.lua
 |-- README.md
 `-- ss.png
