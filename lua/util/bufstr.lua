@@ -8,6 +8,7 @@ end
 M.get = function()
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 	local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+	if line:len() == 0 then return nil end
 	local n = col + 1
 	return string.sub(line, n + vim.str_utf_start(line, n), n + vim.str_utf_end(line, n))
 end
