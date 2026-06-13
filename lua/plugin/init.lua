@@ -22,7 +22,7 @@ M.setup = function()
 	local load = require('util.pack').load
 
 	-- mini.nvim
-	load(require('plugin.mini_statusline').setup, true)
+	load(require('plugin.mini_statusline').setup, false)
 	load(require('plugin.mini_completion').setup, false)
 	load(require('plugin.mini_snippets').setup, false)
 
