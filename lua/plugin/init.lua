@@ -33,9 +33,9 @@ M.setup = function()
 	load(require('plugin.mpc').setup, true)
 
 	-- 外観
-	load(require('plugin.gitsigns').setup, true)
-	load(require('plugin.statuscol').setup, true)
-	load(require('plugin.lnum_color').setup, true)
+	load(require('plugin.gitsigns').setup, false)
+	load(require('plugin.statuscol').setup, false)
+	load(require('plugin.lnum_color').setup, false)
 
 	-- DAP/treesitter/lspなど、外部コマンドに依存する系の設定
 	load(require('plugin.dap').setup, true)

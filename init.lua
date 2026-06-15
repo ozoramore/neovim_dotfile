@@ -79,11 +79,13 @@ require('util.filetype').config({
 	},
 })
 
--- FEP設定(OSごとに振り分け)
-require('util.fep').setup()
+-- lazysetup
+local load = require('util.pack').load
 
+-- FEP設定(OSごとに振り分け)
+load(require('util.fep').setup, true)
 -- 配色自動切換え設定
-require('util.style').setup()
+load(require('util.style').setup,true)
 
 --- フォーマッタ
 vim.api.nvim_create_user_command('Format', require('util.format').exec, { nargs = 0 })
